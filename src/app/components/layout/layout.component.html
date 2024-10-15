@@ -1,21 +1,68 @@
 <mat-sidenav-container class="dashboard-container">
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidenav">
+    <mat-nav-list>
 
-    <mat-sidenav mode="side" opened>
-      <mat-nav-list>
-        <a mat-list-item routerLink="/dashboard">Inicio</a>
-        <a mat-list-item routerLink="/solicitudes">Solicitudes de Ayuda</a>
-        <a mat-list-item routerLink="/usuarios">Usuarios</a>
-        <a mat-list-item routerLink="/ayudantias">Ayudantías</a>
-        <a mat-list-item routerLink="/estadisticas">Estadísticas</a>
-        <a mat-list-item routerLink="/soporte">Soporte</a>
-        <a mat-list-item routerLink="/calendario">Eventos</a>
-        <button mat-button (click)="logout()">Cerrar Sesión</button>
-      </mat-nav-list>
-    </mat-sidenav>
-  
-    <mat-sidenav-content>
-      <router-outlet></router-outlet> <!-- Aquí se cargan las vistas dinámicas -->
-    </mat-sidenav-content>
+      <!-- Botón de Menú Colapsable -->
+      <button mat-icon-button (click)="toggleSidenav()" class="menu-button">
+        <mat-icon>{{ opened ? 'menu_open' : 'menu' }}</mat-icon>
+      </button>
 
-  </mat-sidenav-container>
-  
+      <h3 class="sidenav-header" *ngIf="opened">Menú Principal</h3>
+      <mat-divider></mat-divider>
+
+      <!-- Opciones del Menú -->
+      <a mat-list-item routerLink="/dashboard">
+        <mat-icon>home</mat-icon>
+        <span *ngIf="opened">Inicio</span>
+      </a>
+
+      <a mat-list-item routerLink="/solicitudes">
+        <mat-icon>help</mat-icon>
+        <span *ngIf="opened">Solicitudes de Ayuda</span>
+      </a>
+
+      <a mat-list-item routerLink="/usuarios">
+        <mat-icon>people</mat-icon>
+        <span *ngIf="opened">Usuarios</span>
+      </a>
+
+      <a mat-list-item routerLink="/ayudantias">
+        <mat-icon>school</mat-icon>
+        <span *ngIf="opened">Ayudantías</span>
+      </a>
+
+      <a mat-list-item routerLink="/estadisticas">
+        <mat-icon>bar_chart</mat-icon>
+        <span *ngIf="opened">Estadísticas</span>
+      </a>
+
+      <mat-divider></mat-divider>
+
+      <a mat-list-item routerLink="/soporte">
+        <mat-icon>support</mat-icon>
+        <span *ngIf="opened">Soporte</span>
+      </a>
+
+      <a mat-list-item routerLink="/calendario">
+        <mat-icon>event</mat-icon>
+        <span *ngIf="opened">Eventos</span>
+      </a>
+
+      <button mat-button class="logout-button" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span *ngIf="opened">Cerrar Sesión</span>
+      </button>
+
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+
+    <!-- Botón Flotante para Expandir el Menú -->
+    <button *ngIf="!opened" mat-fab class="fab-menu" (click)="toggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+

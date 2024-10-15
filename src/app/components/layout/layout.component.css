@@ -1,12 +1,79 @@
 .dashboard-container {
     height: 100vh;
   }
-  
-  mat-sidenav {
+
+/* Estilo del Sidenav */
+.sidenav {
+  background-image: radial-gradient(#aec2f2 6.5px, transparent 6.5px);
+  background-size: 12px 12px;
+  background-color: rgba(122, 122, 255, 0.8);
+  /* color: white; */
+  width: 250px;
+  transition: width 0.3s;
+}
+
+.menu-button {
+  margin: 16px;
+}
+
+.sidenav-header {
+  margin: 8px 16px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+a.mat-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  transition: background-color 0.2s;
+}
+
+a.mat-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.logout-button {
+  margin-top: auto;
+  width: 100%;
+  color: white;
+}
+
+.mat-icon {
+  color: white;
+}
+
+/* Botón Flotante para Expandir el Menú */
+.fab-menu {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  background-color: #3f51b5;
+  color: white;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .sidenav {
+    width: 70px;
+  }
+
+  a.mat-list-item span {
+    display: none;
+  }
+
+  .sidenav-header {
+    display: none;
+  }
+
+  .mat-icon {
+    margin: auto;
+  }
+}
+
+@media (min-width: 769px) {
+  .sidenav {
     width: 250px;
   }
-  
-  mat-sidenav-content {
-    padding: 16px;
-  }
-  
+}

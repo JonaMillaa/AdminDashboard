@@ -1,8 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
-import { FirebaseService } from '/home/jona/admin-dashboard/src/app/firebase/firebase.service';
+import { FirebaseService } from '../../firebase/firebase.service';
 import { Observable, of } from 'rxjs';
-import { Usuario } from '/home/jona/admin-dashboard/src/app/models/usuario.model'; 
+import { Usuario } from '../../models/usuario.model';
 
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -15,11 +15,11 @@ import { MatCardModule } from '@angular/material/card';
   selector: 'app-usuarios',
   standalone: true,
   imports: [
-    CommonModule, 
+    CommonModule,
     MatToolbarModule,
     MatTabsModule,
     MatCardModule
-  ],  
+  ],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
