@@ -1,0 +1,21 @@
+<mat-sidenav-container class="dashboard-container">
+
+    <mat-sidenav mode="side" opened>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/dashboard">Inicio</a>
+        <a mat-list-item routerLink="/solicitudes">Solicitudes de Ayuda</a>
+        <a mat-list-item routerLink="/usuarios">Usuarios</a>
+        <a mat-list-item routerLink="/ayudantias">Ayudantías</a>
+        <a mat-list-item routerLink="/estadisticas">Estadísticas</a>
+        <a mat-list-item routerLink="/soporte">Soporte</a>
+        <a mat-list-item routerLink="/calendario">Eventos</a>
+        <button mat-button (click)="logout()">Cerrar Sesión</button>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <mat-sidenav-content>
+      <router-outlet></router-outlet> <!-- Aquí se cargan las vistas dinámicas -->
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+  

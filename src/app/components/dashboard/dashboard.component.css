@@ -1,0 +1,38 @@
+.dashboard-container {
+    height: 100vh;
+  }
+  
+  mat-sidenav {
+    width: 250px;
+  }
+  
+  mat-sidenav-content {
+    padding: 20px;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  
+  .cards {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+  }
+  
+  .cards mat-card {
+    width: 300px;
+  }
+  
+  .charts {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+  }
+  
+  

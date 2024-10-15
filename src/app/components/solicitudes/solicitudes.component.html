@@ -1,0 +1,27 @@
+<!-- src/app/components/solicitudes/solicitudes.component.html -->
+<h2>Solicitudes de Ayuda</h2>
+<mat-table [dataSource]="solicitudes" class="mat-elevation-z8">
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+    <mat-cell *matCellDef="let solicitud"> {{solicitud.id}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="nombre">
+    <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+    <mat-cell *matCellDef="let solicitud"> {{solicitud.nombre}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="estado">
+    <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+    <mat-cell *matCellDef="let solicitud">
+      <mat-select [(value)]="solicitud.estado" (selectionChange)="cambiarEstado(solicitud, $event.value)">
+        <mat-option value="Pendiente">Pendiente</mat-option>
+        <mat-option value="Aceptada">Aceptada</mat-option>
+        <mat-option value="Rechazada">Rechazada</mat-option>
+      </mat-select>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="['id', 'nombre', 'estado']"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: ['id', 'nombre', 'estado']"></mat-row>
+</mat-table>

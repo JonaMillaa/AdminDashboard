@@ -1,0 +1,26 @@
+<div class="calendar-page-container">
+    <!-- Columna izquierda: Información de la fecha y eventos -->
+    <div class="info-container">
+      <p class="selected-date-text">Fecha seleccionada: {{ selectedDate | date: 'longDate' }}</p>
+  
+      <div class="eventos">
+        <h3>Eventos del Día</h3>
+        <ul *ngIf="eventosDelDia.length > 0; else sinEventos">
+          <li *ngFor="let evento of eventosDelDia">
+            {{ evento.title }} - {{ evento.fecha | date: 'longDate' }}
+          </li>
+        </ul>
+        <ng-template #sinEventos>
+          <p>No hay eventos para esta fecha.</p>
+        </ng-template>
+      </div>
+    </div>
+  
+    <!-- Columna derecha: Calendario -->
+    <mat-card class="demo-inline-calendar-card">
+      <mat-calendar [(selected)]="selectedDate" (selectedChange)="onDateChange($event)">
+      </mat-calendar>
+    </mat-card>
+    
+</div>
+  
