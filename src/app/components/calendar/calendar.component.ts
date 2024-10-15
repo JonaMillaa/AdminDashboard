@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FirebaseService } from '/home/jona/admin-dashboard/src/app/firebase/firebase.service';
+import { FirebaseService } from '../../firebase/firebase.service';
 import { startOfDay } from 'date-fns';
-import { CommonModule, NgIf } from '@angular/common'; 
+import { CommonModule, NgIf } from '@angular/common';
 
 import { EventModalComponent } from '../event-modal/event-modal.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -25,7 +25,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
     MatCardModule,
     MatDialogModule,
   ],
-})  
+})
 
 export class CalendarComponent implements OnInit {
    // Declaración de las propiedades que usamos
@@ -61,7 +61,7 @@ export class CalendarComponent implements OnInit {
     this.cargarEventos(this.selectedDate); // Cargamos los eventos para la nueva fecha
     this.abrirModal();
   }
-  
+
   abrirModal(): void {
     this.dialog.open(EventModalComponent, {
       width: '400px',

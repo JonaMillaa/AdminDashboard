@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { FirebaseService } from '/home/jona/admin-dashboard/src/app/firebase/firebase.service';
+import { FirebaseService } from '../../firebase/firebase.service';
 import { Observable, of } from 'rxjs';
 import  Chart  from 'chart.js/auto';
 import { isPlatformBrowser } from '@angular/common';
@@ -36,7 +36,7 @@ import { isPlatformBrowser } from '@angular/common';
 export class DashboardComponent {
   usuariosActivos$: Observable<number> = of(0); // Inicialización predeterminada
   ayudantiasEsteMes$: Observable<number> = of(0); // Inicialización predeterminada
-  problemasResueltos$: Observable<number> = of(0); 
+  problemasResueltos$: Observable<number> = of(0);
   ayudantiasMensuales$: Observable<{ mes: string; cantidad: number }[]> = of([]);
 
   constructor(
@@ -67,8 +67,8 @@ export class DashboardComponent {
     this.usuariosActivos$ = this.firebaseService.getUsuariosActivos();
     this.problemasResueltos$ = this.firebaseService.getProblemasResueltos();
   }
-    
- 
+
+
   initializeChart() {
     this.firebaseService.getAyudantiasMensuales().subscribe((data) => {
 
@@ -122,7 +122,7 @@ export class DashboardComponent {
       });
     });
   }
-  
+
   logout() {
     console.log('Cerrar sesión'); // Lógica para cerrar sesión
   }
