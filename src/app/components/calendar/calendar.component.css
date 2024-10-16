@@ -1,82 +1,96 @@
 /* Contenedor principal para organizar las columnas */
 .calendar-page-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    height: 100vh; /* Ocupa toda la altura de la pantalla */
-    padding: 20px;
-    background-color: #f5f5f5;
-    box-sizing: border-box;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100vh; /* Ocupa toda la altura de la pantalla */
+  padding: 40px;
+  background-color: #f0f2f5;
+  box-sizing: border-box;
+  gap: 24px; /* Espacio entre las dos columnas */
+}
 
 /* Contenedor de la información a la izquierda */
 .info-container {
-    flex: 1; /* Ocupa menos espacio en comparación con el calendario */
-    max-width: 300px; /* Ancho máximo para la información */
-  }
+  flex: 1; /* Ocupa menos espacio que el calendario */
+  max-width: 300px;
+  background-color: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
 
-  /* Estilo del texto de la fecha seleccionada */
+/* Estilo del texto de la fecha seleccionada */
 .selected-date-text {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #424242;
+}
+
+/* Lista de eventos */
+.eventos h3 {
+  font-size: 20px;
+  margin-bottom: 16px;
+  color: #1976d2; /* Azul Material Design */
+}
+
+.eventos ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eventos li {
+  padding: 12px;
+  background-color: #e3f2fd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  transition: background-color 0.3s;
+}
+
+.eventos li:hover {
+  background-color: #bbdefb; /* Cambio de color al hacer hover */
+}
 
 /* Contenedor del calendario más ancho */
 .demo-inline-calendar-card {
-    flex: 3; /* Ocupa más espacio que la columna de información */
-    max-width: 800px; /* Ancho máximo del calendario */
-    min-height: 500px; /* Altura mínima del calendario */
-    border-radius: 16px;
-    background-color: white;
-    margin-right: 100px; /* Margen izquierdo para centrar el calendario */
-    margin-bottom:100px;
-  }
+  flex: 3;
+  max-width: 800px;
+  min-height: 500px;
+  border-radius: 16px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-/* Contenedor para centrar el calendario */
-.calendar-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 50vh; /* Altura completa de la pantalla */
-    background-color: #f5f5f5;
-  }
-
-  /* Aumenta el tamaño de fuente del calendario */
+/* Aumenta el tamaño del calendario */
 mat-calendar {
-    font-size: 24px; /* Ajusta el tamaño del texto */
-    padding: 16px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(245, 5, 5, 0.1);
-    background-color: rgb(235, 227, 227);
-    margin-bottom: 20px;
-     /* Calendario ocupa todo el ancho del card */
-    font-size: 18px; /* Ajusta el tamaño del texto del calendario */
-  }
+  font-size: 18px; /* Ajusta el tamaño del texto del calendario */
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5;
+  width: 100%; /* Ocupa todo el ancho disponible */
+}
 
-  /* Ajusta el tamaño del encabezado del calendario */
+/* Encabezado del calendario */
 .mat-calendar-header {
-    font-size: 28px; /* Tamaño más grande para el mes y año */
-    padding: 16px;
-  }
+  font-size: 24px; /* Tamaño del mes y año */
+  padding: 16px;
+  font-weight: bold;
+  color: #424242;
+}
 
-  /* Aumenta el tamaño de los días en el calendario */
+/* Aumenta el tamaño de los días en el calendario */
 .mat-calendar-table {
-    min-width: 500px; /* Asegura un tamaño amplio para los días */
-  }
-  
-  
-  /* Lista de eventos */
-  .eventos ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .eventos li {
-    padding: 8px;
-    background-color: #e0f7fa;
-    margin-bottom: 8px;
-    border-radius: 4px;
-  }
-  
+  min-width: 500px; /* Asegura un tamaño amplio para los días */
+  width: 100%;
+}

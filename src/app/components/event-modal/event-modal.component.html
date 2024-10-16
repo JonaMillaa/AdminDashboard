@@ -1,19 +1,22 @@
 <h1 mat-dialog-title>Enviar Notificación de Evento</h1>
 
-<div mat-dialog-content>
-  <!-- Input para buscar usuario -->
-  <mat-form-field appearance="fill" class="full-width">
-    <mat-label>Buscar Usuario</mat-label>
-    <input 
-      matInput 
-      (input)="buscarUsuarios($event)" 
-      placeholder="Nombre, Apellido o Carrera" 
-    />
-  </mat-form-field>
-  
-  <button mat-icon-button matSuffix (click)="buscarUsuariosManual()">
-    Listar <mat-icon>search</mat-icon>
-  </button>
+<div mat-dialog-content class="modal-container">
+  <!-- Sección de búsqueda centrada -->
+  <div class="search-container">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Buscar Usuario</mat-label>
+      <input
+        class="input-search"
+        matInput
+        (input)="buscarUsuarios($event)"
+        placeholder="Nombre, Apellido o Carrera"
+      />
+    </mat-form-field>
+
+    <!-- <button mat-icon-button matSuffix (click)="buscarUsuariosManual()">
+      <mat-icon>search</mat-icon>
+    </button> -->
+  </div>
 
   <!-- Lista de usuarios encontrados -->
   <ul *ngIf="usuarios.length > 0; else sinResultados">
@@ -22,30 +25,37 @@
     </li>
   </ul>
 
-  <!-- Template para mostrar mensaje si no hay resultados -->
   <ng-template #sinResultados>
     <p *ngIf="busquedaRealizada">No se encontraron resultados para la búsqueda.</p>
   </ng-template>
 
-  <!-- Información del usuario seleccionado y campos de correo -->
-  <div *ngIf="usuarioSeleccionado">
-    <p>Correo: <strong>{{ usuarioSeleccionado.Email }}</strong></p>
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Asunto</mat-label>
-      <input matInput formControlName="asunto" />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Cuerpo del Mensaje</mat-label>
-      <textarea matInput formControlName="cuerpo"></textarea>
-    </mat-form-field>
+<!-- Información del usuario seleccionado y campos de correo -->
+<div *ngIf="usuarioSeleccionado" class="selected-user-container">
+  <div class="user-info-card">
+    <p><strong>Correo:</strong> {{ usuarioSeleccionado.Email }}</p>
   </div>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Asunto</mat-label>
+    <input matInput formControlName="asunto" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Cuerpo del Mensaje</mat-label>
+    <textarea matInput formControlName="cuerpo" rows="4"></textarea>
+  </mat-form-field>
+</div>
+
+
 </div>
 
 <div mat-dialog-actions>
   <button mat-button (click)="dialogRef.close()">Cancelar</button>
-  <button mat-button (click)="enviarCorreo()" [disabled]="!eventForm.valid || !usuarioSeleccionado">
+  <button
+    mat-button
+    (click)="enviarCorreo()"
+    [disabled]="!eventForm.valid || !usuarioSeleccionado"
+  >
     Enviar
   </button>
 </div>

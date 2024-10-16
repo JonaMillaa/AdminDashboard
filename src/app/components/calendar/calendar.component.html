@@ -1,5 +1,5 @@
 <div class="calendar-page-container">
-    <!-- Columna izquierda: Información de la fecha y eventos -->
+
     <div class="info-container">
       <p class="selected-date-text">Fecha seleccionada: {{ selectedDate | date: 'longDate' }}</p>
   
@@ -16,11 +16,10 @@
       </div>
     </div>
   
-    <!-- Columna derecha: Calendario -->
+    
     <mat-card class="demo-inline-calendar-card">
       <mat-calendar [(selected)]="selectedDate" (selectedChange)="onDateChange($event)">
       </mat-calendar>
     </mat-card>
     
 </div>
-  

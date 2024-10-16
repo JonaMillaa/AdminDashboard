@@ -64,8 +64,13 @@ export class CalendarComponent implements OnInit {
 
   abrirModal(): void {
     this.dialog.open(EventModalComponent, {
-      width: '400px',
-      data: { fecha: this.selectedDate }
+      width: '950px',
+      height: '700px',
+      data: {
+        fecha: this.selectedDate,
+        eventos: this.eventosDelDia,
+      },
     });
   }
+  
 }

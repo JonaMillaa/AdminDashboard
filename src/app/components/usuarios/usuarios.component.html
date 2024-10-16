@@ -8,7 +8,9 @@
         <div class="user-list">
           <mat-card *ngFor="let usuario of usuarios$ | async" class="user-card">
             <mat-card-header>
-              <div mat-card-avatar class="avatar"></div>
+              <div mat-card-avatar class="avatar">
+                <img [src]="usuario.Foto || '../assets/images/user.png'" alt="" />
+              </div>
               <mat-card-title>{{ usuario.Nombre }} {{ usuario.Apellido }}</mat-card-title>
               <mat-card-subtitle>{{ usuario.Rol }} - {{ usuario.Carrera }}</mat-card-subtitle>
             </mat-card-header>
