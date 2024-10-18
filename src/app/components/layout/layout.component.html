@@ -11,24 +11,34 @@
       <mat-divider></mat-divider>
 
       <!-- Opciones del Menú -->
-      <a mat-list-item routerLink="/dashboard">
+      <a mat-list-item routerLink="/home">
         <mat-icon>home</mat-icon>
-        <span *ngIf="opened">Inicio</span>
+        <span *ngIf="opened">Home</span>
       </a>
 
       <a mat-list-item routerLink="/publicaciones">
-        <mat-icon>help</mat-icon>
+        <mat-icon>post_add</mat-icon>
         <span *ngIf="opened">Publicaciones</span>
+      </a>
+
+      <a mat-list-item routerLink="/dashboard">
+        <mat-icon>dashboard</mat-icon>
+        <span *ngIf="opened">Dashboard</span>
+      </a>
+
+      <a mat-list-item routerLink="/calendario">
+        <mat-icon>event</mat-icon>
+        <span *ngIf="opened">Eventos</span>
+      </a>
+
+      <a mat-list-item routerLink="/usuarios">
+        <mat-icon>people</mat-icon>
+        <span *ngIf="opened">Gestión de Usuarios</span>
       </a>
 
       <a mat-list-item routerLink="/solicitudes">
         <mat-icon>help</mat-icon>
         <span *ngIf="opened">Solicitudes de Ayuda</span>
-      </a>
-
-      <a mat-list-item routerLink="/usuarios">
-        <mat-icon>people</mat-icon>
-        <span *ngIf="opened">Usuarios</span>
       </a>
 
       <a mat-list-item routerLink="/ayudantias">
@@ -44,11 +54,6 @@
       <a mat-list-item routerLink="/soporte">
         <mat-icon>support</mat-icon>
         <span *ngIf="opened">Soporte</span>
-      </a>
-
-      <a mat-list-item routerLink="/calendario">
-        <mat-icon>event</mat-icon>
-        <span *ngIf="opened">Eventos</span>
       </a>
 
       <button mat-button class="logout-button" (click)="logout()">

@@ -1,1 +1,26 @@
-<p>publicaciones works!</p>
+<div class="container">
+  <h1>Publicaciones</h1>
+  <p>Visualización de las publicaciones realizadas por los usuarios.</p>
+  
+  <div class="filter-container">
+    <mat-form-field appearance="fill" class="filter">
+      <mat-label>Categoría</mat-label>
+      <mat-select [(value)]="selectedCategory" (selectionChange)="onCategoryChange($event)">
+        <mat-option *ngFor="let category of categories" [value]="category.nombre">{{ category.nombre }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill" class="filter">
+      <mat-label>Subcategoría</mat-label>
+      <mat-select [(value)]="selectedSubcategory" (selectionChange)="onSubcategoryChange($event)">
+        <mat-option *ngFor="let subcategory of getSubcategories()" [value]="subcategory">{{ subcategory }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+  <p *ngIf="noDataMessage">{{ noDataMessage }}</p>
+  
+  <div class="chart-container">
+    <canvas id="publicationChart"></canvas>
+  </div>
+</div>

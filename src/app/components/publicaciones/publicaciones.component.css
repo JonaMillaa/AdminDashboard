@@ -1,0 +1,31 @@
+/* Estilo para centrar y ajustar la anchura del contenedor principal */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Estilo para alinear los filtros en línea */
+.filter-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* Ajustar el ancho de los filtros */
+.filter {
+  flex: 1;
+}
+
+/* Estilo para el contenedor del gráfico */
+.chart-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Ajustar el tamaño del canvas */
+canvas {
+  width: 100% !important;
+  height: 300px !important; /* Ajusta la altura para que el gráfico sea más pequeño */
+}

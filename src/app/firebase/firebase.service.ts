@@ -143,5 +143,25 @@ export class FirebaseService {
       console.log('Evento guardado correctamente');
     });
   }
+
+
+  // Método para obtener publicaciones filtradas por categoría y estado
+  getFilteredPublications(category: string, status: string): Observable<any[]> {
+    const ref = collection(this.firestore, 'Publicaciones');
+    const q = query(ref, where('info_ayudantia.categoria', '==', category), where('estado', '==', status));
+    return collectionData(q, { idField: 'id' }) as Observable<any[]>;
+  }
+
+  // Método para obtener publicaciones filtradas por categoría y subcategoría
+  getPublicationsByCategoryAndSubcategory(category: string, subcategory: string): Observable<any[]> {
+    const ref = collection(this.firestore, 'Publicaciones');
+    const q = query(
+      ref,
+      where('info_ayudantia.categoria', '==', category),
+      where('info_ayudantia.subcategoria', '==', subcategory)
+    );
+    return collectionData(q, { idField: 'id' }) as Observable<any[]>;
+  }
+
 }
 

@@ -9,6 +9,8 @@ import { SolicitudesComponent } from './components/solicitudes/solicitudes.compo
 import { EstadisticasComponent } from './components/estadisticas/estadisticas.component';
 import { SoporteComponent } from './components/soporte/soporte.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { PublicacionesComponent } from './components/publicaciones/publicaciones.component';
+import {HomeComponent} from './components/home/home.component';
 
 
 export const routes: Routes = [
@@ -16,6 +18,8 @@ export const routes: Routes = [
     path: '',
     component: LayoutComponent, // Todas las rutas tendrán este layout
     children: [
+      { path: 'home', component: HomeComponent },
+      { path: 'publicaciones', component: PublicacionesComponent },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'usuarios', component: UsuariosComponent },
       { path: 'ayudantias', component: AyudantiasComponent },
