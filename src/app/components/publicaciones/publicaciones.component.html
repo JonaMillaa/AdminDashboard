@@ -1,26 +1,88 @@
-<div class="container">
-  <h1>Publicaciones</h1>
-  <p>Visualización de las publicaciones realizadas por los usuarios.</p>
-  
-  <div class="filter-container">
-    <mat-form-field appearance="fill" class="filter">
-      <mat-label>Categoría</mat-label>
-      <mat-select [(value)]="selectedCategory" (selectionChange)="onCategoryChange($event)">
-        <mat-option *ngFor="let category of categories" [value]="category.nombre">{{ category.nombre }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  
-    <mat-form-field appearance="fill" class="filter">
-      <mat-label>Subcategoría</mat-label>
-      <mat-select [(value)]="selectedSubcategory" (selectionChange)="onSubcategoryChange($event)">
-        <mat-option *ngFor="let subcategory of getSubcategories()" [value]="subcategory">{{ subcategory }}</mat-option>
-      </mat-select>
-    </mat-form-field>
+<div class="dashboard-container">
+
+  <!-- Contenedor superior para filtros, gráfico de tendencia y resumen de estadísticas -->
+  <div class="top-container">
+    
+    <div class="filter-container-fechas">
+      <mat-form-field appearance="fill" class="filter">
+        <mat-label>Rango de fechas</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Fecha de inicio">
+          <input matEndDate placeholder="Fecha de fin">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+      
+      <mat-form-field appearance="fill" class="filter">
+        <mat-label>Formato</mat-label>
+        <mat-select [(value)]="selectedFormat" (selectionChange)="onFormatChange($event)">
+          <mat-option value="PRESENCIAL">Presencial</mat-option>
+          <mat-option value="VIRTUAL">Virtual</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Gráfico de tendencia -->
+    <div class="chart-item">
+      <canvas id="trendChart"></canvas> <!-- Canvas para el gráfico de línea de tendencia -->
+    </div>
+
+    <div class="stats-summary">
+      <p>Total de publicaciones: {{ totalPublications }}</p>
+      <p>Publicaciones presenciales: {{ presencialCount }}</p>
+      <p>Publicaciones virtuales: {{ virtualCount }}</p>
+      <p>Estado más común: {{ commonState }}</p>
+    </div>
   </div>
-  
-  <p *ngIf="noDataMessage">{{ noDataMessage }}</p>
-  
-  <div class="chart-container">
-    <canvas id="publicationChart"></canvas>
+
+  <!-- Contenedor inferior para gráficos de estados y publicaciones (no modificar su alineación) -->
+  <div class="charts-container">
+    <!-- Gráfico de estados -->
+    <div class="chart-item">
+      <div class="filter-container">
+        <mat-form-field appearance="fill" class="filter">
+          <mat-label>Estado</mat-label>
+          <mat-select [(value)]="selectedState" (selectionChange)="onStateChange($event)">
+            <mat-option *ngFor="let state of states" [value]="state">{{ state }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <canvas id="stateChart"></canvas>
+      <!-- Modal para el gráfico de estados -->
+      <div class="modal" *ngIf="showStateModal">
+        <div class="modal-content">
+          <p>{{ stateModalMessage }}</p>
+          <button (click)="closeStateModal()">Aceptar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gráfico de publicaciones -->
+    <div class="chart-item">
+      <div class="filter-container">
+        <mat-form-field appearance="fill" class="filter">
+          <mat-label>Categoría</mat-label>
+          <mat-select [(value)]="selectedCategory" (selectionChange)="onCategoryChange($event)">
+            <mat-option *ngFor="let category of categories" [value]="category.nombre">{{ category.nombre }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="filter">
+          <mat-label>Subcategoría</mat-label>
+          <mat-select [(value)]="selectedSubcategory" (selectionChange)="onSubcategoryChange($event)">
+            <mat-option *ngFor="let subcategory of getSubcategories()" [value]="subcategory">{{ subcategory }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <canvas id="publicationChart"></canvas>
+      <!-- Modal para el gráfico de publicaciones -->
+      <div class="modal" *ngIf="showPublicationModal">
+        <div class="modal-content">
+          <p>{{ publicationModalMessage }}</p>
+          <button (click)="closePublicationModal()">Aceptar</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

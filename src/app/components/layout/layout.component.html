@@ -2,11 +2,6 @@
   <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidenav">
     <mat-nav-list>
 
-      <!-- Botón de Menú Colapsable -->
-      <button mat-icon-button (click)="toggleSidenav()" class="menu-button">
-        <mat-icon>{{ opened ? 'menu_open' : 'menu' }}</mat-icon>
-      </button>
-
       <h3 class="sidenav-header" *ngIf="opened">Menú Principal</h3>
       <mat-divider></mat-divider>
 
@@ -66,11 +61,6 @@
 
   <mat-sidenav-content>
     <router-outlet></router-outlet>
-
-    <!-- Botón Flotante para Expandir el Menú -->
-    <button *ngIf="!opened" mat-fab class="fab-menu" (click)="toggleSidenav()">
-      <mat-icon>menu</mat-icon>
-    </button>
   </mat-sidenav-content>
 </mat-sidenav-container>
 

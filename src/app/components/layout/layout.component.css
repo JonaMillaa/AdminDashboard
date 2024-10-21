@@ -74,15 +74,6 @@ a.mat-list-item:hover {
   color: white;
 }
 
-/* Estilo del FAB */
-.fab-menu {
-  position: fixed;
-  bottom: 16px;
-  left: 16px;
-  background-color: rgba(253, 126, 20, 0.8); /* Naranja con transparencia */
-  color: white;
-}
-
 /* Responsividad */
 @media (max-width: 768px) {
   .sidenav {

@@ -30,10 +30,6 @@ export class LayoutComponent {
   @ViewChild('sidenav') sidenav!: MatSidenav;
   opened = true;
 
-  toggleSidenav() {
-    this.opened = !this.opened;
-  }
-
   logout() {
     console.log('Cerrar sesión'); // Implementa la lógica para cerrar sesión aquí
   }

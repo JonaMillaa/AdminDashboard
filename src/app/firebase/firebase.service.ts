@@ -163,5 +163,32 @@ export class FirebaseService {
     return collectionData(q, { idField: 'id' }) as Observable<any[]>;
   }
 
+  // Nuevo método para obtener todas las publicaciones por categoría
+  getPublicationsByCategory(category: string): Observable<any[]> {
+    const ref = collection(this.firestore, 'Publicaciones');
+    const q = query(ref, where('info_ayudantia.categoria', '==', category));
+    return collectionData(q, { idField: 'id' }) as Observable<any[]>;
+  }
+
+  // Método para obtener publicaciones filtradas por estado
+  getPublicationsByState(state: string): Observable<any[]> {
+    const ref = collection(this.firestore, 'Publicaciones');
+    const q = query(ref, where('estado', '==', state));
+    return collectionData(q, { idField: 'id' }) as Observable<any[]>;
+  }
+
+  // Nuevo método para obtener todas las publicaciones
+  getAllPublications(): Observable<any[]> {
+    return this.getCollection<any>('Publicaciones'); 
+  }
+
+  getPublicationsByCategoryAndSubcategoryAndFormat(category: string, subcategory: string, format: string): Observable<any[]> {
+    const ref = collection(this.firestore, 'publicaciones');
+    const queryRef = query(ref, 
+                           where('info_ayudantia.categoria', '==', category), 
+                           where('info_usuario.subcategoria', '==', subcategory),
+                           where('formato', '==', format));
+    return collectionData(queryRef, { idField: 'id' }) as Observable<any[]>;
+  }
 }
 
