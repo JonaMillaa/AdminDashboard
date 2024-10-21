@@ -6,9 +6,8 @@
 
 .top-container {
   display: flex;
-  flex-direction: column; /* Organiza los elementos verticalmente */
-  gap: 20px; /* Espacio entre los filtros, gráfico de línea y resumen */
-  margin-bottom: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .charts-container {
@@ -21,8 +20,9 @@
 }
 
 .chart-item {
+  flex: 1;
+  max-width: 70%;
   position: relative;
-  flex: 0 0 48%;
   max-width: 48%;
   padding: 15px;
   border: 1px solid #ddd;
@@ -77,11 +77,36 @@ canvas {
 }
 
 .stats-summary {
-  background-color: #f5f5f5;
-  width: 30%;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 20px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  flex: 0 0 28%; /* Ajusta este valor para definir el ancho de las tarjetas */
 }
 
+.stat-card {
+  background-color: #f8f9fa; /* Fondo claro para las tarjetas */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  transition: transform 0.3s;
+  width: 30%;
+}
+
+.stat-card p {
+  margin: 0;
+  font-size: 1rem;
+  color: #666;
+}
+
+.stat-card h3 {
+  margin: 0.5rem 0 0;
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px); /* Efecto hover para resaltar la tarjeta */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

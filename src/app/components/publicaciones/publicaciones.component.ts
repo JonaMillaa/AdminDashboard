@@ -9,6 +9,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectChange } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angular/forms';
+
 
 @Component({
   selector: 'app-publicaciones',
@@ -21,6 +23,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    ReactiveFormsModule,
+    
   ],
   templateUrl: './publicaciones.component.html',
   styleUrl: './publicaciones.component.css'
@@ -79,13 +83,15 @@ export class PublicacionesComponent implements OnInit{
   virtualCount: number = 0;
   commonState: string = '';
 
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(private firebaseService: FirebaseService) {
+
+  }
 
   ngOnInit(): void {
+    this.loadTrendChartData(this.selectedFormat);
     this.loadStateChartData(this.selectedState);
     this.loadChartData(this.selectedCategory, this.selectedSubcategory);
-    this.loadTrendChartData();
-    this.calculateSummaryStatistics(); 
+    this.calculateSummaryStatistics();
   }
 
   calculateSummaryStatistics(): void {
@@ -108,9 +114,9 @@ export class PublicacionesComponent implements OnInit{
   }
 
   loadChartData(category: string, subcategory: string): void {
-    this.firebaseService.getPublicationsByCategoryAndSubcategoryAndFormat(category, subcategory, this.selectedFormat).subscribe(publications => {
+    this.firebaseService.getPublicationsByCategoryAndSubcategory(category, subcategory).subscribe(publications => {
       if (publications.length === 0) {
-        this.publicationModalMessage = `No hay publicaciones disponibles para la combinación de ${category}, ${subcategory}, y formato ${this.selectedFormat}.`;
+        this.publicationModalMessage = `No hay publicaciones disponibles para la combinación de ${category}, ${subcategory}.`;
         this.showPublicationModal = true;
         if (this.publicationChart) {
           this.publicationChart.destroy();
@@ -185,33 +191,39 @@ export class PublicacionesComponent implements OnInit{
       });
     }
   }
-  
 
   prepareChartDataByDate(publications: any[]): any {
-    const groupedData: { [date: string]: number } = {};
-
+    const groupedData: { [date: string]: { count: number; titles: string[] } } = {};
     publications.forEach(pub => {
-      const fecha = pub.fecha_ayudantia; // Asumimos que la fecha está en formato "dd-mm-yyyy"
-      if (fecha) {
-        if (!groupedData[fecha]) {
-          groupedData[fecha] = 0;
+      const dateStr = pub.fecha_ayudantia;
+      const titulo = pub.info_ayudantia?.titulo_ayudantia;
+  
+      if (dateStr && titulo) {
+        const [day, month, year] = dateStr.split('-').map((part: string) => parseInt(part, 10));
+        const formattedDateStr = `${day.toString().padStart(2, '0')}-${(month).toString().padStart(2, '0')}-${year}`;
+  
+        if (!groupedData[formattedDateStr]) {
+          groupedData[formattedDateStr] = { count: 0, titles: [] };
         }
-        groupedData[fecha]++;
+        groupedData[formattedDateStr].count++;
+        groupedData[formattedDateStr].titles.push(titulo);
       }
     });
-
-    // Ordenar las fechas y formatear
+  
     const labels = Object.keys(groupedData).sort((a, b) => {
-      const [dayA, monthA, yearA] = a.split('-').map(Number);
-      const [dayB, monthB, yearB] = b.split('-').map(Number);
+      const [dayA, monthA, yearA] = a.split('-').map((part: string) => parseInt(part, 10));
+      const [dayB, monthB, yearB] = b.split('-').map((part: string) => parseInt(part, 10));
+  
       const dateA = new Date(yearA, monthA - 1, dayA);
       const dateB = new Date(yearB, monthB - 1, dayB);
+  
       return dateA.getTime() - dateB.getTime();
     });
-
-    const data = labels.map(label => groupedData[label]);
-
-    return { labels, data };
+  
+    const data = labels.map(label => groupedData[label].count);
+    const titles = labels.map(label => groupedData[label].titles);
+  
+    return { labels, data, titles };
   }
 
   loadStateChartData(state: string): void {
@@ -417,83 +429,94 @@ export class PublicacionesComponent implements OnInit{
     this.loadChartData(this.selectedCategory, this.selectedSubcategory);
   }
 
-  loadTrendChartData(): void {
-    this.firebaseService.getAllPublications().subscribe(publications => {
+  loadTrendChartData(format: string): void {
+    this.firebaseService.getPublicationsByFormat(format).subscribe(publications => {
       const chartData = this.prepareChartDataByDate(publications);
       this.createTrendChart(chartData);
     });
-  }
+  }  
   
   createTrendChart(chartData: any): void {
-    const ctx = document.getElementById('trendChart') as HTMLCanvasElement;
+    if (typeof window !== 'undefined') {
+      const ctx = document.getElementById('trendChart') as HTMLCanvasElement;
+      if (ctx) {
+        if (this.trendChart) {
+          this.trendChart.destroy();
+        }
   
-    if (ctx) {
-      // Destruir el gráfico si ya existe para evitar problemas de duplicación
-      if (this.trendChart) {
-        this.trendChart.destroy();
-      }
-  
-      // Crear el gráfico de tendencia de tipo 'line'
-      this.trendChart = new Chart(ctx, {
-        type: 'line', // Tipo de gráfico
-        data: {
-          labels: chartData.labels, // Etiquetas de las fechas
-          datasets: [{
-            label: 'Tendencia de Publicaciones',
-            data: chartData.data, // Datos de las publicaciones
-            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color de fondo con transparencia
-            borderColor: 'rgba(75, 192, 192, 1)', // Color de la línea
-            borderWidth: 2,
-            fill: true
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Fechas',
-                color: '#666',
-                font: {
-                  size: 14,
-                  weight: 'bold'
+        this.trendChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: chartData.labels,
+            datasets: [{
+              label: 'Tendencia de Publicaciones',
+              data: chartData.data,
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 2,
+              fill: true,
+              pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+              pointHoverRadius: 5,
+              pointRadius: 3,
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Fechas',
+                  color: '#666',
+                  font: {
+                    size: 14,
+                    weight: 'bold'
+                  }
+                },
+                grid: {
+                  color: 'rgba(200, 200, 200, 0.2)'
                 }
               },
-              grid: {
-                color: 'rgba(200, 200, 200, 0.2)'
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'Cantidad de Publicaciones',
+                  color: '#666',
+                  font: {
+                    size: 14,
+                    weight: 'bold'
+                  }
+                },
+                grid: {
+                  color: 'rgba(200, 200, 200, 0.2)'
+                }
               }
             },
-            y: {
-              beginAtZero: true,
-              title: {
-                display: true,
-                text: 'Cantidad de Publicaciones',
-                color: '#666',
-                font: {
-                  size: 14,
-                  weight: 'bold'
+            plugins: {
+              legend: { display: true, position: 'top' },
+              tooltip: {
+                enabled: true,
+                callbacks: {
+                  label: (tooltipItem) => {
+                    const index = tooltipItem.dataIndex;
+                    const titles = chartData.titles[index];
+                    return titles ? `Publicaciones: ${titles.join(', ')}` : 'Sin nombre';
+                  }
                 }
-              },
-              grid: {
-                color: 'rgba(200, 200, 200, 0.2)'
               }
             }
-          },
-          plugins: {
-            legend: { display: true, position: 'top' },
-            tooltip: { enabled: true }
           }
-        }
-      });
+        });
+      }
     }
   }
   
-
+  
   onFormatChange(event: MatSelectChange): void {
     this.selectedFormat = event.value;
-    this.loadChartData(this.selectedCategory, this.selectedSubcategory);
+    this.loadTrendChartData(this.selectedFormat);
   }
 
 }

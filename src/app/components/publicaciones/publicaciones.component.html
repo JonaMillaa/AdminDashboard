@@ -1,19 +1,8 @@
 <div class="dashboard-container">
 
-  <!-- Contenedor superior para filtros, gráfico de tendencia y resumen de estadísticas -->
+  <!-- Contenedor superior para el gráfico de tendencia con filtro de formato -->
   <div class="top-container">
-    
-    <div class="filter-container-fechas">
-      <mat-form-field appearance="fill" class="filter">
-        <mat-label>Rango de fechas</mat-label>
-        <mat-date-range-input [rangePicker]="picker">
-          <input matStartDate placeholder="Fecha de inicio">
-          <input matEndDate placeholder="Fecha de fin">
-        </mat-date-range-input>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
-      </mat-form-field>
-      
+    <div class="filter-container">
       <mat-form-field appearance="fill" class="filter">
         <mat-label>Formato</mat-label>
         <mat-select [(value)]="selectedFormat" (selectionChange)="onFormatChange($event)">
@@ -22,21 +11,32 @@
         </mat-select>
       </mat-form-field>
     </div>
-
     <!-- Gráfico de tendencia -->
     <div class="chart-item">
-      <canvas id="trendChart"></canvas> <!-- Canvas para el gráfico de línea de tendencia -->
+      <canvas id="trendChart"></canvas>
     </div>
 
     <div class="stats-summary">
-      <p>Total de publicaciones: {{ totalPublications }}</p>
-      <p>Publicaciones presenciales: {{ presencialCount }}</p>
-      <p>Publicaciones virtuales: {{ virtualCount }}</p>
-      <p>Estado más común: {{ commonState }}</p>
+      <div class="stat-card">
+        <p>Total de publicaciones</p>
+        <h3>{{ totalPublications }}</h3>
+      </div>
+      <div class="stat-card">
+        <p>Publicaciones presenciales</p>
+        <h3>{{ presencialCount }}</h3>
+      </div>
+      <div class="stat-card">
+        <p>Publicaciones virtuales</p>
+        <h3>{{ virtualCount }}</h3>
+      </div>
+      <div class="stat-card">
+        <p>Estado más común</p>
+        <h3>{{ commonState }}</h3>
+      </div>
     </div>
   </div>
 
-  <!-- Contenedor inferior para gráficos de estados y publicaciones (no modificar su alineación) -->
+  <!-- Contenedor inferior para gráficos de estados y publicaciones -->
   <div class="charts-container">
     <!-- Gráfico de estados -->
     <div class="chart-item">
@@ -49,7 +49,6 @@
         </mat-form-field>
       </div>
       <canvas id="stateChart"></canvas>
-      <!-- Modal para el gráfico de estados -->
       <div class="modal" *ngIf="showStateModal">
         <div class="modal-content">
           <p>{{ stateModalMessage }}</p>
@@ -76,7 +75,6 @@
         </mat-form-field>
       </div>
       <canvas id="publicationChart"></canvas>
-      <!-- Modal para el gráfico de publicaciones -->
       <div class="modal" *ngIf="showPublicationModal">
         <div class="modal-content">
           <p>{{ publicationModalMessage }}</p>

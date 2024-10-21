@@ -182,13 +182,11 @@ export class FirebaseService {
     return this.getCollection<any>('Publicaciones'); 
   }
 
-  getPublicationsByCategoryAndSubcategoryAndFormat(category: string, subcategory: string, format: string): Observable<any[]> {
-    const ref = collection(this.firestore, 'publicaciones');
-    const queryRef = query(ref, 
-                           where('info_ayudantia.categoria', '==', category), 
-                           where('info_usuario.subcategoria', '==', subcategory),
-                           where('formato', '==', format));
-    return collectionData(queryRef, { idField: 'id' }) as Observable<any[]>;
+  // Método para obtener publicaciones por formato
+  getPublicationsByFormat(format: string): Observable<any[]> {
+    const publicationsRef = collection(this.firestore, 'Publicaciones');
+    const q = query(publicationsRef, where('formato', '==', format));
+    return collectionData(q, { idField: 'id' });
   }
 }
 
