@@ -1,18 +1,18 @@
 .dashboard-container {
     height: 100vh;
+    border-radius: none;
   }
 
 /* Estilo del Sidenav */
 .sidenav {
   background: linear-gradient(195deg, rgba(30, 30, 90, 0.9), rgba(0, 141, 172, 0.584)),url('../../assets/images/pexels-marta-dzedyshko-1042863-2067569.jpg');
-  /* background: linear-gradient(rgba(131, 120, 226, 0.9),rgba(253, 126, 20, 0.90)),
-    url('../../assets/images/pexels-marta-dzedyshko-1042863-2067569.jpg');  */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   color: white;
   width: 250px;
   transition: width 0.3s;
+  border-radius: none;
 }
 
 /* Botón de Menú */

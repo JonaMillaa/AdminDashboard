@@ -122,10 +122,5 @@ export class DashboardComponent {
       });
     });
   }
-
-  logout() {
-    console.log('Cerrar sesión'); // Lógica para cerrar sesión
-  }
-
 }
 

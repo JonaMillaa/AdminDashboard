@@ -5,9 +5,8 @@
 }
 
 .top-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: auto auto;
 }
 
 .charts-container {
@@ -21,14 +20,16 @@
 
 .chart-item {
   flex: 1;
-  max-width: 70%;
+  min-width: 400px; /* Ancho mínimo para los gráficos */
+  max-width: 700px; /* Ancho máximo para los gráficos */
+  height: 500px; /* Altura fija para los gráficos */
   position: relative;
-  max-width: 48%;
   padding: 15px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #f9f9f9;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
 }
 
 .modal {
@@ -71,31 +72,32 @@
   background-color: #0056b3;
 }
 
-canvas {
-  width: 100% !important;
-  height: 400px !important;
+.fixed-size-chart {
+  width: 100% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
+  height: 100% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
 }
 
 .stats-summary {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  flex: 0 0 28%; /* Ajusta este valor para definir el ancho de las tarjetas */
+  display: grid;
+  grid-template-rows: auto auto auto;
+  grid-template-columns: auto auto;
+  margin-right: 3rem;
+  margin-top: 1rem;
 }
 
 .stat-card {
-  background-color: #f8f9fa; /* Fondo claro para las tarjetas */
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   transition: transform 0.3s;
-  width: 30%;
+  width: 250px;
+  height: 130px;
+  text-align: center;
 }
 
 .stat-card p {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #666;
 }
 
@@ -104,6 +106,7 @@ canvas {
   font-size: 1.5rem;
   color: #333;
   font-weight: bold;
+  margin-top: 3rem;
 }
 
 .stat-card:hover {

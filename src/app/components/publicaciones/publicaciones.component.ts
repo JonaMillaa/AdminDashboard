@@ -83,13 +83,15 @@ export class PublicacionesComponent implements OnInit{
   virtualCount: number = 0;
   commonState: string = '';
 
+  selectedTimeRange = 'month'; // Inicializamos el filtro en 'month'
+
   constructor(private firebaseService: FirebaseService) {
 
   }
 
   ngOnInit(): void {
     this.loadTrendChartData(this.selectedFormat);
-    this.loadStateChartData(this.selectedState);
+    this.loadStateChartData(this.selectedState, 'month');
     this.loadChartData(this.selectedCategory, this.selectedSubcategory);
     this.calculateSummaryStatistics();
   }
@@ -226,7 +228,12 @@ export class PublicacionesComponent implements OnInit{
     return { labels, data, titles };
   }
 
-  loadStateChartData(state: string): void {
+  onTimeRangeChange(event: MatSelectChange): void {
+    this.selectedTimeRange = event.value;
+    this.loadStateChartData(this.selectedState, this.selectedTimeRange);
+  }
+
+  loadStateChartData(state: string, timeRange: string): void {
     this.firebaseService.getPublicationsByState(state).subscribe(publications => {
       if (publications.length === 0) {
         this.stateModalMessage = `No hay publicaciones disponibles para el estado ${state}.`;
@@ -236,29 +243,116 @@ export class PublicacionesComponent implements OnInit{
         }
       } else {
         this.showStateModal = false;
-        // Agrupar las publicaciones por fecha y contar las cantidades
-        const chartData = this.prepareChartDataByDate(publications);
+        // Preparar los datos según el rango de tiempo seleccionado
+        const chartData = this.prepareChartDataByTimeRange(publications, timeRange);
         this.createStateChart(chartData);
       }
     });
   }
 
+  prepareChartDataByTimeRange(publications: any[], timeRange: string): any {
+    // Definimos todos los meses en español
+    const allMonths = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+  
+    const groupedData: { [key: string]: number } = {};
+  
+    // Dependiendo del rango de tiempo, inicializamos groupedData con etiquetas adecuadas
+    if (timeRange === 'month') {
+      allMonths.forEach(month => {
+        groupedData[month] = 0;
+      });
+    } else if (timeRange === 'year') {
+      // Obtener un rango de años relevante basado en las publicaciones o un intervalo fijo
+      const currentYear = new Date().getFullYear();
+      for (let year = currentYear - 1; year <= currentYear; year++) {
+        groupedData[year.toString()] = 0;
+      }
+    } else if (timeRange === 'week') {
+      // Inicializar las semanas del año (del 1 al 52)
+      for (let week = 1; week <= 52; week++) {
+        groupedData[`Semana ${week}`] = 0;
+      }
+    }
+  
+    publications.forEach(pub => {
+      const dateStr = pub.fecha_ayudantia;
+      const [day, month, year] = dateStr.split('-').map((part: string) => parseInt(part, 10));
+      const date = new Date(year, month - 1, day);
+  
+      let key: string;
+      switch (timeRange) {
+        case 'year':
+          key = date.getFullYear().toString();
+          break;
+        case 'month':
+          key = this.getMonthName(month); // Obtener el nombre del mes
+          break;
+        case 'week':
+          const weekNumber = this.getWeekNumber(date);
+          key = `Semana ${weekNumber}`;
+          break;
+        case 'day':
+        default:
+          key = `${day.toString().padStart(2, '0')}-${(month).toString().padStart(2, '0')}-${year}`;
+          break;
+      }
+  
+      if (groupedData[key] !== undefined) {
+        groupedData[key]++;
+      }
+    });
+  
+    // Obtener las etiquetas (keys) en el orden adecuado para cada rango de tiempo
+    let labels = Object.keys(groupedData);
+    if (timeRange === 'month') {
+      labels = allMonths;
+    } else if (timeRange === 'year') {
+      labels.sort((a, b) => parseInt(a) - parseInt(b)); // Ordenar los años
+    }
+  
+    const data = labels.map(label => groupedData[label]);
+  
+    return { labels, data };
+  }
+  
+  // Función para obtener el nombre del mes
+  getMonthName(month: number): string {
+    const monthNames = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+    return monthNames[month - 1]; // Ajuste para los meses base 0
+  }
+  
+  // Función para calcular el número de semana de una fecha
+  getWeekNumber(d: Date): number {
+    const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    const dayNum = date.getUTCDay() || 7;
+    date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+    return Math.ceil(((date.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+  }
+  
+
   createStateChart(chartData: any): void {
     const ctx = document.getElementById('stateChart') as HTMLCanvasElement;
-  
+    
     if (ctx) {
       if (this.stateChart) {
         this.stateChart.destroy();
       }
   
       this.stateChart = new Chart(ctx, {
-        type: 'bar', // Tipo de gráfico
+        type: 'bar',
         data: {
           labels: chartData.labels,
           datasets: [{
             label: 'Publicaciones por Estado',
             data: chartData.data,
-            backgroundColor: 'rgba(255, 99, 132, 0.6)', // Color diferente para las barras del gráfico de estado
+            backgroundColor: 'rgba(255, 99, 132, 0.6)',
             borderColor: 'rgba(255, 99, 132, 1)',
             borderWidth: 1
           }]
@@ -270,7 +364,7 @@ export class PublicacionesComponent implements OnInit{
             x: {
               title: {
                 display: true,
-                text: 'Fechas',
+                text: 'Meses',
                 color: '#666',
                 font: {
                   size: 14,
@@ -304,7 +398,8 @@ export class PublicacionesComponent implements OnInit{
         }
       });
     }
-  }  
+  }
+  
 
   closeStateModal(): void {
     this.showStateModal = false;
@@ -316,7 +411,7 @@ export class PublicacionesComponent implements OnInit{
 
   onStateChange(event: MatSelectChange): void {
     this.selectedState = event.value;
-    this.loadStateChartData(this.selectedState);
+    this.loadStateChartData(this.selectedState, 'month');
   }
 
   prepareStackedBarChartData(publications: any[]): any {
