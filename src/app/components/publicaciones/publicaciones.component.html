@@ -9,7 +9,7 @@
           <mat-label>Formato</mat-label>
           <mat-select [(value)]="selectedFormat" (selectionChange)="onFormatChange($event)">
             <mat-option value="PRESENCIAL">Presencial</mat-option>
-            <mat-option value="VIRTUAL">Virtual</mat-option>
+            <mat-option value="REMOTO">Remoto</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -38,7 +38,7 @@
 
   <!-- Contenedor inferior para gráficos de estados y publicaciones -->
   <div class="charts-container">
-   
+
     <!-- Gráfico de estados -->
     <div class="chart-item">
       <div class="filter-container">

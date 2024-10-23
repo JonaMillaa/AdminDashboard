@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule} from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, NgModule} from '@angular/core';
 import { FirebaseService } from '../../firebase/firebase.service';
 import { Chart } from 'chart.js/auto';
 import { CommonModule } from '@angular/common';
@@ -15,7 +15,7 @@ import { ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angul
 @Component({
   selector: 'app-publicaciones',
   standalone: true,
-  imports: 
+  imports:
   [
     FormsModule,
     CommonModule,
@@ -24,7 +24,7 @@ import { ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angul
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    
+
   ],
   templateUrl: './publicaciones.component.html',
   styleUrl: './publicaciones.component.css'
@@ -34,7 +34,7 @@ export class PublicacionesComponent implements OnInit{
   chart: any;
   stateChart: any;
   publicationChart: any;
-  trendChart: any; // Declarar la propiedad para el gráfico de tendencias
+  trendChart: any;
 
   categories = [
     {
@@ -59,14 +59,15 @@ export class PublicacionesComponent implements OnInit{
     }
   ];
 
-  states: ('PUBLICADO' | 'ADJUDICACION' | 'NO ADJUDICACION' | 'ADJUDICADO' | 'NO ADJUDICADO' | 'AGENDADO')[] = [
+  states: ('PUBLICADO' | 'ADJUDICADO'|'EN_CURSO'|'AGENDADA'| 'NO ADJUDICACION' | 'ADJUDICACION' | 'NO ADJUDICADO')[] = [
     'PUBLICADO',
-    'ADJUDICACION',
-    'NO ADJUDICACION',
     'ADJUDICADO',
-    'NO ADJUDICADO',
-    'AGENDADO'
-  ];  
+    'EN_CURSO',
+    'AGENDADA',
+    'NO ADJUDICACION',
+    'ADJUDICACION',
+    'NO ADJUDICADO'
+  ];
 
   selectedCategory = this.categories[0].nombre;
   selectedSubcategory = this.categories[0].subcategorias[0];
@@ -102,7 +103,7 @@ export class PublicacionesComponent implements OnInit{
 
       // Contar publicaciones presenciales y virtuales
       this.presencialCount = publications.filter(pub => pub.formato === 'PRESENCIAL').length;
-      this.virtualCount = publications.filter(pub => pub.formato === 'VIRTUAL').length;
+      this.virtualCount = publications.filter(pub => pub.formato === 'REMOTO').length;
 
       // Contar las publicaciones por estado y encontrar el estado más común
       const stateCounts = this.states.reduce((acc, state) => {
@@ -133,12 +134,12 @@ export class PublicacionesComponent implements OnInit{
 
   createBarChart(chartData: any): void {
     const ctx = document.getElementById('publicationChart') as HTMLCanvasElement;
-  
+
     if (ctx) {
       if (this.publicationChart) {
         this.publicationChart.destroy();
       }
-  
+
       this.publicationChart = new Chart(ctx, {
         type: 'bar', // Tipo de gráfico
         data: {
@@ -146,7 +147,7 @@ export class PublicacionesComponent implements OnInit{
           datasets: [{
             label: 'Publicaciones por Fecha',
             data: chartData.data,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)', // Color diferente para las barras del gráfico de publicaciones
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
             borderColor: 'rgba(54, 162, 235, 1)',
             borderWidth: 1
           }]
@@ -199,11 +200,11 @@ export class PublicacionesComponent implements OnInit{
     publications.forEach(pub => {
       const dateStr = pub.fecha_ayudantia;
       const titulo = pub.info_ayudantia?.titulo_ayudantia;
-  
+
       if (dateStr && titulo) {
         const [day, month, year] = dateStr.split('-').map((part: string) => parseInt(part, 10));
         const formattedDateStr = `${day.toString().padStart(2, '0')}-${(month).toString().padStart(2, '0')}-${year}`;
-  
+
         if (!groupedData[formattedDateStr]) {
           groupedData[formattedDateStr] = { count: 0, titles: [] };
         }
@@ -211,20 +212,20 @@ export class PublicacionesComponent implements OnInit{
         groupedData[formattedDateStr].titles.push(titulo);
       }
     });
-  
+
     const labels = Object.keys(groupedData).sort((a, b) => {
       const [dayA, monthA, yearA] = a.split('-').map((part: string) => parseInt(part, 10));
       const [dayB, monthB, yearB] = b.split('-').map((part: string) => parseInt(part, 10));
-  
+
       const dateA = new Date(yearA, monthA - 1, dayA);
       const dateB = new Date(yearB, monthB - 1, dayB);
-  
+
       return dateA.getTime() - dateB.getTime();
     });
-  
+
     const data = labels.map(label => groupedData[label].count);
     const titles = labels.map(label => groupedData[label].titles);
-  
+
     return { labels, data, titles };
   }
 
@@ -256,9 +257,9 @@ export class PublicacionesComponent implements OnInit{
       'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
     ];
-  
+
     const groupedData: { [key: string]: number } = {};
-  
+
     // Dependiendo del rango de tiempo, inicializamos groupedData con etiquetas adecuadas
     if (timeRange === 'month') {
       allMonths.forEach(month => {
@@ -276,12 +277,12 @@ export class PublicacionesComponent implements OnInit{
         groupedData[`Semana ${week}`] = 0;
       }
     }
-  
+
     publications.forEach(pub => {
       const dateStr = pub.fecha_ayudantia;
       const [day, month, year] = dateStr.split('-').map((part: string) => parseInt(part, 10));
       const date = new Date(year, month - 1, day);
-  
+
       let key: string;
       switch (timeRange) {
         case 'year':
@@ -299,25 +300,25 @@ export class PublicacionesComponent implements OnInit{
           key = `${day.toString().padStart(2, '0')}-${(month).toString().padStart(2, '0')}-${year}`;
           break;
       }
-  
+
       if (groupedData[key] !== undefined) {
         groupedData[key]++;
       }
     });
-  
+
     // Obtener las etiquetas (keys) en el orden adecuado para cada rango de tiempo
     let labels = Object.keys(groupedData);
     if (timeRange === 'month') {
       labels = allMonths;
     } else if (timeRange === 'year') {
-      labels.sort((a, b) => parseInt(a) - parseInt(b)); // Ordenar los años
+      labels.sort((a, b) => parseInt(a) - parseInt(b));
     }
-  
+
     const data = labels.map(label => groupedData[label]);
-  
+
     return { labels, data };
   }
-  
+
   // Función para obtener el nombre del mes
   getMonthName(month: number): string {
     const monthNames = [
@@ -326,7 +327,7 @@ export class PublicacionesComponent implements OnInit{
     ];
     return monthNames[month - 1]; // Ajuste para los meses base 0
   }
-  
+
   // Función para calcular el número de semana de una fecha
   getWeekNumber(d: Date): number {
     const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
@@ -335,16 +336,16 @@ export class PublicacionesComponent implements OnInit{
     const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
     return Math.ceil(((date.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
   }
-  
+
 
   createStateChart(chartData: any): void {
     const ctx = document.getElementById('stateChart') as HTMLCanvasElement;
-    
+
     if (ctx) {
       if (this.stateChart) {
         this.stateChart.destroy();
       }
-  
+
       this.stateChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -399,7 +400,7 @@ export class PublicacionesComponent implements OnInit{
       });
     }
   }
-  
+
 
   closeStateModal(): void {
     this.showStateModal = false;
@@ -424,11 +425,12 @@ export class PublicacionesComponent implements OnInit{
       if (!groupedData[categoria]) {
         groupedData[categoria] = {
           'PUBLICADO': 0,
-          'ADJUDICACION': 0,
-          'NO ADJUDICACION': 0,
           'ADJUDICADO': 0,
-          'NO ADJUDICADO': 0,
-          'AGENDADO': 0
+          'EN_CURSO': 0,
+          'AGENDADA': 0,
+          'NO ADJUDICACION': 0,
+          'ADJUDICACION': 0,
+          'NO ADJUDICADO': 0
         };
       }
 
@@ -488,26 +490,35 @@ export class PublicacionesComponent implements OnInit{
     }
   }
 
-  getColorForState(state: 'PUBLICADO' | 'ADJUDICACION' | 'NO ADJUDICACION' | 'ADJUDICADO' | 'NO ADJUDICADO' | 'AGENDADO'): string {
-    const colors: {
+  getColorForState(state:
+    'PUBLICADO'
+    | 'ADJUDICADO'
+    | 'EN_CURSO'
+    | 'AGENDADA'
+    | 'NO ADJUDICACION'
+    | 'ADJUDICACION'
+    | 'NO ADJUDICADO'):
+    string {const colors: {
       PUBLICADO: string;
-      ADJUDICACION: string;
-      'NO ADJUDICACION': string;
       ADJUDICADO: string;
+      EN_CURSO: string;
+      AGENDADA: string;
+      'NO ADJUDICACION': string;
+      ADJUDICACION: string;
       'NO ADJUDICADO': string;
-      AGENDADO: string;
     } = {
       'PUBLICADO': 'rgba(63, 81, 181, 0.5)',
-      'ADJUDICACION': 'rgba(255, 159, 64, 0.5)',
-      'NO ADJUDICACION': 'rgba(255, 99, 132, 0.5)',
-      'ADJUDICADO': 'rgba(54, 162, 235, 0.5)',
-      'NO ADJUDICADO': 'rgba(75, 192, 192, 0.5)',
-      'AGENDADO': 'rgba(153, 102, 255, 0.5)'
+      'ADJUDICADO': 'rgba(255, 159, 64, 0.5)',
+      'EN_CURSO': 'rgba(255, 99, 132, 0.5)',
+      'AGENDADA': 'rgba(54, 162, 235, 0.5)',
+      'NO ADJUDICACION': 'rgba(75, 192, 192, 0.5)',
+      'ADJUDICACION': 'rgba(153, 102, 255, 0.5)',
+      'NO ADJUDICADO': 'rgba(153, 102, 255, 0.5)'
     };
-  
+
     return colors[state] || 'rgba(0, 0, 0, 0.5)';
   }
-   
+
   getSubcategories(): string[] {
     const category = this.categories.find(cat => cat.nombre === this.selectedCategory);
     return category ? category.subcategorias : [];
@@ -529,8 +540,8 @@ export class PublicacionesComponent implements OnInit{
       const chartData = this.prepareChartDataByDate(publications);
       this.createTrendChart(chartData);
     });
-  }  
-  
+  }
+
   createTrendChart(chartData: any): void {
     if (typeof window !== 'undefined') {
       const ctx = document.getElementById('trendChart') as HTMLCanvasElement;
@@ -538,7 +549,7 @@ export class PublicacionesComponent implements OnInit{
         if (this.trendChart) {
           this.trendChart.destroy();
         }
-  
+
         this.trendChart = new Chart(ctx, {
           type: 'line',
           data: {
@@ -607,8 +618,8 @@ export class PublicacionesComponent implements OnInit{
       }
     }
   }
-  
-  
+
+
   onFormatChange(event: MatSelectChange): void {
     this.selectedFormat = event.value;
     this.loadTrendChartData(this.selectedFormat);
