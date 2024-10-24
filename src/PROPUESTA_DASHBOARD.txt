@@ -1,0 +1,32 @@
+Dashboard
+
+   - Resumen de usuarios, publicaciones, y ayudantías en curso.
+   - Indicadores clave: Tasa de crecimiento, promedios, y decrecimiento.
+   - Gráficos de crecimiento, decrecimiento, y promedios.
+   - Gráficos de ayudantías en etapas de publicación.
+
+Gestión de Publicaciones
+   - Modificar estados de publicación.
+   - Gestión de publicaciones masivas.
+   - Notificación de publicaciones sin postulantes.
+
+Monitoreo de Desempeño
+   - Mejores ayudantías (calificadas o registradas).
+   - Rankings de tutores (calificación y áreas de especialización).
+
+Reportes de Refuerzo
+   - Generar reportes de ramos a reforzar en PDF.
+   - Análisis de desempeño por áreas.
+
+Gestión de Usuarios
+   - Gestión de usuarios: Nombre, RUT, detalles, foto, y acciones (CRUD y bloqueo por RUT).
+   - Historial de actividades de estudiantes y tutores.
+
+Gestión de Facturación
+   - Gestión de facturación y pagos con tutores.
+   
+Notificaciones
+   - Notificaciones automáticas para estudiantes y tutores.
+   - Notificaciones personalizadas por publicaciones.
+
+Reportes

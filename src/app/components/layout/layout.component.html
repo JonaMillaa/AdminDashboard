@@ -6,9 +6,9 @@
       <mat-divider></mat-divider>
 
       <!-- Opciones del Menú -->
-      <a mat-list-item routerLink="/home">
-        <mat-icon>home</mat-icon>
-        <span *ngIf="opened">Home</span>
+      <a mat-list-item routerLink="/dashboard">
+        <mat-icon>dashboard</mat-icon>
+        <span *ngIf="opened">Dashboard</span>
       </a>
 
       <a mat-list-item routerLink="/publicaciones">
@@ -16,14 +16,14 @@
         <span *ngIf="opened">Publicaciones</span>
       </a>
 
-      <a mat-list-item routerLink="/dashboard">
-        <mat-icon>dashboard</mat-icon>
-        <span *ngIf="opened">Dashboard</span>
+      <a mat-list-item routerLink="/monitoreo">
+        <mat-icon>insights</mat-icon>
+        <span *ngIf="opened">Monitoreo</span>
       </a>
 
-      <a mat-list-item routerLink="/calendario">
-        <mat-icon>event</mat-icon>
-        <span *ngIf="opened">Eventos</span>
+      <a mat-list-item routerLink="/reportes">
+        <mat-icon>insert_chart</mat-icon>
+        <span *ngIf="opened">Reportes</span>
       </a>
 
       <a mat-list-item routerLink="/usuarios">
@@ -31,24 +31,24 @@
         <span *ngIf="opened">Gestión de Usuarios</span>
       </a>
 
-      <a mat-list-item routerLink="/solicitudes">
-        <mat-icon>help</mat-icon>
-        <span *ngIf="opened">Solicitudes de Ayuda</span>
+      <a mat-list-item routerLink="/facturacion">
+        <mat-icon>receipt</mat-icon>
+        <span *ngIf="opened">Facturacion</span>
       </a>
 
-      <a mat-list-item routerLink="/ayudantias">
-        <mat-icon>school</mat-icon>
-        <span *ngIf="opened">Ayudantias</span>
-      </a>
-
-      <a mat-list-item routerLink="/estadisticas">
-        <mat-icon>bar_chart</mat-icon>
-        <span *ngIf="opened">Estadísticas</span>
+      <a mat-list-item routerLink="/notificacion">
+        <mat-icon>notifications_active</mat-icon>
+        <span *ngIf="opened">Notificación</span>
       </a>
 
       <a mat-list-item routerLink="/soporte">
         <mat-icon>support</mat-icon>
         <span *ngIf="opened">Soporte</span>
+      </a>
+
+      <a mat-list-item routerLink="/calendario">
+        <mat-icon>event</mat-icon>
+        <span *ngIf="opened">Eventos</span>
       </a>
 
       <button mat-button class="logout-button" (click)="logout()">
