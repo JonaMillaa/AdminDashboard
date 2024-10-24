@@ -1,6 +1,6 @@
 Dashboard
 
-   - Resumen de usuarios, publicaciones, y ayudantías en curso.
+   - Resumen de usuarios (tutor y estudiante), publicaciones en curso por categoria, y ayudantías en curso.
    - Indicadores clave: Tasa de crecimiento, promedios, y decrecimiento.
    - Gráficos de crecimiento, decrecimiento, y promedios.
    - Gráficos de ayudantías en etapas de publicación.

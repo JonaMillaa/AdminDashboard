@@ -29,10 +29,14 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "src/custom-theme.scss",
               "src/styles.css"
             ],
             "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            },
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {

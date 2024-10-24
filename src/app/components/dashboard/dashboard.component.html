@@ -1,1 +1,45 @@
-<h1>hola</h1>
+<div class="dashboard-container">
+  <!-- Barra de navegación (navbar) -->
+  <mat-toolbar class="navbar">
+    <mat-toolbar-row class="navbar-row">
+      <div class="navbar-links">
+        <div class="nav-item usuarios">
+          <mat-icon class="nav-icon">person</mat-icon>
+          <a routerLink="/usuarios" class="nav-link">Usuarios Activos: {{ totalUsuariosActivos }}</a>
+        </div>
+        <div class="nav-item tutores">
+          <mat-icon class="nav-icon">school</mat-icon>
+          <a routerLink="/tutores" class="nav-link">Tutores: {{ totalTutores }}</a>
+        </div>
+        <div class="nav-item estudiantes">
+          <mat-icon class="nav-icon">person_outline</mat-icon>
+          <a routerLink="/estudiantes" class="nav-link">Estudiantes: {{ totalEstudiantes }}</a>
+        </div>
+        <div class="nav-item publicaciones">
+          <mat-icon class="nav-icon">library_books</mat-icon>
+          <a routerLink="/publicaciones" class="nav-link">Publicaciones en Curso: {{ totalPublicaciones }}</a>
+        </div>
+        <div class="nav-item ayudantias">
+          <mat-icon class="nav-icon">work_outline</mat-icon>
+          <a routerLink="/ayudantias" class="nav-link">Ayudantías en Curso: {{ totalAyudantias }}</a>
+        </div>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <!-- Indicadores del dashboard -->
+  <div class="dashboard-indicators">
+    <!-- Tasa de Crecimiento y decrecimiento -->
+    <div class="indicator">
+      <h3>Tasa de Crecimiento</h3>
+      <canvas id="growthRateChart" class="fixed-size-chart"></canvas>
+    </div>
+  
+    <!-- Promedio de Publicaciones -->
+    <div class="indicator">
+      <h3>Promedio de Publicaciones</h3>
+      <canvas id="averagePublicationsChart" class="fixed-size-chart"></canvas>
+      <p>Promedio mensual: {{ averageMonthly }} publicaciones</p>
+      <p>Promedio semanal: {{ averageWeekly }} publicaciones</p>
+    </div>
+</div>

@@ -37,9 +37,9 @@ export class FirebaseService {
     const usuariosCollection = collection(this.firestore, 'Usuarios');
     const activosQuery = query(usuariosCollection, where('Estado', '==', 'ACTIVO'));
     return collectionData(activosQuery).pipe(
-      map((usuarios) => (usuarios as Usuario[]).length) // Casting explícito a Usuario[]
+      map((usuarios) => (usuarios as Usuario[]).length)
     );
-  }
+  }  
 
   getProblemasResueltos(): Observable<number> {
     const usuariosCollection = collection(this.firestore, 'Preguntas_ayudantia');
@@ -144,7 +144,6 @@ export class FirebaseService {
     });
   }
 
-
   // Método para obtener publicaciones filtradas por categoría y estado
   getFilteredPublications(category: string, status: string): Observable<any[]> {
     const ref = collection(this.firestore, 'Publicaciones');
@@ -188,5 +187,19 @@ export class FirebaseService {
     const q = query(publicationsRef, where('formato', '==', format));
     return collectionData(q, { idField: 'id' });
   }
+
+  getPublicationsByDateRange(startDate: Date, endDate: Date): Observable<any[]> {
+    const publicationsCollection = collection(this.firestore, 'Publicaciones');
+    const rangeQuery = query(
+        publicationsCollection,
+        where('fecha_ayudantia', '>=', startDate.toISOString().split('T')[0]),
+        where('fecha_ayudantia', '<=', endDate.toISOString().split('T')[0])
+    );
+
+    return collectionData(rangeQuery).pipe(
+        map((publications) => publications)
+    );
+}
+
 }
 

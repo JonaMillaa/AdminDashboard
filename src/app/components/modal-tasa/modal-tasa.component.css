@@ -1,0 +1,29 @@
+.modal-container {
+  max-width: 500px;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-content {
+  margin: 16px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.mat-dialog-container {
+  border-radius: 8px;
+  width: 100%;
+}

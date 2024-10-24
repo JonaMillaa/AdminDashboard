@@ -1,0 +1,202 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.fixed-size-chart {
+  width: 100% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
+  height: 100% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
+}
+
+/* Indicadores del dashboard */
+.dashboard-indicators {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+  margin-left: 30px;
+}
+
+.indicator {
+  flex: 1;
+  min-width: 400px; /* Ancho mínimo para los gráficos */
+  max-width: 700px; /* Ancho máximo para los gráficos */
+  height: 500px; /* Altura fija para los gráficos */
+  position: relative;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f5f5f5;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+h3{
+  text-align: center;
+  font-size: 1.4rem;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.navbar {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    background-color: #3f51b5;
+    color: white;
+    padding: 10px;
+    height: 100px;
+  }
+  
+  .navbar-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    align-items: stretch; 
+    flex-wrap: wrap;
+    padding: 0 16px;
+  }
+  
+  .navbar-title {
+    font-size: 1.4rem;
+    margin-right: 1rem;
+    font-weight: bold;
+  }
+
+
+/* Estilos específicos para cada nav-item */
+.nav-item.usuarios {
+    background-color: #a400f0;
+    width: 15rem;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 7px;
+  }
+  
+  .nav-item.tutores {
+    background-color: #007acc;
+    width: 15rem;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 7px;
+  }
+  
+  .nav-item.estudiantes {
+    background-color: #28a745;
+    width: 15rem;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 7px;
+  }
+  
+  .nav-item.publicaciones {
+    background-color: #6c757d;
+    width: 17rem;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 7px;
+  }
+  
+  .nav-item.ayudantias {
+    background-color: #dc3545;
+    width: 17rem;
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 7px;
+  }
+  
+  .navbar-links {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: auto auto auto auto auto;
+    margin-left: 10%;
+  }
+  
+  .nav-item {
+    display: flex;
+    align-items: center;
+    height: 100%; /* Asegura que ocupe toda la altura del navbar */
+  }
+  
+  .nav-item mat-icon {
+    margin-right: 2px;
+    color: aliceblue;
+  }
+
+  .nav-icon {
+    font-size: 1.4rem; /* Aumenta el tamaño del ícono */
+    margin-right: 5px;
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s ease;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .nav-icon:hover {
+    color: #ffcc00; /* Cambia el color al pasar el cursor */
+  }
+
+  .nav-link:hover {
+    color: #ffcc00; /* Cambia el color al pasar el cursor */
+  }
+  
+/* Estilos responsivos */
+@media (max-width: 1024px) {
+    .navbar-row {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 8px;
+      gap: 8px;
+    }
+  
+    .navbar-title {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+  
+    .navbar-links {
+      width: 100%;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .nav-item {
+      width: 100%;
+      justify-content: flex-start;
+    }
+  
+    .nav-link {
+      width: 100%;
+      text-align: left;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .navbar-title {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+  
+    .navbar-links {
+      width: 100%;
+      gap: 8px;
+    }
+  
+    .nav-item {
+      width: 100%;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+  
+    .nav-link {
+      font-size: 0.9rem;
+      width: 100%;
+    }
+  }
+
+
+  
