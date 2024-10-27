@@ -1,3 +1,21 @@
+.container{
+  max-width: 500px;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.modal-content {
+  margin: 16px 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+
+
+
+
+
 /* modal-detalles-dia.component.css */
 .mini-chart-container {
     margin-top: 20px;
@@ -6,9 +24,8 @@
     justify-content: center;
     align-items: center;
   }
-  
+
   canvas {
     width: 100% !important;
     max-width: 400px;
   }
-  
