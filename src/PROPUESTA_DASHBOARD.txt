@@ -1,7 +1,12 @@
 Dashboard
-
    - Resumen de usuarios (tutor y estudiante), publicaciones en curso por categoria, y ayudantías en curso.
-   - Indicadores clave: Tasa de crecimiento, promedios, y decrecimiento.
+   - Indicadores clave: Tasa de crecimiento, Promedio de Publicaciones del mes actual, y decrecimiento.
+         Explicación de lo que hace el Gráfico tipo Doughnut
+
+    Particiones del Gráfico: El gráfico se divide en tres secciones para representar diferentes rangos:
+        Bajo: Rango inferior (rojo) que indica baja actividad.
+        Medio: Rango intermedio (amarillo) para actividad media.
+        Alto: Rango superior (verde) para alta actividad.
    - Gráficos de crecimiento, decrecimiento, y promedios.
    - Gráficos de ayudantías en etapas de publicación.
 
@@ -13,6 +18,11 @@ Gestión de Publicaciones
 Monitoreo de Desempeño
    - Mejores ayudantías (calificadas o registradas).
    - Rankings de tutores (calificación y áreas de especialización).
+   - KPI --> El total de todos los pagos de tutores. 
+         -Cuanto esta generando la publicación en general.
+         -Cuanto esta generando la publicación por categoría.
+         -Cuanto esta generando la publicación por tutor.
+         -Cuanto esta generando la publicación por tutor por categoría.
 
 Reportes de Refuerzo
    - Generar reportes de ramos a reforzar en PDF.
@@ -23,7 +33,9 @@ Gestión de Usuarios
    - Historial de actividades de estudiantes y tutores.
 
 Gestión de Facturación
-   - Gestión de facturación y pagos con tutores.
+   - Gestión de facturación (Detalle del mes como de honorario)y pagos con tutores.
+   - El 5% del total de pagos de tutores es generado automáticamente.
+
    
 Notificaciones
    - Notificaciones automáticas para estudiantes y tutores.

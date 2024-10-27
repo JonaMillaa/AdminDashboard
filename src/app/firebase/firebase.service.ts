@@ -199,7 +199,25 @@ export class FirebaseService {
     return collectionData(rangeQuery).pipe(
         map((publications) => publications)
     );
-}
+  }
+
+  getPublicationsByMonthAndYear(month: string, year: number): Observable<any[]> {
+    const publicationsCollection = collection(this.firestore, 'Publicaciones');
+    const startDate = `${year}-${month}-01`;
+    const endDate = `${year}-${month}-31`;
+    const monthQuery = query(
+      publicationsCollection,
+      where('fecha_ayudantia', '>=', startDate),
+      where('fecha_ayudantia', '<=', endDate)
+    );
+    return collectionData(monthQuery) as Observable<any[]>;
+  }
+
+  getPublications(): Observable<any[]> {
+    const publicationsCollection = collection(this.firestore, 'Publicaciones');
+    return collectionData(publicationsCollection) as Observable<any[]>;
+  }
+  
 
 }
 

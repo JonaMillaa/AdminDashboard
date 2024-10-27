@@ -1,0 +1,14 @@
+/* modal-detalles-dia.component.css */
+.mini-chart-container {
+    margin-top: 20px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  canvas {
+    width: 100% !important;
+    max-width: 400px;
+  }
+  

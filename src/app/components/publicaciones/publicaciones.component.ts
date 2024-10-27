@@ -1,7 +1,7 @@
-import { Component, OnInit, PLATFORM_ID, NgModule} from '@angular/core';
+import { Component, OnInit,Inject, PLATFORM_ID} from '@angular/core';
 import { FirebaseService } from '../../firebase/firebase.service';
 import { Chart } from 'chart.js/auto';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
@@ -86,15 +86,19 @@ export class PublicacionesComponent implements OnInit{
 
   selectedTimeRange = 'month'; // Inicializamos el filtro en 'month'
 
-  constructor(private firebaseService: FirebaseService) {
-
-  }
+  constructor(
+    private firebaseService: FirebaseService,
+    @Inject(PLATFORM_ID) private platformId: Object,
+  ) {}
+  
 
   ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
     this.loadTrendChartData(this.selectedFormat);
     this.loadStateChartData(this.selectedState, 'month');
     this.loadChartData(this.selectedCategory, this.selectedSubcategory);
     this.calculateSummaryStatistics();
+    }
   }
 
   calculateSummaryStatistics(): void {
