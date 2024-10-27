@@ -6,8 +6,8 @@
 
 
 .fixed-size-chart {
-  width: 100% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
-  height: 100% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
+  width: 90% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
+  height: 85% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
 }
 
 /* Indicadores del dashboard */
@@ -23,7 +23,7 @@
   flex: 1;
   min-width: 400px; /* Ancho mínimo para los gráficos */
   max-width: 700px; /* Ancho máximo para los gráficos */
-  height: 500px; /* Altura fija para los gráficos */
+  height: 800px; /* Altura fija para los gráficos */
   position: relative;
   padding: 15px;
   border: 1px solid #ddd;
@@ -142,7 +142,7 @@ h3{
 
   .nav-link:hover {
     color: #ffcc00; /* Cambia el color al pasar el cursor */
-  }
+  } 
   
 /* Estilos responsivos */
 @media (max-width: 1024px) {

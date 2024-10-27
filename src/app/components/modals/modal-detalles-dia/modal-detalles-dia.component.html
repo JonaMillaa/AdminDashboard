@@ -1,0 +1,16 @@
+<div class="container">
+    <!-- modal-detalles-dia.component.html -->
+    <h2>Detalles del Día</h2>
+    <p>Día: {{ data.selectedDay }}</p>
+    <p>Total de Publicaciones: {{ data.selectedDayCount }}</p>
+    <p>Promedio Mensual: {{ data.monthlyAverage }}</p>
+    <p [ngStyle]="{ color: analysisColor }">{{ data.analysisMessage }}</p>
+    
+    <!-- <div class="mini-chart-container">
+      <canvas id="miniTrendChart" width="400" height="200"></canvas>
+    </div>        -->
+    
+    <button mat-button mat-dialog-close color="primary">Aceptar</button>
+    
+</div>
+

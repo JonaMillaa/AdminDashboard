@@ -29,6 +29,7 @@
 
   <!-- Indicadores del dashboard -->
   <div class="dashboard-indicators">
+    
     <!-- Tasa de Crecimiento y decrecimiento -->
     <div class="indicator">
       <h3>Tasa de Crecimiento</h3>
@@ -37,9 +38,17 @@
   
     <!-- Promedio de Publicaciones -->
     <div class="indicator">
-      <h3>Promedio de Publicaciones</h3>
-      <canvas id="averagePublicationsChart" class="fixed-size-chart"></canvas>
-      <p>Promedio mensual: {{ averageMonthly }} publicaciones</p>
-      <p>Promedio semanal: {{ averageWeekly }} publicaciones</p>
-    </div>
+      <h3>Distribución de Publicaciones por Mes y Día</h3>
+      <mat-form-field appearance="fill" class="filter">
+        <mat-label>Mes</mat-label>
+        <mat-select [(value)]="selectedMonth" (selectionChange)="onMonthChange($event)">
+          <mat-option *ngFor="let month of months" [value]="month.value">{{ month.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <canvas id="sunburstChart" class="fixed-size-chart"></canvas>
+    </div>     
+     
+    
+  </div>  
+
 </div>

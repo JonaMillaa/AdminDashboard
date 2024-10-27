@@ -1,6 +1,5 @@
 import { Component, OnInit,Inject, PLATFORM_ID} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,13 +9,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { FirebaseService } from '../../firebase/firebase.service';
-import { Observable, of, forkJoin } from 'rxjs';
-import  {Chart}  from 'chart.js/auto';
-
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalTasaComponent } from './../modal-tasa/modal-tasa.component';
+import { ModalTasaComponent } from '../../components/modals/modal-tasa/modal-tasa.component';
+import { ModalDetallesDiaComponent } from '../../components/modals/modal-detalles-dia/modal-detalles-dia.component';
+import { Chart} from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +31,11 @@ import { ModalTasaComponent } from './../modal-tasa/modal-tasa.component';
     MatIconModule,
     RouterModule,
     MatCardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatDialogModule,
+  
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -46,13 +51,39 @@ export class DashboardComponent implements OnInit{
 
 
   growthRate: number = 0;
-  averageMonthly: number = 0;
-  averageWeekly: number = 0;
-  declineRate: number = 0;
 
   growthRateChart: any;
   averageChart: any;
   declineChart: any;
+
+  selectedMonthTasa: string = '';
+  selectedCurrentCount: number = 0;
+  selectedPrevCount: number = 0;
+
+
+  
+  sunburstChart: any;
+  selectedMonth: string = '10'; // Mes por defecto: Enero
+  months = [
+    { name: 'Enero', value: '01' },
+    { name: 'Febrero', value: '02' },
+    { name: 'Marzo', value: '03' },
+    { name: 'Abril', value: '04' },
+    { name: 'Mayo', value: '05' },
+    { name: 'Junio', value: '06' },
+    { name: 'Julio', value: '07' },
+    { name: 'Agosto', value: '08' },
+    { name: 'Septiembre', value: '09' },
+    { name: 'Octubre', value: '10' },
+    { name: 'Noviembre', value: '11' },
+    { name: 'Diciembre', value: '12' },
+  ];
+
+  monthlyAverage: number = 0;
+  showDetailsModal: boolean = false;
+  selectedDay: string = '';
+  selectedDayCount: number = 0;
+  analysisMessage: string = '';
 
   constructor(
     private firebaseService: FirebaseService, 
@@ -60,29 +91,174 @@ export class DashboardComponent implements OnInit{
     private dialog: MatDialog
   ) {}
 
+  // Función para inicializar los datos del dashboard
   ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
     this.loadDashboardData();
     this.loadIndicators();
+    this.loadSunburstData(this.selectedMonth);
+    }
   }
 
-  //Función para abrir el modal
-  openDetailsModal(month: string, currentCount: number, prevCount: number, growthRate: number): void {
-    this.dialog.open(ModalTasaComponent, {
-      width: '500px',
-      data: {
-        month,
-        currentCount,
-        prevCount,
-        growthRate
-      }
+  // Función para cambiar el mes seleccionado
+  onMonthChange(event: MatSelectChange): void {
+    this.selectedMonth = event.value;
+    this.loadSunburstData(this.selectedMonth);
+  }
+
+// Función para cargar los datos del gráfico de distribución de publicaciones por día
+  loadSunburstData(month: string): void {
+    this.firebaseService.getPublications().subscribe(publications => {
+      const chartData = this.prepareSunburstData(publications, month);
+      this.calculateMonthlyAverage(chartData.data);
+      this.createSunburstChart(chartData);
     });
   }
 
-  
+  // Función para preparar los datos del gráfico de distribución de publicaciones por día
+  prepareSunburstData(publications: any[], month: string): any {
+    const groupedData: { [day: string]: { count: number } } = {};
 
-  selectedMonth: string = '';
-  selectedCurrentCount: number = 0;
-  selectedPrevCount: number = 0;
+    publications.forEach(pub => {
+      const dateStr = pub.fecha_ayudantia;
+      if (dateStr) {
+        const [day, pubMonth, year] = dateStr.split('-').map((part: string) => parseInt(part, 10));
+        if (pubMonth === parseInt(month)) {
+          const formattedDay = `${day.toString().padStart(2, '0')}`;
+
+          if (!groupedData[formattedDay]) {
+            groupedData[formattedDay] = { count: 0 };
+          }
+          groupedData[formattedDay].count++;
+        }
+      }
+    });
+
+    const labels: string[] = [];
+    const data: number[] = [];
+    const backgroundColors: string[] = [];
+
+    Object.keys(groupedData).forEach(day => {
+      labels.push(`Día ${day}`);
+      data.push(groupedData[day].count);
+      backgroundColors.push(this.getRandomColor());
+    });
+
+    return { labels, data, backgroundColors };
+  }
+
+  // Función para crear el gráfico de distribución de publicaciones por día
+  createSunburstChart(chartData: any): void {
+    if (isPlatformBrowser(this.platformId)) {
+        const ctx = document.getElementById('sunburstChart') as HTMLCanvasElement;
+
+        if (ctx) {
+            if (this.sunburstChart) {
+                this.sunburstChart.destroy();
+            }
+
+            this.sunburstChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: 'Publicaciones Diarias',
+                        data: chartData.data,
+                        backgroundColor: chartData.backgroundColors,
+                        borderWidth: 1,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false, // Ocultar las etiquetas fuera del gráfico
+                        },
+                        tooltip: {
+                            enabled: false // Desactivar tooltips para evitar conflictos visuales
+                        },
+                        datalabels: {
+                            color: '#fff', // Color de las etiquetas internas
+                            formatter: (value, ctx) => {
+                                const labels = ctx.chart.data.labels;
+                                // Verificamos si las etiquetas están definidas antes de acceder a ellas
+                                if (labels && Array.isArray(labels) && labels[ctx.dataIndex]) {
+                                    const label = labels[ctx.dataIndex];
+                                    return `${label}`;
+                                }
+                                return ''; // Devuelve un string vacío si no hay etiquetas
+                            },
+                            anchor: 'center',
+                            align: 'center',
+                            clamp: true,
+                            font: {
+                                weight: 'bold',
+                                size: 16 // Tamaño de fuente más grande para las etiquetas internas
+                            }
+                        }
+                    },
+                    onClick: (event, elements) => {
+                        if (elements.length) {
+                            const index = elements[0].index;
+                            this.onSegmentClick(index, chartData);
+                        }
+                    },
+                },
+                plugins: [ChartDataLabels]
+            });
+        }
+    }
+ }
+
+  // Función para mostrar los detalles del día al hacer clic en un segmento
+  onSegmentClick(index: number, chartData: any): void {
+    const selectedLabel = chartData.labels[index];
+    const selectedCount = chartData.data[index];
+    this.selectedDay = selectedLabel;
+    this.selectedDayCount = selectedCount;
+
+    // Determina el análisis según el valor seleccionado
+    if (selectedCount > this.monthlyAverage) {
+        this.analysisMessage = 'El número de publicaciones está por encima del promedio mensual. Buen trabajo.';
+    } else if (selectedCount < this.monthlyAverage) {
+        this.analysisMessage = 'El número de publicaciones está por debajo del promedio mensual. Considere revisar la actividad de ese día.';
+    } else {
+        this.analysisMessage = 'El número de publicaciones es igual al promedio mensual.';
+    }
+
+    // Abre el modal con los datos relevantes
+    this.dialog.open(ModalDetallesDiaComponent, {
+        data: {
+            selectedDay: this.selectedDay,
+            selectedDayCount: this.selectedDayCount,
+            monthlyAverage: this.monthlyAverage,
+            analysisMessage: this.analysisMessage
+        }
+    });
+  }
+
+ // Función para calcular el promedio mensual
+  calculateMonthlyAverage(data: number[]): void {
+    const total = data.reduce((a, b) => a + b, 0);
+    this.monthlyAverage = data.length ? parseFloat((total / data.length).toFixed(2)) : 0;
+  }
+
+  closeModal(): void {
+    this.showDetailsModal = false;
+  }
+
+  // Función para obtener un color aleatorio
+  getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+
 
   loadDashboardData(): void {
     // Cargar usuarios activos
@@ -114,16 +290,20 @@ export class DashboardComponent implements OnInit{
   loadIndicators(): void {
     this.firebaseService.getAllPublications().subscribe(publications => {
         const growthData = this.prepareGrowthRateData(publications);
-        const averageData = this.prepareAverageData(publications);
-        const declineData = this.prepareDeclineData(publications);
-
         // Crear gráficos una sola vez con los datos recibidos
         this.createGrowthRateChart(growthData);
-        this.createAverageChart(averageData);
     });
   }
 
 
+
+
+
+
+
+
+  
+  // Función para calcular la tasa de crecimiento
   calculateGrowthRate(publications: any[]): void {
     const currentMonth = new Date().getMonth();
     const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
@@ -142,36 +322,15 @@ export class DashboardComponent implements OnInit{
     this.growthRate = lastMonthCount === 0 ? 0 : ((currentMonthCount - lastMonthCount) / lastMonthCount) * 100;
   }
 
-
-  calculateAverages(publications: any[]): void {
-    const totalMonths = 12;
-    const totalWeeks = 52;
-
-    const monthlyCount = new Array(totalMonths).fill(0);
-    const weeklyCount = new Array(totalWeeks).fill(0);
-
-    publications.forEach(pub => {
-      const [day, month, year] = pub.fecha_ayudantia.split('-').map(Number);
-      monthlyCount[month - 1]++;
-
-      const date = new Date(year, month - 1, day);
-      const weekNumber = this.getWeekNumber(date);
-      weeklyCount[weekNumber - 1]++;
-    });
-
-    this.averageMonthly = publications.length / totalMonths;
-    this.averageWeekly = publications.length / totalWeeks;
-  }
-
   createGrowthRateChart(chartData: any): void {
     if (isPlatformBrowser(this.platformId)) {
       const ctx = document.getElementById('growthRateChart') as HTMLCanvasElement;
-  
+
       if (ctx) {
         if (this.growthRateChart) {
           this.growthRateChart.destroy();
         }
-  
+
         this.growthRateChart = new Chart(ctx, {
           type: 'line',
           data: {
@@ -190,7 +349,7 @@ export class DashboardComponent implements OnInit{
           options: {
             onClick: (event, elements) => {
               if (elements.length) {
-                this.onPointClick(elements, chartData.rawData);
+                this.onPointClick(elements, chartData);
               }
             },
             responsive: true,
@@ -228,138 +387,78 @@ export class DashboardComponent implements OnInit{
             },
             plugins: {
               legend: { display: true, position: 'top' },
-              tooltip: { enabled: true }
+              tooltip: {
+                enabled: true,
+                callbacks: {
+                  title: (tooltipItems) => {
+                    const index = tooltipItems[0].dataIndex;
+                    return `Mes: ${chartData.labels[index]}`;
+                  },
+                  label: (tooltipItem) => {
+                    const index = tooltipItem.dataIndex;
+                    const total = chartData.publications[index];
+                    return `Total de Publicaciones: ${total}`;
+                  }
+                }
+              }
             }
           }
         });
       }
     }
-  }  
-
-  onPointClick(elements: any, chartData: any): void {
-    const index = elements[0]?.index;
-    if (index !== undefined) {
-      const selectedData = chartData[index];
+  }
   
-      this.openDetailsModal(
-        selectedData.label,
-        selectedData.currentCount,
-        selectedData.prevCount,
-        selectedData.growthRate
-      );
+
+  //selectedMonthTasa
+  // Manejar el clic en el punto del gráfico
+  // onPointClick(elements: any, chartData: any): void {
+  //   const index = elements[0]?.index;
+  //   if (index !== undefined) {
+  //     const selectedData = chartData[index];
+  
+  //     this.openDetailsModal(
+  //       selectedData.label,
+  //       selectedData.currentCount,
+  //       selectedData.prevCount,
+  //       selectedData.growthRate
+  //     );
+  //   }
+  // }
+    // Abre el modal con la información específica del punto
+    onPointClick(elements: any, chartData: any): void {
+      const index = elements[0]?.index;
+      if (index !== undefined) {
+        const selectedData = {
+          month: chartData.labels[index],
+          currentCount: chartData.data[index],
+          prevCount: index > 0 ? chartData.data[index - 1] : 0,
+          growthRate: chartData.growthRates[index]
+        };
+        this.openDetailsModal(selectedData);
     }
   }
   
 
-  createAverageChart(chartData: any): void {
-  // Verificar si estamos en el entorno del navegador antes de acceder al DOM
-  if (isPlatformBrowser(this.platformId)) {
+  // openDetailsModal(month: string, currentCount: number, prevCount: number, growthRate: number): void {
+  //   this.dialog.open(ModalTasaComponent, {
+  //     width: '500px',
+  //     data: {
+  //       month,
+  //       currentCount,
+  //       prevCount,
+  //       growthRate
+  //     }
+  //   });
 
-    const ctx = document.getElementById('averagePublicationsChart') as HTMLCanvasElement;
-
-    if (ctx) {
-        // Verificar si ya existe un gráfico y destruirlo antes de crear uno nuevo
-        if (this.averageChart) {
-            this.averageChart.destroy();
-        }
-
-        // Crear el nuevo gráfico
-        this.averageChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: chartData.labels,
-                datasets: [{
-                    label: 'Promedio de Publicaciones',
-                    data: chartData.data,
-                    backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(255, 206, 86, 0.6)'],
-                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 206, 86, 1)'],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Periodo',
-                            color: '#666',
-                            font: {
-                                size: 14,
-                                weight: 'bold'
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(200, 200, 200, 0.2)'
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Cantidad de Publicaciones',
-                            color: '#666',
-                            font: {
-                                size: 14,
-                                weight: 'bold'
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(200, 200, 200, 0.2)'
-                        }
-                    }
-                },
-                plugins: {
-                    legend: { display: true, position: 'top' },
-                    tooltip: { enabled: true }
-                }
-            }
-        });
+    // Abre el componente modal con la información del punto seleccionado
+    openDetailsModal(selectedData: any): void {
+      this.dialog.open(ModalTasaComponent, {
+        data: selectedData
+      });
     }
-  }
-  }
+  
 
-  // Esta función calculará la tasa de decrecimiento en las publicaciones, 
-  // comparando meses en los que hubo menos publicaciones en comparación con el mes anterior:
-  prepareDeclineData(publications: any[]): any {
-    const groupedData: { [monthYear: string]: number } = {};
-
-    // Agrupar publicaciones por mes
-    publications.forEach(pub => {
-        const dateStr = pub.fecha_ayudantia;
-
-        if (dateStr) {
-            const [day, month, year] = dateStr.split('-').map((part: string) => parseInt(part, 10));
-            const formattedMonthYear = `${month.toString().padStart(2, '0')}-${year}`;
-
-            if (!groupedData[formattedMonthYear]) {
-                groupedData[formattedMonthYear] = 0;
-            }
-            groupedData[formattedMonthYear]++;
-        }
-    });
-
-    const labels = Object.keys(groupedData).sort((a, b) => {
-        const [monthA, yearA] = a.split('-').map(part => parseInt(part, 10));
-        const [monthB, yearB] = b.split('-').map(part => parseInt(part, 10));
-
-        const dateA = new Date(yearA, monthA - 1);
-        const dateB = new Date(yearB, monthB - 1);
-
-        return dateA.getTime() - dateB.getTime();
-    });
-
-    // Calcular tasa de decrecimiento entre meses
-    const data = labels.map((label, index) => {
-        if (index === 0) return 0; // El primer mes no tiene decrecimiento comparativo
-        const prevCount = groupedData[labels[index - 1]];
-        const currentCount = groupedData[label];
-        return prevCount > currentCount ? ((prevCount - currentCount) / prevCount) * 100 : 0; // Tasa de decrecimiento en porcentaje
-    });
-
-    return { labels, data };
-  }
+  
 
   //Esta función calculará la tasa de crecimiento comparando el número de publicaciones en meses consecutivos
   prepareGrowthRateData(publications: any[]): any {
@@ -451,7 +550,6 @@ export class DashboardComponent implements OnInit{
     const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
     return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
   }
-
 
 }
 
