@@ -24,7 +24,49 @@ Gestión de Usuarios
 
 Gestión de Facturación
    - Gestión de facturación y pagos con tutores.
-   
+
+
+            Aquí tienes el prompt actualizado:
+
+---
+
+**Objetivo**: Desarrollar un **Sistema de Gestión de Facturación** en Angular 18 (standalone) para el panel de administración de la aplicación 'teAyudoApp'. La aplicación conecta estudiantes (que publican solicitudes de ayudantía) con tutores (que se postulan a estas solicitudes). El sistema de facturación debe gestionar los pagos basándose en la relación entre las colecciones `Postulaciones` y `Publicaciones` almacenadas en Firebase.
+
+### Requisitos:
+
+1. **Integración de Datos**:
+   - Utilizar Firebase para obtener datos de la colección `Postulaciones` donde el estado sea `ACEPTADO` y relacionarlos con la colección `Publicaciones` donde el estado sea `FINALIZADA`.
+   - Asegurarse de que solo se relacione el ID del tutor entre estas colecciones para el seguimiento y verificación.
+
+2. **Búsqueda por RUT**:
+   - Permitir la búsqueda de tutores únicamente utilizando su **RUT** (Rol Único Tributario). Una vez obtenido el RUT, el sistema debe traer toda la información relacionada con el tutor para proceder a la facturación.
+   - Cargar automáticamente los datos del tutor desde la colección `Usuarios`, filtrando solo aquellos que tienen el rol de **TUTOR**.
+
+3. **Cálculo de Facturación**:
+   - Multiplicar el campo `duracion` de la colección `Publicaciones` por **5,000 CLP** (Pesos Chilenos) para calcular las ganancias totales del tutor en un período determinado (por ejemplo, mensual).
+   - Aplicar un **5% de comisión** a las ganancias totales, que representa la tarifa por el servicio que cobra 'Yo te ayudo'. Restar esta cantidad del total para determinar el pago neto para cada tutor.
+
+4. **Diseño del Dashboard y Formulario**:
+   - Implementar una interfaz responsiva y amigable usando Angular Material para visualizar:
+     - Un formulario que se llene automáticamente con los datos del tutor y las publicaciones relacionadas al buscar por RUT.
+     - Una lista de todas las sesiones de ayudantía finalizadas junto con las ganancias correspondientes por tutor.
+     - Pagos netos totales realizados y comisiones recaudadas en un período dado.
+   - Incluir opciones para filtrar por mes, tutor o estado para proporcionar flexibilidad en los reportes.
+
+5. **Automatización y Notificación**:
+   - Automatizar el proceso de facturación para calcular ganancias y aplicar tarifas cada vez que el estado de una publicación cambie a `FINALIZADA`.
+   - Implementar notificaciones o alertas para los tutores, detallando sus ganancias mensuales y la comisión descontada.
+
+6. **Exportación de Datos**:
+   - Agregar funcionalidad para exportar los datos de facturación en formato PDF para uso contable externo, permitiendo que el administrador descargue un resumen detallado de la facturación desde el formulario.
+
+### Notas Adicionales:
+- Asegurar que la implementación esté alineada con las mejores prácticas de Angular, utilizando componentes standalone y el SDK de Firebase para actualizaciones en tiempo real.
+- Aplicar medidas de seguridad para proteger información sensible como los datos de ganancias y RUT de los tutores.
+
+¿Te gustaría añadir validación y formateo automático del RUT en el campo de entrada?
+
+
 Notificaciones
    - Notificaciones automáticas para estudiantes y tutores.
    - Notificaciones personalizadas por publicaciones.

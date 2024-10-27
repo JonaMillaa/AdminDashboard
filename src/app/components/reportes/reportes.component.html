@@ -1,1 +1,32 @@
-<p>reportes works!</p>
+<!-- src/app/components/reportes/reportes.component.html -->
+<div class="container">
+  <mat-card>
+    <h2>Buscar Tutor por RUT</h2>
+    <form [formGroup]="tutorForm" (ngSubmit)="buscarTutor()">
+      <mat-form-field appearance="fill">
+        <mat-label>RUT del Tutor</mat-label>
+        <input matInput formControlName="rut" placeholder="Ingrese el RUT">
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit">Buscar</button>
+    </form>
+  </mat-card>
+
+  <div *ngIf="tutorData">
+    <mat-card>
+      <h3>Boleta de Honorarios</h3>
+      <p>RUT: {{ tutorData.rut }}</p>
+      <p>Nombre: {{ tutorData.nombre }}</p>
+      <p>Email: {{ tutorData.email }}</p>
+      <h4>Sesiones Finalizadas</h4>
+      <ul>
+        <li *ngFor="let sesion of sesiones">
+          Duración: {{ sesion.duracion }} hrs - Ganancia: {{ sesion.duracion * 5000 }} CLP
+        </li>
+      </ul>
+      <h4>Total Ganancias: {{ totalGanancias }} CLP</h4>
+      <h4>Comisión (5%): {{ comision }} CLP</h4>
+      <h4>Pago Neto: {{ pagoNeto }} CLP</h4>
+      <button mat-raised-button color="accent" (click)="generarPDF()">Exportar a PDF</button>
+    </mat-card>
+  </div>
+</div>

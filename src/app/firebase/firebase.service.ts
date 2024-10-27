@@ -39,7 +39,7 @@ export class FirebaseService {
     return collectionData(activosQuery).pipe(
       map((usuarios) => (usuarios as Usuario[]).length)
     );
-  }  
+  }
 
   getProblemasResueltos(): Observable<number> {
     const usuariosCollection = collection(this.firestore, 'Preguntas_ayudantia');
@@ -178,7 +178,7 @@ export class FirebaseService {
 
   // Nuevo método para obtener todas las publicaciones
   getAllPublications(): Observable<any[]> {
-    return this.getCollection<any>('Publicaciones'); 
+    return this.getCollection<any>('Publicaciones');
   }
 
   // Método para obtener publicaciones por formato
@@ -199,7 +199,28 @@ export class FirebaseService {
     return collectionData(rangeQuery).pipe(
         map((publications) => publications)
     );
-}
+  }
+
+  // Obtener postulaciones aceptadas
+  getAcceptedPostulaciones(): Observable<any[]> {
+    const postulacionesRef = collection(this.firestore, 'Postulaciones');
+    const q = query(postulacionesRef, where('estado_postulacion', '==', 'ACEPTADO'));
+    return collectionData(q, { idField: 'id' });
+  }
+
+  // Obtener publicaciones finalizadas
+  getFinalizedPublicaciones(): Observable<any[]> {
+    const publicacionesRef = collection(this.firestore, 'Publicaciones');
+    const q = query(publicacionesRef, where('estado', '==', 'FINALIZADA'));
+    return collectionData(q, { idField: 'id' });
+  }
+
+  // Obtener información de usuarios filtrando por RUT
+  getUserByRUT(rut: string): Observable<any[]> {
+    const usersRef = collection(this.firestore, 'Usuarios');
+    const q = query(usersRef, where('Rut', '==', rut), where('Rol', '==', 'TUTOR'));
+    return collectionData(q, { idField: 'id' });
+  }
 
 }
 
