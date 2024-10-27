@@ -16,7 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalTasaComponent } from '../../components/modals/modal-tasa/modal-tasa.component';
 import { ModalDetallesDiaComponent } from '../../components/modals/modal-detalles-dia/modal-detalles-dia.component';
-import { Chart} from 'chart.js';
+import { Chart} from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 Chart.register(ChartDataLabels);
 import { GrowthRateData } from '../../models/interfaces';
