@@ -18,6 +18,8 @@ import { ModalTasaComponent } from '../../components/modals/modal-tasa/modal-tas
 import { ModalDetallesDiaComponent } from '../../components/modals/modal-detalles-dia/modal-detalles-dia.component';
 import { Chart} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+Chart.register(ChartDataLabels);
+import { GrowthRateData } from '../../models/interfaces';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,14 +37,14 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
     MatFormFieldModule,
     MatSelectModule,
     MatDialogModule,
-  
+
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 
 export class DashboardComponent implements OnInit{
-  
+
   totalUsuariosActivos: number = 0;
   totalTutores: number = 0;
   totalEstudiantes: number = 0;
@@ -61,7 +63,7 @@ export class DashboardComponent implements OnInit{
   selectedPrevCount: number = 0;
 
 
-  
+
   sunburstChart: any;
   selectedMonth: string = '10'; // Mes por defecto: Enero
   months = [
@@ -86,7 +88,7 @@ export class DashboardComponent implements OnInit{
   analysisMessage: string = '';
 
   constructor(
-    private firebaseService: FirebaseService, 
+    private firebaseService: FirebaseService,
     @Inject(PLATFORM_ID) private platformId: Object,
     private dialog: MatDialog
   ) {}
@@ -95,10 +97,14 @@ export class DashboardComponent implements OnInit{
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
     this.loadDashboardData();
-    this.loadIndicators();
     this.loadSunburstData(this.selectedMonth);
+    this.firebaseService.getPublications().subscribe(publications => {
+      const chartData = this.prepareGrowthRateData(publications);
+      this.createGrowthRateChart(chartData); // Crear el gráfico con los datos iniciales
+    });
     }
   }
+
 
   // Función para cambiar el mes seleccionado
   onMonthChange(event: MatSelectChange): void {
@@ -287,22 +293,59 @@ export class DashboardComponent implements OnInit{
     });
   }
 
-  loadIndicators(): void {
-    this.firebaseService.getAllPublications().subscribe(publications => {
-        const growthData = this.prepareGrowthRateData(publications);
-        // Crear gráficos una sola vez con los datos recibidos
-        this.createGrowthRateChart(growthData);
+
+
+
+
+
+  selectedGrowthMonth: string = '10'; // Mes por defecto: Octubre
+  growthMonths = [
+    { name: 'Enero', value: '01' },
+    { name: 'Febrero', value: '02' },
+    { name: 'Marzo', value: '03' },
+    { name: 'Abril', value: '04' },
+    { name: 'Mayo', value: '05' },
+    { name: 'Junio', value: '06' },
+    { name: 'Julio', value: '07' },
+    { name: 'Agosto', value: '08' },
+    { name: 'Septiembre', value: '09' },
+    { name: 'Octubre', value: '10' },
+    { name: 'Noviembre', value: '11' },
+    { name: 'Diciembre', value: '12' },
+  ];
+
+
+  onGrowthMonthChange(selectedGrowthMonth: string): void {
+    this.firebaseService.getPublications().subscribe(publications => {
+      const filteredData = publications.filter(pub => {
+        const [, month] = pub.fecha_ayudantia.split('-');
+        return month === selectedGrowthMonth;
+      });
+
+      // Preparar los datos para el gráfico de tasa de crecimiento
+      const chartData = this.prepareGrowthRateData(filteredData);
+      this.createGrowthRateChart(chartData);
+
+      // Obtener información detallada del mes seleccionado para el modal
+      const selectedData: GrowthRateData | undefined = chartData.rawData.find((data: GrowthRateData) =>
+        data.label.split('-')[0] === selectedGrowthMonth);
+      if (selectedData) {
+        this.openDetailsModal(selectedData);
+      }
+    });
+  }
+
+
+
+  openDetailsModal(selectedData: any): void {
+    this.dialog.open(ModalTasaComponent, {
+      data: selectedData
     });
   }
 
 
 
 
-
-
-
-
-  
   // Función para calcular la tasa de crecimiento
   calculateGrowthRate(publications: any[]): void {
     const currentMonth = new Date().getMonth();
@@ -341,65 +384,22 @@ export class DashboardComponent implements OnInit{
               backgroundColor: 'rgba(54, 162, 235, 0.6)',
               borderColor: 'rgba(54, 162, 235, 1)',
               borderWidth: 2,
-              fill: true,
-              pointRadius: 5,
-              pointHoverRadius: 8
+              fill: true
             }]
           },
           options: {
-            onClick: (event, elements) => {
-              if (elements.length) {
-                this.onPointClick(elements, chartData);
-              }
-            },
             responsive: true,
             maintainAspectRatio: false,
+            plugins: {
+              legend: { display: true, position: 'top' }
+            },
             scales: {
               x: {
-                title: {
-                  display: true,
-                  text: 'Meses',
-                  color: '#666',
-                  font: {
-                    size: 14,
-                    weight: 'bold'
-                  }
-                },
-                grid: {
-                  color: 'rgba(200, 200, 200, 0.2)'
-                }
+                title: { display: true, text: 'Meses' }
               },
               y: {
                 beginAtZero: true,
-                title: {
-                  display: true,
-                  text: 'Crecimiento (%)',
-                  color: '#666',
-                  font: {
-                    size: 14,
-                    weight: 'bold'
-                  }
-                },
-                grid: {
-                  color: 'rgba(200, 200, 200, 0.2)'
-                }
-              }
-            },
-            plugins: {
-              legend: { display: true, position: 'top' },
-              tooltip: {
-                enabled: true,
-                callbacks: {
-                  title: (tooltipItems) => {
-                    const index = tooltipItems[0].dataIndex;
-                    return `Mes: ${chartData.labels[index]}`;
-                  },
-                  label: (tooltipItem) => {
-                    const index = tooltipItem.dataIndex;
-                    const total = chartData.publications[index];
-                    return `Total de Publicaciones: ${total}`;
-                  }
-                }
+                title: { display: true, text: 'Crecimiento (%)' }
               }
             }
           }
@@ -407,7 +407,8 @@ export class DashboardComponent implements OnInit{
       }
     }
   }
-  
+
+
 
   //selectedMonthTasa
   // Manejar el clic en el punto del gráfico
@@ -415,7 +416,7 @@ export class DashboardComponent implements OnInit{
   //   const index = elements[0]?.index;
   //   if (index !== undefined) {
   //     const selectedData = chartData[index];
-  
+
   //     this.openDetailsModal(
   //       selectedData.label,
   //       selectedData.currentCount,
@@ -437,7 +438,7 @@ export class DashboardComponent implements OnInit{
         this.openDetailsModal(selectedData);
     }
   }
-  
+
 
   // openDetailsModal(month: string, currentCount: number, prevCount: number, growthRate: number): void {
   //   this.dialog.open(ModalTasaComponent, {
@@ -450,44 +451,29 @@ export class DashboardComponent implements OnInit{
   //     }
   //   });
 
-    // Abre el componente modal con la información del punto seleccionado
-    openDetailsModal(selectedData: any): void {
-      this.dialog.open(ModalTasaComponent, {
-        data: selectedData
-      });
-    }
-  
-
-  
-
   //Esta función calculará la tasa de crecimiento comparando el número de publicaciones en meses consecutivos
   prepareGrowthRateData(publications: any[]): any {
     const groupedData: { [monthYear: string]: number } = {};
-  
-    // Agrupar publicaciones por mes y año
+
     publications.forEach(pub => {
       const dateStr = pub.fecha_ayudantia;
       if (dateStr) {
         const [day, month, year] = dateStr.split('-').map((part: string) => parseInt(part, 10));
         const formattedMonthYear = `${month.toString().padStart(2, '0')}-${year}`;
-  
+
         if (!groupedData[formattedMonthYear]) {
           groupedData[formattedMonthYear] = 0;
         }
         groupedData[formattedMonthYear]++;
       }
     });
-  
-    // Ordenar las etiquetas de los meses
+
     const labels = Object.keys(groupedData).sort((a, b) => {
-      const [monthA, yearA] = a.split('-').map((part: string) => parseInt(part, 10));
-      const [monthB, yearB] = b.split('-').map((part: string) => parseInt(part, 10));
-      const dateA = new Date(yearA, monthA - 1);
-      const dateB = new Date(yearB, monthB - 1);
-      return dateA.getTime() - dateB.getTime();
+      const [monthA, yearA] = a.split('-').map(Number);
+      const [monthB, yearB] = b.split('-').map(Number);
+      return new Date(yearA, monthA - 1).getTime() - new Date(yearB, monthB - 1).getTime();
     });
-  
-    // Calcular los datos para el gráfico
+
     const data = labels.map((label, index) => {
       const currentCount = groupedData[label];
       const prevCount = index > 0 ? groupedData[labels[index - 1]] : 0;
@@ -496,16 +482,19 @@ export class DashboardComponent implements OnInit{
         label,
         currentCount,
         prevCount,
-        growthRate: parseFloat(growthRate.toFixed(2)) // Limitar a dos decimales
+        growthRate: parseFloat(growthRate.toFixed(2))
       };
     });
-  
+
     return {
       labels: data.map(d => d.label),
       data: data.map(d => d.growthRate),
-      rawData: data // Información detallada para el modal
+      rawData: data
     };
-  }  
+  }
+
+
+
 
   //Esta función calculará los promedios de publicaciones mensuales y semanales
   prepareAverageData(publications: any[]): any {
