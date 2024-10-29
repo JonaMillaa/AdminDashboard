@@ -31,8 +31,8 @@ export class ModalTasaComponent {
     return `${monthPart.padStart(2, '0')}-${yearPart}`;
   }
 
-  calculateDifference(currentCount: number, prevCount: number): string {
-    return (currentCount - prevCount).toString();
+  calculateDifference(): string {
+    return (this.data.currentCount - this.data.prevCount).toString();
   }
 
   // Generar el texto de análisis y determinar el color basado en la tasa de crecimiento

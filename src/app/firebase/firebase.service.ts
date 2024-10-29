@@ -212,15 +212,16 @@ export class FirebaseService {
   getFinalizedPublicaciones(): Observable<any[]> {
     const publicacionesRef = collection(this.firestore, 'Publicaciones');
     const q = query(publicacionesRef, where('estado', '==', 'FINALIZADA'));
-    return collectionData(q, { idField: 'id' });
+    return collectionData(q, { idField: 'ID' });
   }
 
   // Obtener información de usuarios filtrando por RUT
   getUserByRUT(rut: string): Observable<any[]> {
     const usersRef = collection(this.firestore, 'Usuarios');
     const q = query(usersRef, where('Rut', '==', rut), where('Rol', '==', 'TUTOR'));
-    return collectionData(q, { idField: 'id' });
+    return collectionData(q, { idField: 'ID' });
   }
+
   getPublicationsByMonthAndYear(month: string, year: number): Observable<any[]> {
     const publicationsCollection = collection(this.firestore, 'Publicaciones');
     const startDate = `${year}-${month}-01`;

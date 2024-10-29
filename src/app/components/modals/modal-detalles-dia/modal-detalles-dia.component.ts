@@ -1,10 +1,10 @@
 
 import { Component, Inject, AfterViewInit, PLATFORM_ID, ChangeDetectorRef } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { Chart } from 'chart.js';
 import { isPlatformBrowser } from '@angular/common';
-
+import { ModalNoDataComponent } from '../modal-no-data/modal-no-data.component';
 
 @Component({
   selector: 'app-modal-detalles-dia',
@@ -22,10 +22,15 @@ export class ModalDetallesDiaComponent implements AfterViewInit{
   analysisColor: string = '#000';
 
   constructor(
+    private dialogRef: MatDialogRef<ModalNoDataComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     @Inject(PLATFORM_ID) private platformId: Object,
     private cdr: ChangeDetectorRef // Inyección de ChangeDetectorRef
   ) {}
+
+  closeModal(): void {
+    this.dialogRef.close();
+  }
 
   ngAfterViewInit(): void {
     this.setAnalysisColor();

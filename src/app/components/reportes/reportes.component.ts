@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { FirebaseService } from '../../firebase/firebase.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-reportes',
@@ -40,8 +41,11 @@ export class ReportesComponent implements OnInit {
     let rut = this.tutorForm.get('rut')?.value;
     rut = this.formatRUT(rut); // Formatear el RUT correctamente
 
+    console.log("RUT después de formatear:", rut);
+
     if (rut) {
         this.firebaseService.getUserByRUT(rut).subscribe((data) => {
+          console.log("Datos recibidos de Firebase:", data); // Debugging
             if (data.length > 0) {
                 this.tutorData = data[0];
                 this.cargarSesiones();
@@ -52,7 +56,7 @@ export class ReportesComponent implements OnInit {
             }
         });
     }
-}
+  }
 
 
   cargarSesiones(): void {
@@ -76,26 +80,40 @@ export class ReportesComponent implements OnInit {
     return `${cuerpo}-${dv}`;
 }
 
+  @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
 
-  generarPDF(): void {
-    const doc = new jsPDF();
-    doc.text('Boleta de Honorarios - TeAyudoApp', 10, 10);
-    doc.text(`RUT: ${this.tutorData?.rut}`, 10, 20);
-    doc.text(`Nombre: ${this.tutorData?.nombre}`, 10, 30);
-    doc.text(`Email: ${this.tutorData?.email}`, 10, 40);
+  isDownloading = false; // Estado para mostrar el mensaje de descarga
 
-    let y = 50;
-    this.sesiones.forEach((sesion, index) => {
-      doc.text(`Sesión ${index + 1}: ${sesion.duracion} hrs - ${sesion.duracion * 5000} CLP`, 10, y);
-      y += 10;
+  // Método para generar el PDF
+  generatePDF(): void {
+    // Ocultar el botón de exportación antes de generar el PDF
+    const exportButton = document.getElementById('exportButton');
+    if (exportButton) {
+      exportButton.style.display = 'none';
+    }
+
+    this.isDownloading = true; // Activar el mensaje de descarga y loader
+
+    const DATA = this.pdfContent.nativeElement;
+    html2canvas(DATA, { scale: 2 }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+
+      // Añade la imagen generada al PDF
+      const imgWidth = 190; // Ajuste de ancho para A4
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+
+      // Guardar el PDF
+      pdf.save(`Boleta_Honorarios_${this.tutorData?.Rut}.pdf`);
+
+      // Extender la duración del loader por 2 segundos
+      setTimeout(() => {
+        this.isDownloading = false;
+      }, 3000);
     });
-
-    doc.text(`Total Ganancias: ${this.totalGanancias} CLP`, 10, y + 10);
-    doc.text(`Comisión (5%): ${this.comision} CLP`, 10, y + 20);
-    doc.text(`Pago Neto: ${this.pagoNeto} CLP`, 10, y + 30);
-
-    doc.save(`Boleta_Honorarios_${this.tutorData?.rut}.pdf`);
   }
+
 }
 
 

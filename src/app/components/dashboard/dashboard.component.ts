@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalTasaComponent } from '../../components/modals/modal-tasa/modal-tasa.component';
 import { ModalDetallesDiaComponent } from '../../components/modals/modal-detalles-dia/modal-detalles-dia.component';
+import { ModalNoDataComponent } from '../../components/modals/modal-no-data/modal-no-data.component';
 import { Chart} from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 Chart.register(ChartDataLabels);
@@ -315,37 +316,61 @@ export class DashboardComponent implements OnInit{
   ];
 
 
+
   onGrowthMonthChange(selectedGrowthMonth: string): void {
     this.firebaseService.getPublications().subscribe(publications => {
+      // Filtrar publicaciones para el mes seleccionado
       const filteredData = publications.filter(pub => {
         const [, month] = pub.fecha_ayudantia.split('-');
         return month === selectedGrowthMonth;
       });
-
-      // Preparar los datos para el gráfico de tasa de crecimiento
-      const chartData = this.prepareGrowthRateData(filteredData);
+  
+      if (filteredData.length === 0) {
+        // Si no hay datos para el mes, mostrar el modal de "sin datos"
+        this.dialog.open(ModalNoDataComponent, {
+          data: { message: 'No hay datos disponibles para el mes seleccionado.' }
+        });
+        return;
+      }
+  
+      // Preparar datos y actualizar el gráfico de tasa de crecimiento
+      const chartData = this.prepareGrowthRateData(publications); // Todos los datos para mantener meses en eje X
       this.createGrowthRateChart(chartData);
-
-      // Obtener información detallada del mes seleccionado para el modal
+  
+      // Mostrar detalles del mes seleccionado en el modal
       const selectedData: GrowthRateData | undefined = chartData.rawData.find((data: GrowthRateData) =>
-        data.label.split('-')[0] === selectedGrowthMonth);
+        data.label.split('-')[0] === selectedGrowthMonth
+      );
       if (selectedData) {
         this.openDetailsModal(selectedData);
       }
     });
   }
+  
 
 
 
-  openDetailsModal(selectedData: any): void {
-    this.dialog.open(ModalTasaComponent, {
-      data: selectedData
-    });
+  openDetailsModal(data: GrowthRateData): void {
+    if (data) {
+      this.dialog.open(ModalTasaComponent, { data });
+    } else {
+      // Si no hay datos, mostrar el modal con mensaje de "No hay datos"
+      this.dialog.open(ModalNoDataComponent);
+    }
   }
 
-
-
-
+  // onMonthSelect(selectedGrowthMonth: string): void {
+  //   const selectedData = this.chartData.rawData.find(data => data.label.split('-')[0] === selectedGrowthMonth);
+  
+  //   if (selectedData) {
+  //     this.openDetailsModal(selectedData);
+  //   } else {
+  //     this.dialog.open(ModalNoDataComponent, {
+  //       data: { message: 'No hay datos para el mes seleccionado.' }
+  //     });
+  //   }
+  // }
+  
   // Función para calcular la tasa de crecimiento
   calculateGrowthRate(publications: any[]): void {
     const currentMonth = new Date().getMonth();
@@ -408,50 +433,7 @@ export class DashboardComponent implements OnInit{
     }
   }
 
-
-
-  //selectedMonthTasa
-  // Manejar el clic en el punto del gráfico
-  // onPointClick(elements: any, chartData: any): void {
-  //   const index = elements[0]?.index;
-  //   if (index !== undefined) {
-  //     const selectedData = chartData[index];
-
-  //     this.openDetailsModal(
-  //       selectedData.label,
-  //       selectedData.currentCount,
-  //       selectedData.prevCount,
-  //       selectedData.growthRate
-  //     );
-  //   }
-  // }
-    // Abre el modal con la información específica del punto
-    onPointClick(elements: any, chartData: any): void {
-      const index = elements[0]?.index;
-      if (index !== undefined) {
-        const selectedData = {
-          month: chartData.labels[index],
-          currentCount: chartData.data[index],
-          prevCount: index > 0 ? chartData.data[index - 1] : 0,
-          growthRate: chartData.growthRates[index]
-        };
-        this.openDetailsModal(selectedData);
-    }
-  }
-
-
-  // openDetailsModal(month: string, currentCount: number, prevCount: number, growthRate: number): void {
-  //   this.dialog.open(ModalTasaComponent, {
-  //     width: '500px',
-  //     data: {
-  //       month,
-  //       currentCount,
-  //       prevCount,
-  //       growthRate
-  //     }
-  //   });
-
-  //Esta función calculará la tasa de crecimiento comparando el número de publicaciones en meses consecutivos
+ //Esta función calculará la tasa de crecimiento comparando el número de publicaciones en meses consecutivos
   prepareGrowthRateData(publications: any[]): any {
     const groupedData: { [monthYear: string]: number } = {};
 
@@ -487,13 +469,43 @@ export class DashboardComponent implements OnInit{
     });
 
     return {
-      labels: data.map(d => d.label),
+      labels,
       data: data.map(d => d.growthRate),
       rawData: data
     };
   }
 
 
+
+
+  //selectedMonthTasa
+  // Manejar el clic en el punto del gráfico
+  // onPointClick(elements: any, chartData: any): void {
+  //   const index = elements[0]?.index;
+  //   if (index !== undefined) {
+  //     const selectedData = chartData[index];
+
+  //     this.openDetailsModal(
+  //       selectedData.label,
+  //       selectedData.currentCount,
+  //       selectedData.prevCount,
+  //       selectedData.growthRate
+  //     );
+  //   }
+  // }
+    // Abre el modal con la información específica del punto
+  //   onPointClick(elements: any, chartData: any): void {
+  //     const index = elements[0]?.index;
+  //     if (index !== undefined) {
+  //       const selectedData = {
+  //         month: chartData.labels[index],
+  //         currentCount: chartData.data[index],
+  //         prevCount: index > 0 ? chartData.data[index - 1] : 0,
+  //         growthRate: chartData.growthRates[index]
+  //       };
+  //       this.openDetailsModal(selectedData);
+  //   }
+  // }
 
 
   //Esta función calculará los promedios de publicaciones mensuales y semanales
