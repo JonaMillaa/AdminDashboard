@@ -18,7 +18,7 @@ Gestión de Publicaciones
 Monitoreo de Desempeño
    - Mejores ayudantías (calificadas o registradas).
    - Rankings de tutores (calificación y áreas de especialización).
-   - KPI --> El total de todos los pagos de tutores. 
+   - KPI --> El total de todos los pagos de tutores.
          -Cuanto esta generando la publicación en general.
          -Cuanto esta generando la publicación por categoría.
          -Cuanto esta generando la publicación por tutor.
@@ -33,7 +33,6 @@ Gestión de Usuarios
    - Historial de actividades de estudiantes y tutores.
 
 Gestión de Facturación
-<<<<<<< HEAD
    - Gestión de facturación y pagos con tutores.
 
 
@@ -77,13 +76,10 @@ Gestión de Facturación
 
 ¿Te gustaría añadir validación y formateo automático del RUT en el campo de entrada?
 
-
-=======
    - Gestión de facturación (Detalle del mes como de honorario)y pagos con tutores.
    - El 5% del total de pagos de tutores es generado automáticamente.
 
-   
->>>>>>> origin/master
+
 Notificaciones
    - Notificaciones automáticas para estudiantes y tutores.
    - Notificaciones personalizadas por publicaciones.
