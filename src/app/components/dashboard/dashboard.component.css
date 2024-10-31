@@ -52,7 +52,7 @@ h3{
     display: flex;
     align-items: center;
     width: 100%;
-    align-items: stretch;
+    /* align-items: stretch;  */
     flex-wrap: wrap;
     padding: 0 16px;
   }
@@ -97,14 +97,6 @@ h3{
     border-radius: 7px;
   }
 
-  .nav-item.ayudantias {
-    background-color: #dc3545;
-    width: 17rem;
-    padding: 5px;
-    margin-top: 5px;
-    border-radius: 7px;
-  }
-
   .navbar-links {
     display: grid;
     gap: 10px;
@@ -141,61 +133,35 @@ h3{
   }
 
   .nav-link:hover {
-    color: #ffcc00;
+    color: #ffcc00; /* Cambia el color al pasar el cursor */
   }
 
-/* Estilos responsivos */
-@media (max-width: 1024px) {
-    .navbar-row {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 8px;
-      gap: 8px;
-    }
+/* Media Query para laptops */
+@media (min-width: 1024px) and (max-width: 1440px) {
 
-    .navbar-title {
-      font-size: 1.3rem;
-      margin-bottom: 8px;
-    }
+  .navbar-links{
 
-    .navbar-links {
-      width: 100%;
-      flex-direction: column;
-      align-items: flex-start;
-    }
+    margin-left: 10px;
 
-    .nav-item {
-      width: 100%;
-      justify-content: flex-start;
-    }
-
-    .nav-link {
-      width: 100%;
-      text-align: left;
-    }
+    /* display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px; */
   }
 
-  @media (max-width: 768px) {
-    .navbar-title {
-      font-size: 1.2rem;
-      margin-bottom: 8px;
-    }
-
-    .navbar-links {
-      width: 100%;
-      gap: 8px;
-    }
-
-    .nav-item {
-      width: 100%;
-      justify-content: space-between;
-      padding: 4px 0;
-    }
-
-    .nav-link {
-      font-size: 0.9rem;
-      width: 100%;
-    }
+  .dashboard-indicators {
+    margin-right: 30px;
   }
+
+  .indicator {
+    height: 600px;
+    margin-right: none;
+  }
+
+  .fixed-size-chart {
+    width: 100% !important;
+  }
+
+}
+
 
 

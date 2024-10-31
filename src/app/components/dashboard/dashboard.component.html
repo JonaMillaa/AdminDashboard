@@ -12,16 +12,12 @@
           <a routerLink="/tutores" class="nav-link">Tutores: {{ totalTutores }}</a>
         </div>
         <div class="nav-item estudiantes">
-          <mat-icon class="nav-icon">person_outline</mat-icon>
+          <mat-icon class="nav-icon">school</mat-icon>
           <a routerLink="/estudiantes" class="nav-link">Estudiantes: {{ totalEstudiantes }}</a>
         </div>
         <div class="nav-item publicaciones">
           <mat-icon class="nav-icon">library_books</mat-icon>
           <a routerLink="/publicaciones" class="nav-link">Publicaciones en Curso: {{ totalPublicaciones }}</a>
-        </div>
-        <div class="nav-item ayudantias">
-          <mat-icon class="nav-icon">work_outline</mat-icon>
-          <a routerLink="/ayudantias" class="nav-link">Ayudantías en Curso: {{ totalAyudantias }}</a>
         </div>
       </div>
     </mat-toolbar-row>
@@ -46,7 +42,7 @@
 
     <!-- Promedio de Publicaciones -->
     <div class="indicator">
-      <h3>Distribución de Publicaciones por Mes y Día</h3>
+      <h3>Promedio de Publicaciones por Mes y Día</h3>
       <mat-form-field appearance="fill" class="filter">
         <mat-label>Mes</mat-label>
         <mat-select [(value)]="selectedMonth" (selectionChange)="onMonthChange($event)">
