@@ -139,9 +139,30 @@ h3{
 /* Media Query para laptops */
 @media (min-width: 1024px) and (max-width: 1440px) {
 
+  /* Estilos específicos para cada nav-item */
+.nav-item.usuarios {
+    width: 13rem;
+  }
+
+  .nav-item.tutores {
+    width: 11rem;
+  }
+
+  .nav-item.estudiantes {
+    width: 11rem;
+  }
+
+  .nav-item.publicaciones {
+    width: 16rem;
+  }
+
+  .nav-link {
+    font-size: 1rem;
+  }
+
   .navbar-links{
 
-    margin-left: 10px;
+    margin-left: 5px;
 
     /* display: grid;
     grid-template-columns: 1fr 1fr;
