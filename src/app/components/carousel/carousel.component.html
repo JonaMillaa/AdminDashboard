@@ -1,0 +1,7 @@
+<div class="carousel-container">
+  <button class="carousel-btn prev" (click)="prevSlide()">‹</button>
+  <div class="carousel-track" [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
+    <ng-content></ng-content>
+  </div>
+  <button class="carousel-btn next" (click)="nextSlide()">›</button>
+</div>

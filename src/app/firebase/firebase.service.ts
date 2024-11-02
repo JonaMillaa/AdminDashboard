@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, query, where } from '@angular/fire/firestore';
-import { Observable, of } from 'rxjs';
+import { Firestore, addDoc, collection, collectionData, query, where, orderBy} from '@angular/fire/firestore';
+import { Observable, forkJoin } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 import { Ayudantia } from '../models/ayudantia.model';
 import { Pregunta_ayudantia } from '../models/preguntas_ayudantia.model';
-
-import { map, catchError, combineLatestWith } from 'rxjs/operators';
+import { Publicacion } from '../models/publicacion.interface';
+import { Calificacion } from '../models/calificacion.interface';
+import { TutorRanking } from '../models/tutor-ranking.interface';
+import { map, switchMap, combineLatestWith } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -239,6 +241,40 @@ export class FirebaseService {
     return collectionData(publicationsCollection) as Observable<any[]>;
   }
 
+  // Obtener publicaciones más demandadas
+  getPublicacionesMasDemandadas(): Observable<Publicacion[]> {
+    const publicacionesRef = collection(this.firestore, 'Publicaciones');
+    const publicacionesQuery = query(publicacionesRef,
+      where('estado', '==', 'PUBLICADO'), // Filtrar publicaciones activas
+      orderBy('participantes', 'desc')
+    );
+    return collectionData(publicacionesQuery) as Observable<Publicacion[]>;
+  }
 
+  // Obtener ranking de tutores
+  getRankingTutores(): Observable<TutorRanking[]> {
+    const usuariosRef = collection(this.firestore, 'Usuarios');
+    const usuariosQuery = query(usuariosRef, where('Rol', '==', 'TUTOR'));
+  
+    return collectionData(usuariosQuery).pipe(
+      map((usuarios: Usuario[]) => usuarios.map((usuario) => ({
+        usuario,
+        publicaciones: collectionData(
+          query(
+            collection(this.firestore, 'Publicaciones'),
+            where('info_ayudantia.info_usuario.id_usuario', '==', usuario.ID),
+            where('info_ayudantia.estado_ayudantia', '==', 'PUBLICADO')
+          )
+        ) as Observable<Publicacion[]>,
+        calificaciones: collectionData(
+          query(
+            collection(this.firestore, 'Calificacion'),
+            where('id_receptor', '==', usuario.ID)
+          )
+        ) as Observable<Calificacion[]>
+      })))
+    );
+  }
+  
 }
 

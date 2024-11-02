@@ -16,8 +16,10 @@ Gestión de Publicaciones
    - Notificación de publicaciones sin postulantes.
 
 Monitoreo de Desempeño
-   - Mejores ayudantías (calificadas o registradas).
-   - Rankings de tutores (calificación y áreas de especialización).
+   - "Publicaciones más demandadas" se determinan por el número de participantes en cada publicación.(El número de participantes en una publicación 
+      es un indicador de su popularidad o demanda. Si una publicación tiene más participantes, significa que más personas están interesadas en esa 
+      ayudantía, ya sea porque el tema es de interés general, el tutor es reconocido, o la categoría es particularmente solicitada.
+   - Rankings de tutores (calificación y áreas de especialización).)
    - KPI --> El total de todos los pagos de tutores.
          -Cuanto esta generando la publicación en general.
          -Cuanto esta generando la publicación por categoría.
