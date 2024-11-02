@@ -12,8 +12,8 @@ import { FirebaseService } from '../../firebase/firebase.service';
 
 
 import { Publicacion } from '../../models/publicacion.interface';
-import { TutorRanking } from '../../models/tutor-ranking.interface'; 
-import { CarouselComponent } from '../carousel/carousel.component';
+import { TutorRanking } from '../../models/tutor-ranking.interface';
+import { CarouselModule } from '@coreui/angular';
 @Component({
   selector: 'app-monitoreo',
   standalone: true,
@@ -25,7 +25,7 @@ import { CarouselComponent } from '../carousel/carousel.component';
     RouterModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    CarouselComponent
+    CarouselModule
   ],
   templateUrl: './monitoreo.component.html',
   styleUrl: './monitoreo.component.css'
@@ -46,7 +46,7 @@ export class MonitoreoComponent implements OnInit {
         console.error('Error al cargar Publicaciones:', error);
       }
     });
-  
+
     this.firebaseService.getRankingTutores().subscribe({
       next: (ranking) => {
         this.rankingTutores = ranking.filter(tutor => tutor.usuario !== undefined);
@@ -56,6 +56,6 @@ export class MonitoreoComponent implements OnInit {
         console.error('Error al cargar Ranking de Tutores:', error);
       }
     });
-    
+
   }
 }

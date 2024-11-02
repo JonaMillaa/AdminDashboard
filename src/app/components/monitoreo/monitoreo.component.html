@@ -1,7 +1,7 @@
 <h2>Publicaciones Más Demandadas</h2>
-<app-carousel [itemCount]="publicacionesMasDemandadas.length">
-  <div *ngIf="publicacionesMasDemandadas.length > 0; else noPublicaciones">
-    <div *ngFor="let publicacion of publicacionesMasDemandadas; let i = index" class="card">
+<c-carousel [interval]="3000" [wrap]="true" indicators="true" controls="true" *ngIf="publicacionesMasDemandadas.length > 0; else noPublicaciones">
+  <c-carousel-item *ngFor="let publicacion of publicacionesMasDemandadas; let i = index">
+    <div class="card">
       <div class="card-number">{{ i + 1 }}</div>
       <h3>{{ publicacion.info_ayudantia.titulo_ayudantia }}</h3>
       <p>{{ publicacion.info_ayudantia.descripcion_ayudantia }}</p>
@@ -14,18 +14,16 @@
       <p><strong>Participantes:</strong> {{ publicacion.participantes }}</p>
       <p><strong>Tutor:</strong> {{ publicacion.info_ayudantia.info_usuario.nombre }} {{ publicacion.info_ayudantia.info_usuario.apellido }}</p>
     </div>
-  </div>
-</app-carousel>
+  </c-carousel-item>
+</c-carousel>
 <ng-template #noPublicaciones>
   <p>No hay publicaciones disponibles.</p>
 </ng-template>
 
-
-
 <h2>Ranking de Tutores</h2>
-<app-carousel [itemCount]="rankingTutores.length">
-  <div *ngIf="rankingTutores.length > 0; else noTutores">
-    <div *ngFor="let tutor of rankingTutores; let i = index" class="card">
+<c-carousel [interval]="3000" [wrap]="true" indicators="true" controls="true" *ngIf="rankingTutores.length > 0; else noTutores">
+  <c-carousel-item *ngFor="let tutor of rankingTutores; let i = index">
+    <div class="card">
       <div class="card-number">{{ i + 1 }}</div>
       <h3>{{ tutor.usuario.Nombre }} {{ tutor.usuario.Apellido }}</h3>
       <p><strong>Calificación:</strong> {{ tutor.usuario.Calificacion }}</p>
@@ -49,8 +47,8 @@
         </ul>
       </div>
     </div>
-  </div>
-</app-carousel>
+  </c-carousel-item>
+</c-carousel>
 <ng-template #noTutores>
   <p>No hay tutores disponibles.</p>
 </ng-template>
