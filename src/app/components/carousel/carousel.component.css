@@ -1,0 +1,12 @@
+.carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .card {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  

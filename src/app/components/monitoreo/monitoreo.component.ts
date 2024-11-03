@@ -1,46 +1,40 @@
-import { Component, OnInit,Inject, PLATFORM_ID} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
+import { Component, OnInit, AfterViewInit, PLATFORM_ID, Inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
 import { FirebaseService } from '../../firebase/firebase.service';
-
-
 import { Publicacion } from '../../models/publicacion.interface';
 import { TutorRanking } from '../../models/tutor-ranking.interface';
-import { CarouselModule } from '@coreui/angular';
+import { CarouselComponent } from '../carousel/carousel.component'; 
+import { Carousel } from 'bootstrap';
+import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
+import { isPlatformBrowser } from '@angular/common';
+
 @Component({
   selector: 'app-monitoreo',
   standalone: true,
   imports: [
     CommonModule,
-    MatSidenavModule,
-    MatListModule,
-    MatButtonModule,
-    RouterModule,
-    MatCardModule,
-    MatProgressSpinnerModule,
-    CarouselModule
+    CarouselComponent,
+    NgbCarouselModule
   ],
   templateUrl: './monitoreo.component.html',
-  styleUrl: './monitoreo.component.css'
+  styleUrls: ['./monitoreo.component.css'] 
 })
-export class MonitoreoComponent implements OnInit {
+
+export class MonitoreoComponent implements OnInit, AfterViewInit {
   publicacionesMasDemandadas: Publicacion[] = [];
-  rankingTutores: TutorRanking[] = []; // Usamos la interfaz TutorRanking
+  rankingTutores: TutorRanking[] = [];
 
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(
+    private firebaseService: FirebaseService,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
+ 
   ngOnInit(): void {
     this.firebaseService.getPublicacionesMasDemandadas().subscribe({
       next: (publicaciones) => {
         this.publicacionesMasDemandadas = publicaciones;
-        console.log('Publicaciones Más Demandadas:', publicaciones); // Debug
+        console.log('Publicaciones Más Demandadas:', publicaciones);
       },
       error: (error) => {
         console.error('Error al cargar Publicaciones:', error);
@@ -56,6 +50,19 @@ export class MonitoreoComponent implements OnInit {
         console.error('Error al cargar Ranking de Tutores:', error);
       }
     });
+  }
 
+  async ngAfterViewInit(): Promise<void> {
+    if (isPlatformBrowser(this.platformId)) {
+      const { Carousel } = await import('bootstrap');
+      const carouselElement = document.getElementById('publicacionesCarousel');
+      if (carouselElement) {
+        new Carousel(carouselElement, { interval: false }); // Desactiva el auto deslizamiento
+      }
+      const tutoresCarouselElement = document.getElementById('tutoresCarousel');
+      if (tutoresCarouselElement) {
+        new Carousel(tutoresCarouselElement, { interval: false });
+      }
+    }
   }
 }

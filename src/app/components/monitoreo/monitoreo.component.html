@@ -1,54 +1,151 @@
-<h2>Publicaciones Más Demandadas</h2>
-<c-carousel [interval]="3000" [wrap]="true" indicators="true" controls="true" *ngIf="publicacionesMasDemandadas.length > 0; else noPublicaciones">
-  <c-carousel-item *ngFor="let publicacion of publicacionesMasDemandadas; let i = index">
-    <div class="card">
-      <div class="card-number">{{ i + 1 }}</div>
-      <h3>{{ publicacion.info_ayudantia.titulo_ayudantia }}</h3>
-      <p>{{ publicacion.info_ayudantia.descripcion_ayudantia }}</p>
-      <p><strong>Categoría:</strong> {{ publicacion.info_ayudantia.categoria }} / {{ publicacion.info_ayudantia.subcategoria }}</p>
-      <p><strong>Ubicación:</strong> {{ publicacion.detalle_ubicacion }}</p>
-      <p><strong>Formato:</strong> {{ publicacion.formato }}</p>
-      <p><strong>Fecha:</strong> {{ publicacion.fecha_ayudantia }}</p>
-      <p><strong>Hora:</strong> {{ publicacion.hora }}</p>
-      <p><strong>Duración:</strong> {{ publicacion.duracion }}</p>
-      <p><strong>Participantes:</strong> {{ publicacion.participantes }}</p>
-      <p><strong>Tutor:</strong> {{ publicacion.info_ayudantia.info_usuario.nombre }} {{ publicacion.info_ayudantia.info_usuario.apellido }}</p>
+<!-- <h2>Publicaciones Más Demandadas</h2>
+<div *ngIf="publicacionesMasDemandadas.length > 0; else noPublicaciones">
+  <div id="publicacionesCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div *ngFor="let publicacion of publicacionesMasDemandadas; let i = index" class="carousel-item" [class.active]="i === 0">
+        <div class="card mx-auto" style="max-width: 300px;">
+          <div class="card-body position-relative">
+            <div class="card-number">{{ i + 1 }}</div>
+            <h5 class="card-title">{{ publicacion.info_ayudantia.titulo_ayudantia }}</h5>
+            <p class="card-text">{{ publicacion.info_ayudantia.descripcion_ayudantia }}</p>
+            <p><strong>Categoría:</strong> {{ publicacion.info_ayudantia.categoria }} / {{ publicacion.info_ayudantia.subcategoria }}</p>
+            <p><strong>Ubicación:</strong> {{ publicacion.detalle_ubicacion }}</p>
+            <p><strong>Formato:</strong> {{ publicacion.formato }}</p>
+            <p><strong>Fecha:</strong> {{ publicacion.fecha_ayudantia }}</p>
+            <p><strong>Hora:</strong> {{ publicacion.hora }}</p>
+            <p><strong>Duración:</strong> {{ publicacion.duracion }}</p>
+            <p><strong>Participantes:</strong> {{ publicacion.participantes }}</p>
+            <p><strong>Tutor:</strong> {{ publicacion.info_ayudantia.info_usuario.nombre }} {{ publicacion.info_ayudantia.info_usuario.apellido }}</p>
+          </div>
+        </div>
+      </div>
     </div>
-  </c-carousel-item>
-</c-carousel>
+    <button class="carousel-control-prev" type="button" data-bs-target="#publicacionesCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#publicacionesCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
 <ng-template #noPublicaciones>
   <p>No hay publicaciones disponibles.</p>
 </ng-template>
 
+
+
 <h2>Ranking de Tutores</h2>
-<c-carousel [interval]="3000" [wrap]="true" indicators="true" controls="true" *ngIf="rankingTutores.length > 0; else noTutores">
-  <c-carousel-item *ngFor="let tutor of rankingTutores; let i = index">
-    <div class="card">
-      <div class="card-number">{{ i + 1 }}</div>
-      <h3>{{ tutor.usuario.Nombre }} {{ tutor.usuario.Apellido }}</h3>
-      <p><strong>Calificación:</strong> {{ tutor.usuario.Calificacion }}</p>
-      <p><strong>Cantidad de Ayudantías:</strong> {{ tutor.usuario.Cantidad_ayudantia }}</p>
+<div *ngIf="rankingTutores.length > 0; else noTutores">
+  <div id="tutoresCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div *ngFor="let tutor of rankingTutores; let i = index" class="carousel-item" [class.active]="i === 0">
+        <div class="card mx-auto d-block w-100" style="max-width: 300px;">
+          <div class="card-body position-relative">
+            <div class="card-number">{{ i + 1 }}</div>
+            <h5 class="card-title">{{ tutor.usuario.Nombre }} {{ tutor.usuario.Apellido }}</h5>
+            <p><strong>Calificación:</strong> {{ tutor.usuario.Calificacion }}</p>
+            <p><strong>Cantidad de Ayudantías:</strong> {{ tutor.usuario.Cantidad_ayudantia }}</p>
 
-      <div *ngIf="(tutor.publicaciones | async) as publicaciones">
-        <h4>Ayudantías:</h4>
-        <ul>
-          <li *ngFor="let pub of publicaciones">
-            {{ pub.info_ayudantia.titulo_ayudantia }} - {{ pub.info_ayudantia.categoria }}/{{ pub.info_ayudantia.subcategoria }}
-          </li>
-        </ul>
-      </div>
+            <div *ngIf="(tutor.publicaciones | async) as publicaciones">
+              <h6>Ayudantías:</h6>
+              <ul>
+                <li *ngFor="let pub of publicaciones">
+                  {{ pub.info_ayudantia.titulo_ayudantia }} - {{ pub.info_ayudantia.categoria }}/{{ pub.info_ayudantia.subcategoria }}
+                </li>
+              </ul>
+            </div>
 
-      <div *ngIf="(tutor.calificaciones | async) as calificaciones">
-        <h4>Calificaciones:</h4>
-        <ul>
-          <li *ngFor="let cal of calificaciones">
-            {{ cal.calificacion }} - {{ cal.comentario }}
-          </li>
-        </ul>
+            <div *ngIf="(tutor.calificaciones | async) as calificaciones">
+              <h6>Calificaciones:</h6>
+              <ul>
+                <li *ngFor="let cal of calificaciones">
+                  {{ cal.calificacion }} - {{ cal.comentario }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </c-carousel-item>
-</c-carousel>
+    <button class="carousel-control-prev" type="button" data-bs-target="#tutoresCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#tutoresCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+<ng-template #noTutores>
+  <p>No hay tutores disponibles.</p>
+</ng-template> -->
+
+<div id="publicacionesCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+  <h2>Publicaciones Más Demandadas</h2>
+<ngb-carousel *ngIf="publicacionesMasDemandadas.length > 0; else noPublicaciones">
+  <ng-template ngbSlide *ngFor="let publicacion of publicacionesMasDemandadas; let i = index">
+    <div class="card mx-auto" style="max-width: 300px;">
+      <div class="card-body position-relative">
+        <div class="card-number">{{ i + 1 }}</div>
+        <h5 class="card-title">{{ publicacion.info_ayudantia.titulo_ayudantia }}</h5>
+        <p class="card-text">{{ publicacion.info_ayudantia.descripcion_ayudantia }}</p>
+        <p><strong>Categoría:</strong> {{ publicacion.info_ayudantia.categoria }} / {{ publicacion.info_ayudantia.subcategoria }}</p>
+        <p><strong>Ubicación:</strong> {{ publicacion.detalle_ubicacion }}</p>
+        <p><strong>Formato:</strong> {{ publicacion.formato }}</p>
+        <p><strong>Fecha:</strong> {{ publicacion.fecha_ayudantia }}</p>
+        <p><strong>Hora:</strong> {{ publicacion.hora }}</p>
+        <p><strong>Duración:</strong> {{ publicacion.duracion }}</p>
+        <p><strong>Participantes:</strong> {{ publicacion.participantes }}</p>
+        <p><strong>Tutor:</strong> {{ publicacion.info_ayudantia.info_usuario.nombre }} {{ publicacion.info_ayudantia.info_usuario.apellido }}</p>
+      </div>
+    </div>
+  </ng-template>
+</ngb-carousel>
+
+<ng-template #noPublicaciones>
+  <p>No hay publicaciones disponibles.</p>
+</ng-template>
+</div>
+
+
+<div id="tutoresCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+  <h2>Ranking de Tutores</h2>
+<ngb-carousel *ngIf="rankingTutores.length > 0; else noTutores">
+  <ng-template ngbSlide *ngFor="let tutor of rankingTutores; let i = index">
+    <div class="card mx-auto" style="max-width: 300px;">
+      <div class="card-body position-relative">
+        <div class="card-number">{{ i + 1 }}</div>
+        <h5 class="card-title">{{ tutor.usuario.Nombre }} {{ tutor.usuario.Apellido }}</h5>
+        <p><strong>Calificación:</strong> {{ tutor.usuario.Calificacion }}</p>
+        <p><strong>Cantidad de Ayudantías:</strong> {{ tutor.usuario.Cantidad_ayudantia }}</p>
+
+        <div *ngIf="(tutor.publicaciones | async) as publicaciones">
+          <h6>Ayudantías:</h6>
+          <ul>
+            <li *ngFor="let pub of publicaciones">
+              {{ pub.info_ayudantia.titulo_ayudantia }} - {{ pub.info_ayudantia.categoria }}/{{ pub.info_ayudantia.subcategoria }}
+            </li>
+          </ul>
+        </div>
+
+        <div *ngIf="(tutor.calificaciones | async) as calificaciones">
+          <h6>Calificaciones:</h6>
+          <ul>
+            <li *ngFor="let cal of calificaciones">
+              {{ cal.calificacion }} - {{ cal.comentario }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ngb-carousel>
+
 <ng-template #noTutores>
   <p>No hay tutores disponibles.</p>
 </ng-template>
+
+</div>
