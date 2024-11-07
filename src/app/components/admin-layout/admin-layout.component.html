@@ -1,0 +1,12 @@
+<!-- src/app/layouts/admin-layout/admin-layout.component.html -->
+<nav>
+    <a mat-list-item routerLink="/dashboard">
+      <mat-icon>dashboard</mat-icon>
+      <span *ngIf="opened">Dashboard</span>
+    </a>
+    <a mat-list-item routerLink="/publicaciones">
+      <mat-icon>post_add</mat-icon>
+      <span *ngIf="opened">Publicaciones</span>
+    </a>
+  </nav>
+  

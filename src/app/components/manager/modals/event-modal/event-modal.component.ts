@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FirebaseService } from '../../../firebase/firebase.service';
-import { Usuario } from '../../../models/usuario.model';
+import { FirebaseService } from '../../../../firebase/firebase.service';
+import { Usuario } from '../../../../models/usuario.model';
 import { CommonModule, NgIf } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';

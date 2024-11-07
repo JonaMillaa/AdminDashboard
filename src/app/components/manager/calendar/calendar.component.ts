@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FirebaseService } from '../../firebase/firebase.service';
+import { FirebaseService } from '../../../firebase/firebase.service';
 import { startOfDay } from 'date-fns';
 import { CommonModule, NgIf } from '@angular/common';
 
-import { EventModalComponent } from '../../components/modals/event-modal/event-modal.component';
+import { EventModalComponent } from '../../../components/manager/modals/event-modal/event-modal.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';

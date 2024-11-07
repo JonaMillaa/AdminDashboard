@@ -1,5 +1,5 @@
 import { Component, OnInit,Inject, PLATFORM_ID} from '@angular/core';
-import { FirebaseService } from '../../firebase/firebase.service';
+import { FirebaseService } from '../../../firebase/firebase.service';
 import { Chart } from 'chart.js/auto';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';

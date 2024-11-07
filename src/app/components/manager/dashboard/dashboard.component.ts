@@ -11,16 +11,16 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FirebaseService } from '../../firebase/firebase.service';
+import { FirebaseService } from '../../../firebase/firebase.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalTasaComponent } from '../../components/modals/modal-tasa/modal-tasa.component';
-import { ModalDetallesDiaComponent } from '../../components/modals/modal-detalles-dia/modal-detalles-dia.component';
-import { ModalNoDataComponent } from '../../components/modals/modal-no-data/modal-no-data.component';
+import { ModalTasaComponent } from '../../../components/manager/modals/modal-tasa/modal-tasa.component';
+import { ModalDetallesDiaComponent } from '../../../components/manager/modals/modal-detalles-dia/modal-detalles-dia.component';
+import { ModalNoDataComponent } from '../../../components/manager/modals/modal-no-data/modal-no-data.component';
 import { Chart} from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 Chart.register(ChartDataLabels);
-import { GrowthRateData } from '../../models/interfaces';
+import { GrowthRateData } from '../../../models/interfaces';
 
 @Component({
   selector: 'app-dashboard',

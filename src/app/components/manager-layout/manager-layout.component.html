@@ -1,0 +1,16 @@
+<!-- src/app/layouts/manager-layout/manager-layout.component.html -->
+<nav>
+    <a mat-list-item routerLink="/monitoreo">
+      <mat-icon>insights</mat-icon>
+      <span *ngIf="opened">Monitoreo</span>
+    </a>
+    <a mat-list-item routerLink="/reportes">
+      <mat-icon>insert_chart</mat-icon>
+      <span *ngIf="opened">Reportes</span>
+    </a>
+    <a mat-list-item routerLink="/usuarios">
+      <mat-icon>people</mat-icon>
+      <span *ngIf="opened">Gestión de Usuarios</span>
+    </a>
+  </nav>
+  

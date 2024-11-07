@@ -1,8 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
-import { FirebaseService } from '../../firebase/firebase.service';
+import { FirebaseService } from '../../../firebase/firebase.service';
 import { Observable, of } from 'rxjs';
-import { Usuario } from '../../models/usuario.model';
+import { Usuario } from '../../../models/usuario.model';
 
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';

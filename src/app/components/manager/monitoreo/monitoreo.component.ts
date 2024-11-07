@@ -1,10 +1,9 @@
 import { Component, OnInit, AfterViewInit, PLATFORM_ID, Inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FirebaseService } from '../../firebase/firebase.service';
-import { Publicacion } from '../../models/publicacion.interface';
-import { TutorRanking } from '../../models/tutor-ranking.interface';
+import { FirebaseService } from '../../../firebase/firebase.service';
+import { Publicacion } from '../../../models/publicacion.interface';
+import { TutorRanking } from '../../../models/tutor-ranking.interface';
 import { CarouselComponent } from '../carousel/carousel.component'; 
-import { Carousel } from 'bootstrap';
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { isPlatformBrowser } from '@angular/common';
 
