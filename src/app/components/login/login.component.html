@@ -1,0 +1,40 @@
+<!-- src/app/components/login/login.component.html -->
+<div class="login-container">
+  <mat-card class="login-card">
+    <h2 class="login-title">Iniciar Sesión</h2>
+    <form (ngSubmit)="login()">
+      <!-- Campo de Correo Electrónico -->
+      <mat-form-field appearance="outline" class="login-field">
+        <mat-label>Correo Electrónico</mat-label>
+        <input
+          matInput
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder=""
+          required
+        />
+      </mat-form-field>
+
+      <!-- Campo de Contraseña -->
+      <mat-form-field appearance="outline" class="login-field">
+        <mat-label>Contraseña</mat-label>
+        <input
+          matInput
+          type="password"
+          [(ngModel)]="password"
+          name="password"
+          placeholder=""
+          required
+        />
+      </mat-form-field>
+
+    
+      
+      <!-- Botón de Enviar -->
+      <button mat-raised-button color="primary" type="submit" class="login-button">
+        Iniciar Sesión
+      </button>
+    </form>
+  </mat-card>
+</div>
