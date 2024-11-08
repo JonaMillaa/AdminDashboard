@@ -8,12 +8,31 @@ import { Publicacion } from '../models/publicacion.interface';
 import { Calificacion } from '../models/calificacion.interface';
 import { TutorRanking } from '../models/tutor-ranking.interface';
 import { map, switchMap, combineLatestWith } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
-  constructor(private firestore: Firestore) {}
+  constructor(private firestore: Firestore,private router: Router) {} 
+  private isLoggedIn: boolean = false;
+  login(user: string): void {
+    if (user === 'admin' || user === 'manager') {
+      this.isLoggedIn = true;
+      localStorage.setItem('user', user); // Guardamos el "usuario" en localStorage
+    } else {
+      this.isLoggedIn = false;
+    }
+  }
+
+  logout(): void {
+    localStorage.removeItem('user');
+    this.router.navigate(['/login']); // Redirige al login al cerrar sesión
+  }
+
+  isAuthenticated(): boolean {
+    return localStorage.getItem('user') !== null;
+  }
 
   // Método genérico para obtener cualquier colección de Firebase
   getCollection<T>(nombre_coleccion: string): Observable<T[]> {
