@@ -31,7 +31,12 @@ export class FirebaseService {
   }
 
   isAuthenticated(): boolean {
-    return localStorage.getItem('user') !== null;
+    if (typeof window !== 'undefined' && localStorage) {
+
+      return localStorage.getItem('user') !== null;
+      
+    }
+    return false; // O un valor por defecto
   }
 
   // Método genérico para obtener cualquier colección de Firebase
@@ -292,6 +297,22 @@ export class FirebaseService {
           )
         ) as Observable<Calificacion[]>
       })))
+    );
+  }
+
+
+ 
+  getCrecimientoUsuarios(): Observable<any[]> {
+    const usuariosCollection = collection(this.firestore, 'Contador_nuevos_usuarios');
+    return collectionData(usuariosCollection).pipe(
+      map(data => Array.isArray(data) ? data : [])  // Asegura que siempre sea un array
+    );
+  }
+
+  getLoginsUsuarios(): Observable<any[]> {
+    const loginsCollection = collection(this.firestore, 'Contador_inicio_sesion');
+    return collectionData(loginsCollection).pipe(
+      map(data => Array.isArray(data) ? data : [])  // Asegura que siempre sea un array
     );
   }
   

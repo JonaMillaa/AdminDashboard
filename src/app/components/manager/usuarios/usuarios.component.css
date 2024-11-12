@@ -6,6 +6,105 @@
   gap: 24px; /* Espacio entre secciones */
 }
 
+.navbar {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  background-color: #522df5;
+  color: white;
+  padding: 10px;
+  height: 100px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  height: 100%; /* Asegura que ocupe toda la altura del navbar */
+}
+
+.nav-item mat-icon {
+  margin-right: 2px;
+  color: aliceblue;
+}
+
+.nav-icon {
+  font-size: 1.4rem; /* Aumenta el tamaño del ícono */
+  margin-right: 5px;
+}
+
+
+.nav-link:hover {
+  color: #ffcc00; /* Cambia el color al pasar el cursor */
+}
+
+
+.navbar-links {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto auto;
+  margin-left: 2%;
+}
+
+.nav-item.tutores {
+  background-color: #8338EC;
+  width: 15rem;
+  padding: 5px;
+  border-radius: 7px;
+}
+
+.nav-item.estudiantes {
+  background-color: #FF006E;
+  width: 15rem;
+  padding: 5px;
+  border-radius: 7px;
+}
+
+/* Espaciador para empujar el botón hacia la derecha */
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* From Uiverse.io by mi-series */ 
+.btn {
+  outline: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #40B3A2;
+  min-width: 200px;
+  border: 0;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+  box-sizing: border-box;
+  padding: 16px 20px;
+  color: #f7f3f3;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: .95;
+}
+
+.btn .animation {
+  border-radius: 100%;
+  animation: ripple 0.6s linear infinite;
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1), 0 0 0 20px rgba(255, 255, 255, 0.1), 0 0 0 40px rgba(255, 255, 255, 0.1), 0 0 0 60px rgba(255, 255, 255, 0.1);
+  }
+
+  100% {
+    box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.1), 0 0 0 40px rgba(255, 255, 255, 0.1), 0 0 0 60px rgba(255, 255, 255, 0.1), 0 0 0 80px rgba(255, 255, 255, 0);
+  }
+}
+
+
 /* Estilo del Tab Group */
 mat-tab-group {
   width: 100%;
@@ -84,6 +183,22 @@ mat-card-content p {
   margin: 0;
   color: #424242; /* Gris oscuro */
   font-size: 16px;
+}
+
+
+.charts {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.chart-container {
+  width: 45%;
+}
+
+.fixed-size-chart {
+  width: 90% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
+  height: 85% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
 }
 
 /* Responsividad para pantallas pequeñas */
