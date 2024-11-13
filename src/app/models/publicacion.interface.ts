@@ -1,8 +1,4 @@
-export interface InfoUsuario {
-    apellido: string;
-    id_usuario: string;
-    nombre: string;
-}
+
 
 export interface InfoAyudantia {
     categoria: string;
@@ -11,7 +7,11 @@ export interface InfoAyudantia {
     id_ayudantia: string;
     titulo_ayudantia: string;
     subcategoria: string;
-    info_usuario: InfoUsuario; // Campo anidado dentro de info_ayudantia
+    info_usuario: {
+        id_usuario: string;
+        nombre: string;
+        apellido: string;
+    };
 }
 
 export interface Publicacion {

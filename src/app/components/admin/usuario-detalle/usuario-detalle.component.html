@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Editar Usuario</h2>
+<div mat-dialog-content>
+  <form [formGroup]="usuarioForm">
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="Nombre">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Apellido</mat-label>
+      <input matInput formControlName="Apellido">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="Email" type="email">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Rut</mat-label>
+        <input matInput formControlName="Rut">
+      </mat-form-field> 
+
+    <mat-form-field>
+      <mat-label>Teléfono</mat-label>
+      <input matInput formControlName="Telefono">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Estado</mat-label>
+      <mat-select formControlName="Estado">
+        <mat-option value="ACTIVO">Activo</mat-option>
+        <mat-option value="BLOQUEADO">Bloqueado</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancelar()">Cancelar</button>
+  <button mat-button color="primary" (click)="guardar()">Guardar</button>
+</div>

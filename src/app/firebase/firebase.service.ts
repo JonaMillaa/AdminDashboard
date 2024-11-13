@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, query, where, orderBy} from '@angular/fire/firestore';
-import { Observable, forkJoin } from 'rxjs';
+import { Firestore, addDoc, collection, collectionData, query, where, orderBy, doc, updateDoc} from '@angular/fire/firestore';
+import { Observable, from  } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 import { Ayudantia } from '../models/ayudantia.model';
 import { Pregunta_ayudantia } from '../models/preguntas_ayudantia.model';
@@ -8,12 +8,39 @@ import { Publicacion } from '../models/publicacion.interface';
 import { Calificacion } from '../models/calificacion.interface';
 import { TutorRanking } from '../models/tutor-ranking.interface';
 import { map, switchMap, combineLatestWith } from 'rxjs/operators';
+import { Router } from '@angular/router';  
+import { getDocs } from 'firebase/firestore'; // Importa desde firebase/firestore
+import { format } from 'date-fns';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
-  constructor(private firestore: Firestore) {}
+ 
+  constructor(private firestore: Firestore,
+    private router: Router,
+    ) {} 
+  private isLoggedIn: boolean = false;  
+    // Método para registrar un nuevo usuario y guardar el evento de registro
+
+
+  login(user: string): void {
+    if (user === 'admin' || user === 'manager') {
+      this.isLoggedIn = true;
+      localStorage.setItem('user', user); // Guardamos el "usuario" en localStorage
+    } else {
+      this.isLoggedIn = false;
+    }
+  }
+
+  logout(): void {
+    localStorage.removeItem('user');
+    this.router.navigate(['/login']); // Redirige al login al cerrar sesión
+  }
+
+  isAuthenticated(): boolean {
+    return localStorage.getItem('user') !== null;
+  }
 
   // Método genérico para obtener cualquier colección de Firebase
   getCollection<T>(nombre_coleccion: string): Observable<T[]> {

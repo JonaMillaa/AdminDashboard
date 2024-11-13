@@ -1,0 +1,31 @@
+<div class="usuarios-container">
+    <h2>Listado de Usuarios</h2>
+  
+    <table class="usuario-tabla mat-elevation-z8">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Teléfono</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios$ | async">
+          <td>{{ usuario.Nombre }} {{ usuario.Apellido }}</td>
+          <td>{{ usuario.Email }}</td>
+          <td>{{ usuario.Telefono }}</td>
+          <td>{{ usuario.Estado }}</td>
+        
+          <td>
+            <button mat-button color="primary" (click)="cambiarEstado(usuario)">
+              {{ usuario.Estado === 'ACTIVO' ? 'Bloquear' : 'Activar' }}
+            </button>
+            <button mat-button color="accent" (click)="editarUsuario(usuario)">Editar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

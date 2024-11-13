@@ -1,0 +1,58 @@
+<mat-sidenav-container class="dashboard-container">
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidenav">
+    <mat-nav-list>
+
+      <h3 class="sidenav-header" *ngIf="opened">Menú Principal</h3>
+      <mat-divider></mat-divider>
+
+      <a mat-list-item routerLink="/manager/dashboard">
+        <mat-icon>dashboard</mat-icon>
+        <span *ngIf="opened">Dashboard</span>
+      </a>
+
+      <a mat-list-item routerLink="/manager/publicaciones">
+        <mat-icon>post_add</mat-icon>
+        <span *ngIf="opened">Publicaciones</span>
+      </a>
+
+      <a mat-list-item routerLink="/manager/monitoreo">
+        <mat-icon>insights</mat-icon>
+        <span *ngIf="opened">Monitoreo</span>
+      </a>
+
+      <a mat-list-item routerLink="/manager/reportes">
+        <mat-icon>insert_chart</mat-icon>
+        <span *ngIf="opened">Reportes</span>
+      </a> 
+
+      <a mat-list-item routerLink="/manager/usuarios">
+        <mat-icon>people</mat-icon>
+        <span *ngIf="opened">Gestión de Usuarios</span>
+      </a>
+
+      <a mat-list-item routerLink="/manager/facturacion">
+        <mat-icon>receipt</mat-icon>
+        <span *ngIf="opened">Facturación</span>
+      </a>
+
+      <a mat-list-item routerLink="/manager/notificacion">
+        <mat-icon>notifications_active</mat-icon>
+        <span *ngIf="opened">Notificación</span>
+      </a> 
+      <a mat-list-item routerLink="/manager/calendario">
+        <mat-icon>event</mat-icon>
+        <span *ngIf="opened">Eventos</span>
+      </a>
+     
+          <!-- Botón de Cerrar Sesión -->
+          <a mat-list-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span *ngIf="opened">Cerrar Sesión</span>
+          </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
