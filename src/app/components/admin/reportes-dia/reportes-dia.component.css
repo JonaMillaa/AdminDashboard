@@ -1,0 +1,189 @@
+.contador-sesion-container {
+  padding: 20px;
+  max-width: 700px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.contador-sesion-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.5em;
+}
+
+.contador-row {
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.contador-item {
+  flex: 1;
+  min-width: 150px;
+  max-width: 180px;
+  padding: 15px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  text-align: center;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+.contador-item h3 {
+  margin-top: 0;
+  color: #555;
+  font-size: 1em;
+  margin-bottom: 5px;
+}
+
+.contador-item p {
+  font-size: 1.4em;
+  color: #333;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Estilos distintivos para cada contador */
+.contador-inicios-sesion {
+  border-left: 4px solid #4caf50;
+}
+
+.usuarios-activos {
+  border-left: 4px solid #2196f3;
+}
+
+.nuevos-usuarios {
+  border-left: 4px solid #ff9800;
+}
+
+/* Contenedor del gráfico */
+.grafico-container {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajuste de tamaño para pantallas pequeñas */
+@media (max-width: 600px) {
+  .contador-row {
+    flex-direction: column;
+  }
+
+  .contador-item {
+    max-width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .contador-item p {
+    font-size: 1.2em;
+  }
+}
+.contador-sesion-container {
+  padding: 20px;
+  max-width: 700px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.contador-sesion-container h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.5em;
+}
+
+.contador-row {
+  display: flex;
+  gap: 10px;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.contador-item {
+  flex: 1;
+  min-width: 150px;
+  max-width: 180px;
+  padding: 15px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  text-align: center;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+.contador-item h3 {
+  margin-top: 0;
+  color: #555;
+  font-size: 1em;
+  margin-bottom: 5px;
+}
+
+.contador-item p {
+  font-size: 1.4em;
+  color: #333;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Estilos distintivos para cada contador */
+.contador-inicios-sesion {
+  border-left: 4px solid #2196f3; 
+}
+
+.usuarios-activos {
+ 
+  border-left: 4px solid #4caf50;
+}
+
+.nuevos-usuarios {
+  border-left: 4px solid #ff9800;
+}
+
+/* Contenedor del gráfico */
+.grafico-container {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Centra el gráfico */
+}
+
+/* Tamaño del gráfico */
+.grafico-container canvas {
+  max-width: 300px; /* Ancho máximo para el gráfico */
+  max-height: 300px; /* Alto máximo para el gráfico */
+  margin: 0 auto;
+}
+
+/* Ajuste de tamaño para pantallas pequeñas */
+@media (max-width: 600px) {
+  .contador-row {
+    flex-direction: column;
+  }
+
+  .contador-item {
+    max-width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .contador-item p {
+    font-size: 1.2em;
+  }
+
+  /* Reducción adicional del tamaño del gráfico en pantallas pequeñas */
+  .grafico-container canvas {
+    max-width: 150px;
+    max-height: 150px;
+  }
+}

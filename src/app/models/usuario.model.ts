@@ -13,6 +13,7 @@ export interface Usuario {
     Nombre: string;
     Password: string;
     Rol: 'TUTOR' | 'ESTUDIANTE';
+    Rut: string;
     Telefono: string;
   }
 

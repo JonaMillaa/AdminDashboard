@@ -1,15 +1,13 @@
-// src/app/app-routing.module.ts
-
 import { Routes } from '@angular/router';
 import { provideRouter } from '@angular/router';
 
+// Importaciones de componentes
 import { LoginComponent } from './components/login/login.component';
 import { AdminLayoutComponent } from './components/admin-layout/admin-layout.component';
 import { ManagerLayoutComponent } from './components/manager-layout/manager-layout.component';
 import { AuthGuard } from './guards/auth.guard';
 
 import { DashboardComponent } from './components/manager/dashboard/dashboard.component';
-import { UsuariosComponent } from './components/manager/usuarios/usuarios.component';
 import { SoporteComponent } from './components/manager/soporte/soporte.component';
 import { CalendarComponent } from './components/manager/calendar/calendar.component';
 import { PublicacionesComponent } from './components/manager/publicaciones/publicaciones.component';
@@ -17,6 +15,12 @@ import { MonitoreoComponent } from './components/manager/monitoreo/monitoreo.com
 import { ReportesComponent } from './components/manager/reportes/reportes.component';
 import { FacturacionComponent } from './components/manager/facturacion/facturacion.component';
 import { NotificacionComponent } from './components/manager/notificacion/notificacion.component';
+import { DatosDelDiaComponent } from './components/admin/datos-del-dia/datos-del-dia.component';
+import { PruebasComponent } from './components/admin/pruebas/pruebas.component';
+import { ReportesDiaComponent } from './components/admin/reportes-dia/reportes-dia.component'; // Importación de ReportesDiaComponent
+import { ContadorSesionComponent} from './components/admin/contador-sesion/contador-sesion.component';
+import { UsuariosComponent } from './components/admin/usuarios/usuarios.component';
+import { PagosPendientesComponent } from './components/admin/pagos-pendientes/pagos-pendientes.component'; // Importación del componente
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -26,25 +30,32 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [AuthGuard], // Protegido con AuthGuard
     children: [
-      { path: 'soporte', component: SoporteComponent }
-    ]
+      { path: 'soporte', component: SoporteComponent },
+      { path: 'datos', component: DatosDelDiaComponent },
+      { path: 'pruebas', component: PruebasComponent },
+      { path: 'reportes-dia', component: ReportesDiaComponent },// Ruta para reportes del día en admin
+      { path: 'contador-sesion', component: ContadorSesionComponent }, // Ruta para contador de inicio de sesión
+      {path: 'usuarios', component: UsuariosComponent},
+      {path: 'pagos-pendientes', // ruta para el componente de pagos pendientes
+      component: PagosPendientesComponent}
+    ] 
   },
 
-  {
-    path: 'manager',
-    component: ManagerLayoutComponent,
-    canActivate: [AuthGuard], // Protegido con AuthGuard
-    children: [
-      { path: 'publicaciones', component: PublicacionesComponent },
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'monitoreo', component: MonitoreoComponent },
-      { path: 'reportes', component: ReportesComponent }, 
-      { path: 'usuarios', component: UsuariosComponent },
-      { path: 'notificacion', component: NotificacionComponent },
-      { path: 'facturacion', component: FacturacionComponent },
-      { path: 'calendario', component: CalendarComponent }
-      ]
-  },
+  // {
+   //  path: 'manager',
+    // component: ManagerLayoutComponent,
+   //  canActivate: [AuthGuard], // Protegido con AuthGuard
+   //  children: [
+    //   { path: 'publicaciones', component: PublicacionesComponent },
+    //   { path: 'dashboard', component: DashboardComponent },
+      // { path: 'monitoreo', component: MonitoreoComponent },
+     //  { path: 'reportes', component: ReportesComponent }, 
+    //   { path: 'usuarios', component: UsuariosComponent },
+     //  { path: 'notificacion', component: NotificacionComponent },
+     //  { path: 'facturacion', component: FacturacionComponent },
+   //    { path: 'calendario', component: CalendarComponent }
+    // ]
+ // },
 
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }

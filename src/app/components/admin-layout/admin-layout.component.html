@@ -3,20 +3,35 @@
     <mat-nav-list>
 
       <h3 class="sidenav-header" *ngIf="opened">Menú Principal</h3>
-      <mat-divider></mat-divider>
+      <mat-divider class="sidenav-divider"></mat-divider>
+      
+      <a mat-list-item routerLink="/admin/reportes-dia" class="menu-item">
+        <mat-icon>bar_chart</mat-icon>
+        <span *ngIf="opened">Reporte Diario</span>
+      </a>
 
+     
+      
 
-      <a mat-list-item routerLink="/admin/soporte">
-        <mat-icon>support</mat-icon>
-        <span *ngIf="opened">Soporte</span>
-      </a> 
+      <a mat-list-item routerLink="/admin/usuarios" class="menu-item">
+        <mat-icon>people</mat-icon>
+        <span *ngIf="opened">Usuarios</span>
+      </a>
 
-       <!-- Botón de Cerrar Sesión -->
-       <a mat-list-item (click)="logout()">
-            <mat-icon>logout</mat-icon>
-            <span *ngIf="opened">Cerrar Sesión</span>
-          </a>
-
+      <a mat-list-item routerLink="/admin/pagos-pendientes" class="menu-item">
+        <mat-icon>payment</mat-icon>
+        <span *ngIf="opened">Pagos Pendientes</span>
+      </a>
+ 
+      <!-- Enlaces del menú -->
+   <a mat-list-item routerLink="/admin/soporte" class="menu-item">
+    <mat-icon>support</mat-icon>
+    <span *ngIf="opened">Soporte</span>
+  </a>
+      <a mat-list-item class="menu-item logout" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span *ngIf="opened">Cerrar Sesión</span>
+      </a>
 
     </mat-nav-list>
   </mat-sidenav>
