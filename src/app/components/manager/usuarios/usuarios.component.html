@@ -21,17 +21,29 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
-<!-- Contenedor para los gráficos cuando el contenido de usuarios está oculto -->
+<!-- Filtros de tiempo y gráficos -->
 <div *ngIf="!mostrarContenido" class="charts">
   <div class="chart-container">
     <h3>Crecimiento de Usuarios</h3>
-    <canvas id="crecimientoUsuariosChart" class="fixed-size-chart"></canvas>
+    <label for="filtroTiempoCrecimiento">Filtrar por:</label>
+    <select id="filtroTiempoCrecimiento" [(ngModel)]="filtroTiempoCrecimiento" (change)="loadCrecimientoUsuariosData()">
+      <option value="día">Día</option>
+      <option value="mes">Mes</option>
+    </select>
+    <canvas id="crecimientoUsuariosChart"></canvas>
   </div>
+
   <div class="chart-container">
     <h3>Inicios de Sesión</h3>
-    <canvas id="loginsChart" class="fixed-size-chart"></canvas>
+    <label for="filtroTiempoLogins">Filtrar por:</label>
+    <select id="filtroTiempoLogins" [(ngModel)]="filtroTiempoLogins" (change)="loadLoginsData()">
+      <option value="día">Día</option>
+      <option value="mes">Mes</option>
+    </select>
+    <canvas id="loginsChart"></canvas>
   </div>
 </div>
+
 
 <!-- Contenedor de gestión de usuarios, visible solo si mostrarContenido es true -->
 <div *ngIf="mostrarContenido" class="content">

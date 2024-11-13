@@ -1,20 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Firestore, addDoc, collection, collectionData, query, where, orderBy} from '@angular/fire/firestore';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 import { Ayudantia } from '../models/ayudantia.model';
 import { Pregunta_ayudantia } from '../models/preguntas_ayudantia.model';
 import { Publicacion } from '../models/publicacion.interface';
 import { Calificacion } from '../models/calificacion.interface';
 import { TutorRanking } from '../models/tutor-ranking.interface';
-import { map, switchMap, combineLatestWith } from 'rxjs/operators';
+import { map, combineLatestWith } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { LoginData } from '../models/LoginData';
+import { CrecimientoUsuario } from '../models/CrecimientoUsuario';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
-  constructor(private firestore: Firestore,private router: Router) {} 
+  constructor(
+    private firestore: Firestore,
+    private router: Router
+  ) {} 
+
+
   private isLoggedIn: boolean = false;
   login(user: string): void {
     if (user === 'admin' || user === 'manager') {
@@ -302,17 +310,23 @@ export class FirebaseService {
 
 
  
-  getCrecimientoUsuarios(): Observable<any[]> {
-    const usuariosCollection = collection(this.firestore, 'Contador_nuevos_usuarios');
-    return collectionData(usuariosCollection).pipe(
-      map(data => Array.isArray(data) ? data : [])  // Asegura que siempre sea un array
+  getCrecimientoUsuarios(): Observable<CrecimientoUsuario[]> {
+    const coleccion = collection(this.firestore, 'Contador_nuevos_usuarios');
+    return collectionData(coleccion, { idField: 'id' }).pipe(
+      map((data: any[]) => data.map(item => ({
+        fecha: item.fecha,
+        contador: item.contador
+      })))
     );
   }
 
-  getLoginsUsuarios(): Observable<any[]> {
-    const loginsCollection = collection(this.firestore, 'Contador_inicio_sesion');
-    return collectionData(loginsCollection).pipe(
-      map(data => Array.isArray(data) ? data : [])  // Asegura que siempre sea un array
+  getLoginsUsuarios(): Observable<LoginData[]> {
+    const coleccion = collection(this.firestore, 'Contador_inicio_sesion');
+    return collectionData(coleccion, { idField: 'id' }).pipe(
+      map((data: any[]) => data.map(item => ({
+        fecha: item.fecha,
+        contador: item.contador
+      })))
     );
   }
   

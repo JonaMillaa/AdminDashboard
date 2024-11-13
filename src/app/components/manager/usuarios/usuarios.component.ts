@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Chart } from 'chart.js/auto'; // Importa Chart.js para gráficos
 import { CrecimientoUsuario } from '../../../models/CrecimientoUsuario';
 import { LoginData } from '../../../models/LoginData';
+import { FormsModule } from '@angular/forms'; // Importa FormsModule
 
 
 @Component({
@@ -23,6 +24,7 @@ import { LoginData } from '../../../models/LoginData';
     MatTabsModule,
     MatCardModule,
     MatIconModule,
+    FormsModule,
   ],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
@@ -41,7 +43,12 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   crecimientoUsuariosChart: any;
   loginsChart: any;
 
+  // Filtros independientes de unidad de tiempo para cada gráfico
+  filtroTiempoCrecimiento: 'día' | 'mes' = 'mes';
+  filtroTiempoLogins: 'día' | 'mes' = 'mes';
+
   constructor(private firebaseService: FirebaseService) {}
+
 
   ngOnInit(): void {
     this.usuarios$ = this.firebaseService.getUsuarios();
@@ -66,7 +73,6 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
 
   toggleContenido(): void {
     this.mostrarContenido = !this.mostrarContenido;
-    
     if (!this.mostrarContenido) {
       setTimeout(() => {
         this.loadCrecimientoUsuariosData();
@@ -77,15 +83,36 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     }
   }
   
-  private loadCrecimientoUsuariosData(): void {
-    this.firebaseService.getCrecimientoUsuarios().subscribe((data: CrecimientoUsuario[]) => {
-      if (!Array.isArray(data)) {
-        console.error('Error: los datos de crecimiento de usuarios no son un arreglo', data);
-        return;
+  // Método para agrupar datos por unidad de tiempo seleccionada
+  private agruparPorTiempo(data: any[], tiempo: 'día' | 'mes') {
+    const agrupados = new Map<string, number>();
+
+    data.forEach(item => {
+      const fecha = new Date(item.fecha);
+      let clave: string;
+
+      if (tiempo === 'mes') {
+        clave = `${fecha.getFullYear()}-${fecha.getMonth() + 1}`; // Agrupación por año-mes
+      } else {
+        clave = `${fecha.getFullYear()}-${fecha.getMonth() + 1}-${fecha.getDate()}`; // Agrupación por año-mes-día
       }
 
-      const labels = data.map(item => item.mes);
-      const counts = data.map(item => item.count);
+      if (agrupados.has(clave)) {
+        agrupados.set(clave, agrupados.get(clave)! + item.contador);
+      } else {
+        agrupados.set(clave, item.contador);
+      }
+    });
+
+    return {
+      labels: Array.from(agrupados.keys()),
+      counts: Array.from(agrupados.values())
+    };
+  }
+
+  public loadCrecimientoUsuariosData(): void {
+    this.firebaseService.getCrecimientoUsuarios().subscribe((data) => {
+      const { labels, counts } = this.agruparPorTiempo(data, this.filtroTiempoCrecimiento);
 
       if (this.crecimientoUsuariosChart) {
         this.crecimientoUsuariosChart.destroy();
@@ -106,7 +133,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
         options: {
           responsive: true,
           scales: {
-            x: { title: { display: true, text: 'Mes' } },
+            x: { title: { display: true, text: 'Fecha' } },
             y: { title: { display: true, text: 'Usuarios Nuevos' } }
           }
         }
@@ -114,15 +141,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private loadLoginsData(): void {
-    this.firebaseService.getLoginsUsuarios().subscribe((data: LoginData[]) => {
-      if (!Array.isArray(data)) {
-        console.error('Error: los datos de logins no son un arreglo', data);
-        return;
-      }
 
-      const labels = data.map(item => item.mes);
-      const counts = data.map(item => item.count);
+  public loadLoginsData(): void {
+    this.firebaseService.getLoginsUsuarios().subscribe((data) => {
+      const { labels, counts } = this.agruparPorTiempo(data, this.filtroTiempoLogins);
 
       if (this.loginsChart) {
         this.loginsChart.destroy();
@@ -143,7 +165,7 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
         options: {
           responsive: true,
           scales: {
-            x: { title: { display: true, text: 'Mes' } },
+            x: { title: { display: true, text: 'Fecha' } },
             y: { title: { display: true, text: 'Inicios de Sesión' } }
           }
         }
