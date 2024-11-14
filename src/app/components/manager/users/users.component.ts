@@ -13,9 +13,6 @@ import { FormsModule } from '@angular/forms'; // Importa FormsModule
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import moment from 'moment';
-import 'chartjs-chart-matrix';
-import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'; // Importar elementos del plugin
 
 
 
@@ -63,21 +60,12 @@ export class UsersComponent implements OnInit, AfterViewInit {
   loadingCrecimientoUsuarios = true;
   loadingLogins = true;
 
-
-  publicaciones: any[] = [];
-  publicacionesHeatmap: any;
-  publicacionesPorUbicacion: any;
-
   constructor(private firebaseService: FirebaseService) { }
 
   ngOnInit(): void {
     this.usuarios$ = this.firebaseService.getUsuarios();
     this.tutores$ = this.firebaseService.getUsuariosPorTipo('TUTOR');
     this.estudiantes$ = this.firebaseService.getUsuariosPorTipo('ESTUDIANTE');
-
-    // Registrar el plugin y los componentes básicos de Chart.js
-    Chart.register(...registerables, MatrixController, MatrixElement);
-    this.loadPublicationData();
 
     // Cargar datos de ayudantías finalizadas
     this.firebaseService.getAyudantiasFinalizadas().subscribe(data => {
@@ -112,144 +100,6 @@ export class UsersComponent implements OnInit, AfterViewInit {
     } else {
       this.destroyCharts(); // Destruir gráficos si el contenido de usuarios está visible
     }
-  }
-
-  loadPublicationData(): void {
-    this.firebaseService.getPublications().subscribe((data) => {
-      this.publicaciones = data;
-      this.createHeatmapChart();
-      this.createLocationBarChart();
-    });
-  }
-
-
-  createHeatmapChart(): void {
-    const presencialData: any[] = [];
-    const virtualData: any[] = [];
-  
-    this.publicaciones.forEach(publicacion => {
-      const fecha = moment(publicacion.fecha_ayudantia, 'DD-MM-YYYY');
-      const hora = publicacion.hora;
-  
-      if (publicacion.formato === 'PRESENCIAL') {
-        presencialData.push({ x: fecha.day(), y: parseInt(hora), v: 1 });
-      } else {
-        virtualData.push({ x: fecha.day(), y: parseInt(hora), v: 1 });
-      }
-    });
-  
-    this.publicacionesHeatmap = new Chart('heatmapChart', {
-      type: 'matrix',
-      data: {
-        datasets: [
-          {
-            label: 'Presencial',
-            data: presencialData,
-            backgroundColor: 'rgba(75, 192, 192, 0.5)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            width: ({ chart }) => (chart.chartArea ? (chart.chartArea.width / 7) - 2 : 20),
-            height: ({ chart }) => (chart.chartArea ? (chart.chartArea.height / 24) - 2 : 20),
-          },
-          {
-            label: 'Virtual',
-            data: virtualData,
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            width: ({ chart }) => (chart.chartArea ? (chart.chartArea.width / 7) - 2 : 20),
-            height: ({ chart }) => (chart.chartArea ? (chart.chartArea.height / 24) - 2 : 20),
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          x: {
-            type: 'linear',
-            title: {
-              display: true,
-              text: 'Día de la Semana'
-            },
-            ticks: {
-              callback: (tickValue) => {
-                if (typeof tickValue === 'number') {
-                  const days = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-                  return days[tickValue];
-                }
-                return tickValue;
-              }
-            }
-          },
-          y: {
-            type: 'linear',
-            title: {
-              display: true,
-              text: 'Hora del Día'
-            },
-            ticks: {
-              stepSize: 1,
-              callback: (value) => `${value}:00`
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top'
-          }
-        }
-      }
-    });
-  }
-  
-
-  createLocationBarChart(): void {
-    const locationCounts: { [key: string]: number } = {};
-
-    this.publicaciones.forEach(publicacion => {
-      if (publicacion.formato === 'PRESENCIAL' && publicacion.estado === 'PUBLICADO') {
-        const ubicacion = publicacion.detalle_ubicacion || 'Sin Especificar';
-        locationCounts[ubicacion] = (locationCounts[ubicacion] || 0) + 1;
-      }
-    });
-
-    const labels = Object.keys(locationCounts);
-    const data = Object.values(locationCounts);
-
-    this.publicacionesPorUbicacion = new Chart('locationBarChart', {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [
-          {
-            label: 'Publicaciones por Ubicación',
-            data: data,
-            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'Ubicación'
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Cantidad de Publicaciones'
-            },
-            ticks: {
-              stepSize: 1
-            }
-          }
-        }
-      }
-    });
   }
 
 
