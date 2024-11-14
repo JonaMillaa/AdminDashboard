@@ -194,7 +194,58 @@ mat-card-content p {
 
 .chart-container {
   width: 45%;
+  background: #e6e6e7; /* Fondo gris claro */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 20px; /* Espaciado interno */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  margin: 20px auto; /* Espaciado entre gráficos y centrado */
 }
+
+.chart-container h3 {
+  margin-bottom: 10px; /* Separación entre el título y el gráfico */
+  color: #333; /* Color del texto */
+}
+
+.chart-container canvas {
+  max-width: 100%; /* Ajusta el ancho del gráfico al contenedor */
+}
+
+h2{
+  text-align: center;
+}
+
+label{
+  font-size: 16px;
+}
+
+/* Estilo general para el select */
+select {
+  margin-left: 10px;
+  padding: 6px 12px;
+  font-size: 16px;
+  border: 2px solid #3f51b5; /* Color de borde */
+  border-radius: 8px; /* Bordes redondeados */
+  background-color: #f3f4f6; /* Fondo claro */
+  color: #333; /* Color del texto */
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s; /* Efecto de transición */
+}
+
+/* Cambia el color de fondo y el borde cuando el select está en foco */
+select:focus {
+  background-color: #e0e7ff; /* Fondo en foco */
+  border-color: #1e3a8a; /* Borde en foco */
+}
+
+/* Estilos para las opciones del select */
+option {
+  font-size: 16px;
+  padding: 8px;
+  color: #333;
+}
+
+
 
 .fixed-size-chart {
   width: 90% !important; /* Asegura que el canvas ocupe el 100% del contenedor */

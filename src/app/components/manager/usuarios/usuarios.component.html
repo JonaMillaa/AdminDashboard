@@ -24,7 +24,7 @@
 <!-- Filtros de tiempo y gráficos -->
 <div *ngIf="!mostrarContenido" class="charts">
   <div class="chart-container">
-    <h3>Crecimiento de Usuarios</h3>
+    <h2>Crecimiento de nuevos Usuarios</h2>
     <label for="filtroTiempoCrecimiento">Filtrar por:</label>
     <select id="filtroTiempoCrecimiento" [(ngModel)]="filtroTiempoCrecimiento" (change)="loadCrecimientoUsuariosData()">
       <option value="día">Día</option>
@@ -34,7 +34,7 @@
   </div>
 
   <div class="chart-container">
-    <h3>Inicios de Sesión</h3>
+    <h2>Historial de Inicios de Sesión por Fecha</h2>
     <label for="filtroTiempoLogins">Filtrar por:</label>
     <select id="filtroTiempoLogins" [(ngModel)]="filtroTiempoLogins" (change)="loadLoginsData()">
       <option value="día">Día</option>
@@ -44,7 +44,6 @@
   </div>
 </div>
 
-
 <!-- Contenedor de gestión de usuarios, visible solo si mostrarContenido es true -->
 <div *ngIf="mostrarContenido" class="content">
   <mat-tab-group>
@@ -53,7 +52,7 @@
         <mat-card *ngFor="let usuario of usuarios$ | async" class="user-card">
           <mat-card-header>
             <div mat-card-avatar class="avatar">
-              <img [src]="usuario.Foto || '../assets/images/user.png'" alt="" />
+              <img [src]="usuario.Foto || '../../assets/images/user.png'" alt="" />
             </div>
             <mat-card-title>{{ usuario.Nombre }} {{ usuario.Apellido }}</mat-card-title>
             <mat-card-subtitle>{{ usuario.Rol }} - {{ usuario.Carrera }}</mat-card-subtitle>

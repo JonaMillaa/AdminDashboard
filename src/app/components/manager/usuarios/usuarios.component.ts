@@ -47,8 +47,10 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   filtroTiempoCrecimiento: 'día' | 'mes' = 'mes';
   filtroTiempoLogins: 'día' | 'mes' = 'mes';
 
-  constructor(private firebaseService: FirebaseService) {}
+  private meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
+
+  constructor(private firebaseService: FirebaseService) { }
 
   ngOnInit(): void {
     this.usuarios$ = this.firebaseService.getUsuarios();
@@ -73,28 +75,33 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
 
   toggleContenido(): void {
     this.mostrarContenido = !this.mostrarContenido;
+
     if (!this.mostrarContenido) {
       setTimeout(() => {
+        this.destroyCharts(); // Destruir gráficos existentes antes de crear nuevos
         this.loadCrecimientoUsuariosData();
         this.loadLoginsData();
       }, 0);
     } else {
-      this.destroyCharts();
+      this.destroyCharts(); // Destruir gráficos si el contenido de usuarios está visible
     }
   }
-  
+
+
   // Método para agrupar datos por unidad de tiempo seleccionada
   private agruparPorTiempo(data: any[], tiempo: 'día' | 'mes') {
     const agrupados = new Map<string, number>();
 
     data.forEach(item => {
-      const fecha = new Date(item.fecha);
+      const [day, month, year] = item.fecha.split('-'); // Asumimos que la fecha está en formato 'dd-mm-yyyy'
+      const fecha = new Date(parseInt(year), parseInt(month) - 1, parseInt(day)); // Convertimos a objeto Date
+
       let clave: string;
 
       if (tiempo === 'mes') {
-        clave = `${fecha.getFullYear()}-${fecha.getMonth() + 1}`; // Agrupación por año-mes
+        clave = `${this.meses[fecha.getMonth()]} ${fecha.getFullYear()}`; // Ejemplo: 'noviembre 2024'
       } else {
-        clave = `${fecha.getFullYear()}-${fecha.getMonth() + 1}-${fecha.getDate()}`; // Agrupación por año-mes-día
+        clave = `${day}-${month}-${year}`; // Ejemplo: '12-11-2024'
       }
 
       if (agrupados.has(clave)) {
@@ -111,13 +118,16 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
   }
 
   public loadCrecimientoUsuariosData(): void {
+
+    // Destruir el gráfico anterior si existe
+    if (this.crecimientoUsuariosChart) {
+      this.crecimientoUsuariosChart.destroy();
+      this.crecimientoUsuariosChart = null;
+    }
+  
     this.firebaseService.getCrecimientoUsuarios().subscribe((data) => {
       const { labels, counts } = this.agruparPorTiempo(data, this.filtroTiempoCrecimiento);
-
-      if (this.crecimientoUsuariosChart) {
-        this.crecimientoUsuariosChart.destroy();
-      }
-
+  
       this.crecimientoUsuariosChart = new Chart('crecimientoUsuariosChart', {
         type: 'line',
         data: {
@@ -127,29 +137,97 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
             data: counts,
             fill: false,
             borderColor: 'blue',
+            borderWidth: 2,
+            pointBackgroundColor: 'blue',
+            pointRadius: 5,
             tension: 0.1
           }]
         },
         options: {
           responsive: true,
           scales: {
-            x: { title: { display: true, text: 'Fecha' } },
-            y: { title: { display: true, text: 'Usuarios Nuevos' } }
+            x: {
+              title: { 
+                display: true, 
+                text: 'Fecha',
+                color: '#333',
+                font: {
+                  size: 15,
+                  weight: 'bold'
+                },
+              },
+              ticks: {
+                color: '#666',
+                font: {
+                  size: 12
+                }
+              },
+              grid: {
+                color: '#e0e0e0',
+                lineWidth: 1
+              }
+            },
+            y: {
+              title: { 
+                display: true, 
+                text: 'Usuarios Nuevos',
+                color: '#333',
+                font: {
+                  size: 15,
+                  weight: 'bold'
+                }
+              },
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1,
+                color: '#666',
+                font: {
+                  size: 12
+                },
+                callback: function (value) {
+                  return Number.isInteger(value) ? value : null;
+                }
+              },
+              grid: {
+                color: '#e0e0e0',
+                lineWidth: 1
+              },
+              suggestedMin: 0
+            }
+          },
+          plugins: {
+            legend: {
+              display: true,
+              labels: {
+                color: '#333', // Color de la etiqueta de la leyenda
+                font: {
+                  size: 14,
+                  weight: 'bold'
+                },
+                padding: 20, // Espaciado entre leyenda y gráfico
+                boxWidth: 15, // Ancho de la caja de color de la leyenda
+                boxHeight: 15, // Altura de la caja de color de la leyenda
+              
+              }
+            }
           }
         }
       });
     });
   }
-
-
+  
+  
   public loadLoginsData(): void {
+
+    // Destruir el gráfico anterior si existe
+    if (this.loginsChart) {
+      this.loginsChart.destroy();
+      this.loginsChart = null;
+    }
+  
     this.firebaseService.getLoginsUsuarios().subscribe((data) => {
       const { labels, counts } = this.agruparPorTiempo(data, this.filtroTiempoLogins);
-
-      if (this.loginsChart) {
-        this.loginsChart.destroy();
-      }
-
+  
       this.loginsChart = new Chart('loginsChart', {
         type: 'bar',
         data: {
@@ -157,21 +235,84 @@ export class UsuariosComponent implements OnInit, AfterViewInit {
           datasets: [{
             label: 'Inicios de Sesión',
             data: counts,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            backgroundColor: 'rgba(75, 192, 192, 0.3)',
             borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
+            borderWidth: 2,
+            hoverBackgroundColor: 'rgba(75, 192, 192, 0.6)',
           }]
         },
         options: {
           responsive: true,
           scales: {
-            x: { title: { display: true, text: 'Fecha' } },
-            y: { title: { display: true, text: 'Inicios de Sesión' } }
+            x: {
+              title: { 
+                display: true, 
+                text: 'Fecha',
+                color: '#333',
+                font: {
+                  size: 15,
+                  weight: 'bold'
+                }
+              },
+              ticks: {
+                color: '#666',
+                font: {
+                  size: 12
+                }
+              },
+              grid: {
+                color: '#e0e0e0',
+                lineWidth: 1
+              }
+            },
+            y: {
+              title: { 
+                display: true, 
+                text: 'Inicios de Sesión',
+                color: '#333',
+                font: {
+                  size: 15,
+                  weight: 'bold'
+                }
+              },
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1,
+                color: '#666',
+                font: {
+                  size: 12
+                },
+                callback: function (value) {
+                  return Number.isInteger(value) ? value : null;
+                }
+              },
+              grid: {
+                color: '#e0e0e0',
+                lineWidth: 1
+              },
+              suggestedMin: 0
+            }
+          },
+          plugins: {
+            legend: {
+              display: true,
+              labels: {
+                color: '#333', // Color de la etiqueta de la leyenda
+                font: {
+                  size: 14,
+                  weight: 'bold'
+                },
+                padding: 20, // Espaciado entre leyenda y gráfico
+                boxWidth: 15, // Ancho de la caja de color de la leyenda
+                boxHeight: 15, // Altura de la caja de color de la leyenda
+              }
+            }
           }
         }
       });
     });
   }
+  
 
   private destroyCharts(): void {
     if (this.crecimientoUsuariosChart) {
