@@ -65,8 +65,8 @@
   .usuarios-activos { border-left: 4px solid #2196f3; }
   .nuevos-usuarios { border-left: 4px solid #ff9800; }
   .contador-agendadas { border-left: 4px solid #42a5f5; }
-  .contador-en-curso { border-left: 4px solid #66bb6a; }
-  .contador-finalizadas { border-left: 4px solid #ffa726; }
+  .contador-en-curso { border-left: 4px solid #ffa726; }
+  .contador-finalizadas { border-left: 4px solid #66bb6a; }
   .contador-no-realizadas { border-left: 4px solid #ef5350; }
   
   /* Gráfico de torta */
