@@ -1,0 +1,127 @@
+<div class="pagos-container">
+  <!-- Tarjetas de conteo -->
+  <div class="tarjetas-conteo">
+    <mat-card class="tarjeta">
+      <mat-card-title>Pagos Pendientes</mat-card-title>
+      <mat-card-content>
+        <h3>{{ pagosPendientesCount }}</h3>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="tarjeta">
+      <mat-card-title>Pagos Finalizados</mat-card-title>
+      <mat-card-content>
+        <h3>{{ pagosFinalizadosCount }}</h3>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Opciones para mostrar tablas -->
+  <div class="tabla-opciones">
+    <button mat-button (click)="mostrarTabla('pendientes')">Pagos Pendientes</button>
+    <button mat-button (click)="mostrarTabla('finalizados')">Pagos Finalizados</button>
+  </div>
+
+  <!-- Tabla de Pagos Pendientes -->
+  <div *ngIf="tablaActual === 'pendientes'">
+    <h2>Pagos Pendientes del Día</h2>
+    <table mat-table [dataSource]="pagosPendientesDataSource" class="mat-elevation-z8">
+      <!-- Columnas de la tabla -->
+      <ng-container matColumnDef="titulo">
+        <th mat-header-cell *matHeaderCellDef> Título </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.info_ayudantia?.titulo_ayudantia || 'N/A' }} </td>
+      </ng-container>
+      <ng-container matColumnDef="nombreUsuario">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.nombreUsuario || 'No disponible' }} </td>
+      </ng-container>
+      <ng-container matColumnDef="apellidoUsuario">
+        <th mat-header-cell *matHeaderCellDef> Apellido </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.apellidoUsuario || 'No disponible' }} </td>
+      </ng-container>
+      <ng-container matColumnDef="duracion">
+        <th mat-header-cell *matHeaderCellDef> Duración (hrs) </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.duracion || 'N/A' }} </td>
+      </ng-container>
+      <ng-container matColumnDef="hora">
+        <th mat-header-cell *matHeaderCellDef> Hora </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.hora || 'N/A' }} </td>
+      </ng-container>
+      <ng-container matColumnDef="formato">
+        <th mat-header-cell *matHeaderCellDef> Formato </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.formato || 'N/A' }} </td>
+      </ng-container>
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.estado || 'N/A' }} </td>
+      </ng-container> 
+      
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let pago">
+          <button mat-icon-button color="primary" class="accion-boton">
+           Intervenir
+          </button>
+          <button mat-icon-button color="accent" class="accion-boton">
+            Editar
+          </button>
+        </td>
+      </ng-container>
+
+      <!-- Header y Rows -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <!-- Tabla de Pagos Finalizados -->
+  <div *ngIf="tablaActual === 'finalizados'">
+    <h2>Pagos Finalizados del Día</h2>
+    <table mat-table [dataSource]="pagosFinalizadosDataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="titulo">
+        <th mat-header-cell *matHeaderCellDef> Título </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.info_ayudantia?.titulo_ayudantia || 'N/A' }} </td>
+      </ng-container>
+      <ng-container matColumnDef="nombreUsuario">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.nombreUsuario || 'No disponible' }} </td>
+      </ng-container>
+      <ng-container matColumnDef="apellidoUsuario">
+        <th mat-header-cell *matHeaderCellDef> Apellido </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.apellidoUsuario || 'No disponible' }} </td>
+      </ng-container>
+      <ng-container matColumnDef="duracion">
+        <th mat-header-cell *matHeaderCellDef> Duración (hrs) </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.duracion || 'N/A' }} </td>
+      </ng-container>
+      <ng-container matColumnDef="hora">
+        <th mat-header-cell *matHeaderCellDef> Hora </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.hora || 'N/A' }} </td>
+      </ng-container>
+      <ng-container matColumnDef="formato">
+        <th mat-header-cell *matHeaderCellDef> Formato </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.formato || 'N/A' }} </td>
+      </ng-container>
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let pago"> {{ pago.estado || 'N/A' }} </td>
+      </ng-container> 
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let pago">
+          <button mat-icon-button color="primary" class="accion-boton">
+             Intervenir
+          </button>
+          <button mat-icon-button color="accent" class="accion-boton">
+             Editar
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div> 
+
+

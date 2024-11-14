@@ -1,14 +1,14 @@
-import { Component, ViewChild  } from '@angular/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { Component, ViewChild } from '@angular/core';
+import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSidenav } from '@angular/material/sidenav'
 import { FirebaseService } from '../../firebase/firebase.service';
+
 @Component({
   selector: 'app-admin-layout',
   standalone: true,
@@ -17,20 +17,23 @@ import { FirebaseService } from '../../firebase/firebase.service';
     MatSidenavModule,
     MatListModule,
     MatButtonModule,
+    MatIconModule,
     RouterModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    MatIcon
   ],
   templateUrl: './admin-layout.component.html',
-  styleUrl: './admin-layout.component.css'
+  styleUrls: ['./admin-layout.component.css'],
 })
 export class AdminLayoutComponent {
-  constructor(private authService: FirebaseService) {}
+  @ViewChild('sidenav') sidenav!: MatSidenav; // Agrega ViewChild para el sidenav
+
   opened = true;
-  logout() {
+
+  constructor(private authService: FirebaseService, private router: Router) {}
+
+  logout(): void {
     this.authService.logout();
+    this.router.navigate(['/login']); // Navega al login tras cerrar sesión
   }
-
-
 }

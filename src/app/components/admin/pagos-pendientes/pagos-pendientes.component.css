@@ -1,0 +1,133 @@
+.pagos-container {
+  width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Tarjetas de conteo */
+.tarjetas-conteo {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tarjeta {
+  width: 220px;
+  padding: 15px;
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.tarjeta:hover {
+  transform: translateY(-3px);
+}
+
+.mat-card-title {
+  font-size: 1em;
+  font-weight: bold;
+  color: #555;
+}
+
+.tarjeta h3 {
+  font-size: 2em;
+  margin: 0;
+  color: #1976d2;
+}
+
+/* Opciones de tablas */
+.tabla-opciones {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+button.mat-button {
+  margin: 5px;
+  padding: 6px 14px;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: #fff;
+  background-color: #1976d2;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+button.mat-button:hover {
+  background-color: #155a9a;
+}
+
+/* Tabla de datos */
+table.mat-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th.mat-header-cell,
+td.mat-cell {
+  padding: 10px;
+  text-align: left;
+  font-size: 0.9em;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+th.mat-header-cell {
+  background-color: #e8e8e8;
+  color: #555;
+  font-weight: bold;
+}
+
+.mat-header-row,
+.mat-row {
+  transition: background-color 0.3s;
+}
+
+.mat-row:hover {
+  background-color: #f1f1f1;
+}
+
+/* Estilo de botones de acción en cada fila */
+.accion-boton {
+  display: flex;
+   width: 100%;
+}
+
+button.accion-boton-item {
+  padding: 12px;
+  font-size: 0.15em;
+  display: inline-flex;
+  align-items: center;
+}
+
+
+
+/* Color de botones de acciones */
+.mat-icon-button[color="primary"] {
+  color: #1976d2;
+}
+
+.mat-icon-button[color="accent"] {
+  color: #f57c00;
+}
+
+/* Responsividad */
+@media (max-width: 780px) {
+  .tarjetas-conteo {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pagos-container {
+    width: 95%;
+  }
+
+  
+}

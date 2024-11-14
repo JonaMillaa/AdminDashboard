@@ -13,6 +13,7 @@ import { LoginData } from '../models/LoginData';
 import { CrecimientoUsuario } from '../models/CrecimientoUsuario';
 
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -24,6 +25,7 @@ export class FirebaseService {
 
 
   private isLoggedIn: boolean = false;
+
   login(user: string): void {
     if (user === 'admin' || user === 'manager') {
       this.isLoggedIn = true;
