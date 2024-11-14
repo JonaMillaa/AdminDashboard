@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, query, where, orderBy} from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Firestore, addDoc, collection, collectionData, query, where, orderBy, getDoc, doc} from '@angular/fire/firestore';
+import { Observable, forkJoin, from} from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 import { Ayudantia } from '../models/ayudantia.model';
 import { Pregunta_ayudantia } from '../models/preguntas_ayudantia.model';
 import { Publicacion } from '../models/publicacion.interface';
 import { Calificacion } from '../models/calificacion.interface';
 import { TutorRanking } from '../models/tutor-ranking.interface';
-import { map, combineLatestWith } from 'rxjs/operators';
+import { map, combineLatestWith, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { LoginData } from '../models/LoginData';
 import { CrecimientoUsuario } from '../models/CrecimientoUsuario';
@@ -308,8 +308,6 @@ export class FirebaseService {
     );
   }
 
-
- 
   getCrecimientoUsuarios(): Observable<CrecimientoUsuario[]> {
     const coleccion = collection(this.firestore, 'Contador_nuevos_usuarios');
     return collectionData(coleccion, { idField: 'id' }).pipe(
@@ -329,6 +327,40 @@ export class FirebaseService {
       })))
     );
   }
+
+
+  // Obtener todas las publicaciones con ayudantías finalizadas y los datos de los participantes
+  // Obtener ayudantías con estado FINALIZADA y extraer campos requeridos
+  getAyudantiasFinalizadas(): Observable<any[]> {
+    const coleccion = collection(this.firestore, 'Publicaciones');
+    return collectionData(coleccion, { idField: 'id' }).pipe(
+      map((publicaciones: any[]) => 
+        publicaciones
+          .filter(publicacion => publicacion.estado === 'FINALIZADA')
+          .map(publicacion => ({
+            titulo_ayudantia: publicacion.info_ayudantia?.titulo_ayudantia || 'Sin título',
+            descripcion_ayudantia: publicacion.info_ayudantia?.descripcion_ayudantia || 'Sin descripción',
+            categoria: publicacion.info_ayudantia?.categoria || 'Sin categoría',
+            subcategoria: publicacion.info_ayudantia?.subcategoria || 'Sin subcategoría',
+            participantes: publicacion.info_ayudantia?.participantes || '0',
+            fecha_ayudantia: this.formatFecha(publicacion.fecha_ayudantia || ''),
+            nombre_estudiante: publicacion.info_ayudantia?.info_usuario?.nombre || 'Desconocido',
+            apellido_estudiante: publicacion.info_ayudantia?.info_usuario?.apellido || 'Desconocido',
+            detalle_ubicacion: publicacion.detalle_ubicacion || 'Ubicación no especificada',
+            duracion: publicacion.duracion || 'Duración no especificada',
+            formato: publicacion.formato || 'Formato no especificado'
+          }))
+      )
+    );
+  }
+
+  // Método para formatear la fecha en formato dd-mm-yyyy
+  private formatFecha(fecha: string): string {
+    if (!fecha) return 'Fecha no disponible';
+    const [year, month, day] = fecha.split('-'); // Suponemos que la fecha está en formato yyyy-mm-dd
+    return `${day}-${month}-${year}`;
+  }
+
   
 }
 

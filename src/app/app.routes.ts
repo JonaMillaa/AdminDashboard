@@ -9,8 +9,8 @@ import { ManagerLayoutComponent } from './components/manager-layout/manager-layo
 import { AuthGuard } from './guards/auth.guard';
 
 import { DashboardComponent } from './components/manager/dashboard/dashboard.component';
-import { UsuariosComponent } from './components/manager/usuarios/usuarios.component';
-import { SoporteComponent } from './components/manager/soporte/soporte.component';
+import { UsersComponent } from './components/manager/users/users.component';
+// import { SoporteComponent } from './components/manager/soporte/soporte.component';
 import { CalendarComponent } from './components/manager/calendar/calendar.component';
 import { PublicacionesComponent } from './components/manager/publicaciones/publicaciones.component';
 import { MonitoreoComponent } from './components/manager/monitoreo/monitoreo.component';
@@ -26,7 +26,7 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [AuthGuard], // Protegido con AuthGuard
     children: [
-      { path: 'soporte', component: SoporteComponent }
+      // { path: 'soporte', component: SoporteComponent }
     ]
   },
 
@@ -39,7 +39,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'monitoreo', component: MonitoreoComponent },
       { path: 'reportes', component: ReportesComponent }, 
-      { path: 'usuarios', component: UsuariosComponent },
+      { path: 'users', component: UsersComponent },
       { path: 'notificacion', component: NotificacionComponent },
       { path: 'facturacion', component: FacturacionComponent },
       { path: 'calendario', component: CalendarComponent }
