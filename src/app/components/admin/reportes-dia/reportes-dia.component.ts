@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { ReportesService } from '../../../firebase/reportes.service';
+import { PublicacionesDiaService } from '../../../firebase/publicaciones-dia.service';
 
 @Component({
   selector: 'app-reportes-dia',
@@ -10,109 +11,135 @@ import { ReportesService } from '../../../firebase/reportes.service';
   standalone: true,
 })
 export class ReportesDiaComponent implements OnInit {
-  // Variables para los cuadros de métricas
+  // Variables para métricas de usuario
   contadorIniciosSesionHoy: number = 0;
   numeroUsuariosActivosHoy: number = 0;
   nuevosUsuariosHoy: number = 0;
-  publicacionesHoy: any[] = [];
 
-  @ViewChild('myChart', { static: true }) myChart!: ElementRef<HTMLCanvasElement>;
-  chart!: Chart;
+  // Variables para métricas de publicaciones
+  publicacionesAgendadasCount: number = 0;
+  publicacionesEnCursoCount: number = 0;
+  publicacionesFinalizadasCount: number = 0;
+  publicacionesNoRealizadasCount: number = 0;
 
-  constructor(private reportesService: ReportesService) {
+  // Referencias a los elementos de los gráficos
+  @ViewChild('myChart', { static: true }) usuarioChartCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('publicacionChart', { static: true }) publicacionChartCanvas!: ElementRef<HTMLCanvasElement>;
+
+  usuarioChart!: Chart<'doughnut'>;
+  publicacionChart!: Chart<'pie'>;
+
+  constructor(
+    private reportesService: ReportesService,
+    private publicacionesService: PublicacionesDiaService
+  ) {
     Chart.register(...registerables, ChartDataLabels);
   }
 
   ngOnInit(): void {
-    this.obtenerDatosDelDia();
-    this.inicializarGrafico();
+    this.obtenerDatosDeUsuario();
+    this.obtenerDatosDePublicaciones();
+    this.inicializarGraficos();
   }
 
-  obtenerDatosDelDia(): void {
-    this.reportesService.obtenerContadorHoy().subscribe(
-      contador => {
-        this.contadorIniciosSesionHoy = contador;
-        this.actualizarGrafico();
-      },
-      error => console.error('Error al obtener el contador de inicios de sesión:', error)
-    );
-
-    this.reportesService.obtenerUsuariosActivosHoy().subscribe(
-      numero => {
-        this.numeroUsuariosActivosHoy = numero;
-        this.actualizarGrafico();
-      },
-      error => console.error('Error al obtener el número de usuarios activos de hoy:', error)
-    );
-
-    this.reportesService.obtenerNuevosUsuariosHoy().subscribe(
-      contador => {
-        this.nuevosUsuariosHoy = contador;
-        this.actualizarGrafico();
-      },
-      error => console.error('Error al obtener el número de nuevos usuarios de hoy:', error)
-    );
+  obtenerDatosDeUsuario(): void {
+    this.reportesService.obtenerContadorHoy().subscribe(contador => {
+      this.contadorIniciosSesionHoy = contador;
+      this.actualizarUsuarioChart();
+    });
+    this.reportesService.obtenerUsuariosActivosHoy().subscribe(numero => {
+      this.numeroUsuariosActivosHoy = numero;
+      this.actualizarUsuarioChart();
+    });
+    this.reportesService.obtenerNuevosUsuariosHoy().subscribe(contador => {
+      this.nuevosUsuariosHoy = contador;
+      this.actualizarUsuarioChart();
+    });
   }
 
-  inicializarGrafico(): void {
-    const total = this.contadorIniciosSesionHoy + this.numeroUsuariosActivosHoy + this.nuevosUsuariosHoy;
+  obtenerDatosDePublicaciones(): void {
+    this.publicacionesService.getPublicacionesPorEstadoDelDia().subscribe(data => {
+      this.publicacionesAgendadasCount = data.agendadas.length;
+      this.publicacionesEnCursoCount = data.enCurso.length;
+      this.publicacionesFinalizadasCount = data.finalizadas.length;
+      this.publicacionesNoRealizadasCount = data.noRealizadas.length;
+      this.actualizarPublicacionChart();
+    });
+  }
 
-    const config: ChartConfiguration<'doughnut'> = {
+  inicializarGraficos(): void {
+    // Configuración del gráfico de usuarios con porcentaje
+    const usuarioConfig: ChartConfiguration<'doughnut'> = {
       type: 'doughnut',
       data: {
-         datasets: [
-          {
-            data: [this.contadorIniciosSesionHoy, this.numeroUsuariosActivosHoy, this.nuevosUsuariosHoy],
-            backgroundColor: ['#3b82f6', '#4caf50', '#ff9800'],
-            hoverBackgroundColor: ['#1c64d6', '#388e3c', '#ff5722'],
-          }
-        ]
+           datasets: [{
+          data: [this.contadorIniciosSesionHoy, this.numeroUsuariosActivosHoy, this.nuevosUsuariosHoy],
+          backgroundColor: ['#3b82f6', '#4caf50', '#ff9800'],
+          hoverBackgroundColor: ['#1c64d6', '#388e3c', '#ff5722']
+        }]
       },
       options: {
         responsive: true,
         plugins: {
-          legend: {
-            position: 'top',
-          },
+          legend: { position: 'top' },
           datalabels: {
             color: '#fff',
-            formatter: (value) => {
-              const percentage = ((value / total) * 100).toFixed(2) + '%';
-              return percentage; // Solo muestra el porcentaje
+            formatter: (value, context) => {
+              const dataArray = context.dataset.data as number[];
+              const total = dataArray.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
+              return total > 0 ? ((value / total) * 100).toFixed(2) + '%' : '0%';
             },
-            font: {
-              weight: 'bold'
-            }
-          },
-          tooltip: {
-            callbacks: {
-              label: (tooltipItem) => {
-                const label = tooltipItem.label || '';
-                const value = tooltipItem.raw as number;
-                const percentage = ((value / total) * 100).toFixed(2) + '%';
-                return `${label}: ${value} (${percentage})`;
-              }
-            }
+            font: { weight: 'bold' }
           }
         }
       }
     };
+    this.usuarioChart = new Chart(this.usuarioChartCanvas.nativeElement, usuarioConfig);
 
-    this.chart = new Chart(this.myChart.nativeElement, config as any);
+    // Configuración del gráfico de publicaciones con porcentaje
+    const publicacionConfig: ChartConfiguration<'pie'> = {
+      type: 'pie',
+      data: {
+    datasets: [{
+          data: [this.publicacionesAgendadasCount, this.publicacionesEnCursoCount, this.publicacionesFinalizadasCount, this.publicacionesNoRealizadasCount],
+          backgroundColor: ['#42a5f5', '#66bb6a', '#ffa726', '#ef5350'],
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'top' },
+          datalabels: {
+            color: '#fff',
+            formatter: (value, context) => {
+              const dataArray = context.dataset.data as number[];
+              const total = dataArray.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
+              return total > 0 ? ((value / total) * 100).toFixed(2) + '%' : '0%';
+            },
+            font: { weight: 'bold' }
+          }
+        }
+      }
+    };
+    this.publicacionChart = new Chart(this.publicacionChartCanvas.nativeElement, publicacionConfig);
   }
 
-  actualizarGrafico(): void {
-    const total = this.contadorIniciosSesionHoy + this.numeroUsuariosActivosHoy + this.nuevosUsuariosHoy;
-
-    this.chart.data.datasets[0].data = [
+  actualizarUsuarioChart(): void {
+    this.usuarioChart.data.datasets[0].data = [
       this.contadorIniciosSesionHoy,
       this.numeroUsuariosActivosHoy,
       this.nuevosUsuariosHoy
     ];
-    this.chart.options.plugins!.datalabels!.formatter = (value) => {
-      const percentage = ((value / total) * 100).toFixed(2) + '%';
-      return percentage; // Solo muestra el porcentaje
-    };
-    this.chart.update();
+    this.usuarioChart.update();
+  }
+
+  actualizarPublicacionChart(): void {
+    this.publicacionChart.data.datasets[0].data = [
+      this.publicacionesAgendadasCount,
+      this.publicacionesEnCursoCount,
+      this.publicacionesFinalizadasCount,
+      this.publicacionesNoRealizadasCount
+    ];
+    this.publicacionChart.update();
   }
 }

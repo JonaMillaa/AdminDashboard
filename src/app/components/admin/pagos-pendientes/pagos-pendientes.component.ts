@@ -4,16 +4,22 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Publicacion } from '../../../models/publicacion.interface';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-pagos-pendientes',
   templateUrl: './pagos-pendientes.component.html',
   styleUrls: ['./pagos-pendientes.component.css'],
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatCardModule],
+  imports: [CommonModule, MatTableModule, MatCardModule, MatButtonModule, MatIconModule],
 })
 export class PagosPendientesComponent implements OnInit {
-  displayedColumns: string[] = ['titulo', 'nombreUsuario', 'apellidoUsuario', 'duracion', 'hora', 'formato', 'estado'];
+  // Asegúrate de que 'acciones' esté en la lista de columnas
+  displayedColumns: string[] = [
+    'titulo', 'nombreUsuario', 'apellidoUsuario', 'duracion', 'hora', 'formato', 'estado', 'acciones'
+  ];
+
   pagosPendientesDataSource = new MatTableDataSource<Publicacion>();
   pagosFinalizadosDataSource = new MatTableDataSource<Publicacion>();
 

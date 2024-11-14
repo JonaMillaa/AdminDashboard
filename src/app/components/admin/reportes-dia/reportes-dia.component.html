@@ -1,30 +1,52 @@
-<div class="contador-sesion-container">
-  <h2>Reporte del Día</h2>
-
-  <!-- Cuadros con las métricas del día -->
-  <div class="contador-row">
-    <div class="contador-item contador-inicios-sesion">
-      <h3>Inicios de Sesión Hoy</h3>
-      <p>{{ contadorIniciosSesionHoy }}</p>
+<div class="dashboard-container">
+    <!-- Sección de métricas de usuario -->
+    <div class="usuario-container">
+      <h2>Métricas de Usuarios del Día</h2>
+      <div class="contador-row">
+        <div class="contador-item contador-inicios-sesion">
+          <h3>Inicios de Sesión Hoy</h3>
+          <p>{{ contadorIniciosSesionHoy }}</p>
+        </div>
+        <div class="contador-item usuarios-activos">
+          <h3>Usuarios Activos Hoy</h3>
+          <p>{{ numeroUsuariosActivosHoy }}</p>
+        </div>
+        <div class="contador-item nuevos-usuarios">
+          <h3>Nuevos Usuarios Hoy</h3>
+          <p>{{ nuevosUsuariosHoy }}</p>
+        </div>
+      </div>
+      <div class="grafico-container">
+    
+        <canvas #myChart></canvas>
+      </div>
     </div>
-
-    <div class="contador-item usuarios-activos">
-      <h3>Usuarios Activos Hoy</h3>
-      <p>{{ numeroUsuariosActivosHoy }}</p>
-    </div>
-
-    <div class="contador-item nuevos-usuarios">
-      <h3>Nuevos Usuarios Hoy</h3>
-      <p>{{ nuevosUsuariosHoy }}</p>
+  
+    <!-- Sección de métricas de publicaciones -->
+    <div class="publicaciones-container">
+      <h2>Métricas de Publicaciones del Día</h2>
+      <div class="contador-row">
+        <div class="contador-item contador-agendadas">
+          <h3>Publicaciones Agendadas</h3>
+          <p>{{ publicacionesAgendadasCount }}</p>
+        </div>
+        <div class="contador-item contador-en-curso">
+          <h3>Publicaciones en Curso</h3>
+          <p>{{ publicacionesEnCursoCount }}</p>
+        </div>
+        <div class="contador-item contador-finalizadas">
+          <h3>Publicaciones Finalizadas</h3>
+          <p>{{ publicacionesFinalizadasCount }}</p>
+        </div>
+        <div class="contador-item contador-no-realizadas">
+          <h3>Publicaciones No Realizadas</h3>
+          <p>{{ publicacionesNoRealizadasCount }}</p>
+        </div>
+      </div>
+      <div class="grafico-container">
+       
+        <canvas #publicacionChart></canvas>
+      </div>
     </div>
   </div>
-
-
- <!-- Contenedor de gráfico y leyenda -->
-
-
-  <!-- Gráfico de torta mostrando las mismas métricas -->
-  <div class="grafico-container">
-    <canvas #myChart></canvas>
-  </div>
-</div>
+  
