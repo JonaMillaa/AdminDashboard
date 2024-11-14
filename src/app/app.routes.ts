@@ -21,7 +21,7 @@ import { ReportesDiaComponent } from './components/admin/reportes-dia/reportes-d
 import { ContadorSesionComponent} from './components/admin/contador-sesion/contador-sesion.component';
 import { UsuariosComponent } from './components/admin/usuarios/usuarios.component';
 import { PagosPendientesComponent } from './components/admin/pagos-pendientes/pagos-pendientes.component'; // Importación del componente
-
+import { ReportesPublicacionesDiaComponent } from './components/admin/reportes-publicaciones-dia/reportes-publicaciones-dia.component';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
 
@@ -37,7 +37,8 @@ export const routes: Routes = [
       { path: 'contador-sesion', component: ContadorSesionComponent }, // Ruta para contador de inicio de sesión
       {path: 'usuarios', component: UsuariosComponent},
       {path: 'pagos-pendientes', // ruta para el componente de pagos pendientes
-      component: PagosPendientesComponent}
+      component: PagosPendientesComponent},
+      {path: 'reportes-publicaciones-dia' , component: ReportesPublicacionesDiaComponent}
     ] 
   },
 

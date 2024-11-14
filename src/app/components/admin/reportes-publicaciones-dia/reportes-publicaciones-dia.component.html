@@ -1,0 +1,55 @@
+<!-- reportes-publicaciones-dia.component.html -->
+<div class="tabla-container">
+    <h2>Publicaciones del Día</h2>
+  
+    <!-- Selector de Filtro -->
+    <mat-form-field appearance="outline">
+      <mat-label>Filtrar por Estado</mat-label>
+      <mat-select (selectionChange)="filtrarPorEstado($event)">
+        <mat-option *ngFor="let estado of estados" [value]="estado">{{ estado }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <!-- Tabla de Publicaciones -->
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="titulo">
+        <th mat-header-cell *matHeaderCellDef> Título </th>
+        <td mat-cell *matCellDef="let publicacion"> {{ publicacion.info_ayudantia?.titulo_ayudantia || 'N/A' }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="nombreUsuario">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let publicacion"> {{ publicacion.nombreUsuario }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="apellidoUsuario">
+        <th mat-header-cell *matHeaderCellDef> Apellido </th>
+        <td mat-cell *matCellDef="let publicacion"> {{ publicacion.apellidoUsuario }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="duracion">
+        <th mat-header-cell *matHeaderCellDef> Duración </th>
+        <td mat-cell *matCellDef="let publicacion"> {{ publicacion.duracion }} hrs </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="hora">
+        <th mat-header-cell *matHeaderCellDef> Hora </th>
+        <td mat-cell *matCellDef="let publicacion"> {{ publicacion.hora }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="formato">
+        <th mat-header-cell *matHeaderCellDef> Formato </th>
+        <td mat-cell *matCellDef="let publicacion"> {{ publicacion.formato }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let publicacion"> {{ publicacion.estado }} </td>
+      </ng-container>
+  
+      <!-- Header y Filas -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  

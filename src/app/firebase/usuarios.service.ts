@@ -28,7 +28,6 @@ export class UsuariosService {
     return updateDoc(usuarioDocRef, {
       Nombre: usuario.Nombre,
       Apellido: usuario.Apellido,
-      Email: usuario.Email,
       Telefono: usuario.Telefono,
       Rol: usuario.Rol,
       Estado: usuario.Estado,

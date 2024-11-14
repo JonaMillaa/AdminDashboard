@@ -4,8 +4,8 @@
     <table class="usuario-tabla mat-elevation-z8">
       <thead>
         <tr>
-          <th>Nombre</th>
-          <th>Email</th>
+          <th>Nombre</th> 
+          <th>Rut</th>
           <th>Teléfono</th>
           <th>Estado</th>
           <th>Acciones</th>
@@ -13,10 +13,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let usuario of usuarios$ | async">
-          <td>{{ usuario.Nombre }} {{ usuario.Apellido }}</td>
-          <td>{{ usuario.Email }}</td>
+          <td>{{ usuario.Nombre }} {{ usuario.Apellido }}</td> 
+          <td>{{ usuario.Rut }}</td>  
           <td>{{ usuario.Telefono }}</td>
-          <td>{{ usuario.Estado }}</td>
+          <td>{{ usuario.Estado }}</td> 
         
           <td>
             <button mat-button color="primary" (click)="cambiarEstado(usuario)">

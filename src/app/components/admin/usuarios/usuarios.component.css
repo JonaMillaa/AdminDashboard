@@ -14,7 +14,7 @@
   }
   
   .usuario-tabla th, .usuario-tabla td {
-    padding: 12px;
+    padding: 20px;
     text-align: left;
     border-bottom: 1px solid #ddd;
   }
@@ -39,6 +39,6 @@
   
   button {
     font-size: 0.9em;
-    padding: 5px 10px;
+    padding: 7px 10px;
   }
   
