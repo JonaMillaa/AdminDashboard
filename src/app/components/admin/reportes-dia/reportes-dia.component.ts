@@ -74,8 +74,8 @@ export class ReportesDiaComponent implements OnInit {
       data: {
            datasets: [{
           data: [this.contadorIniciosSesionHoy, this.numeroUsuariosActivosHoy, this.nuevosUsuariosHoy],
-          backgroundColor: ['#3b82f6', '#4caf50', '#ff9800'],
-          hoverBackgroundColor: ['#1c64d6', '#388e3c', '#ff5722']
+          backgroundColor: ['#4caf50', '#2196f3', '#ff9800'],
+          hoverBackgroundColor: ['#4caf50', '#2196f3', '#ff9800']
         }]
       },
       options: {
@@ -102,7 +102,7 @@ export class ReportesDiaComponent implements OnInit {
       data: {
     datasets: [{
           data: [this.publicacionesAgendadasCount, this.publicacionesEnCursoCount, this.publicacionesFinalizadasCount, this.publicacionesNoRealizadasCount],
-          backgroundColor: ['#42a5f5', '#66bb6a', '#ffa726', '#ef5350'],
+          backgroundColor: ['#42a5f5', '#ffa726', ' #66bb6a', '#ef5350'],
         }]
       },
       options: {
