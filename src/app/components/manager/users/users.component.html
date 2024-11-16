@@ -25,23 +25,39 @@
 
 <!-- Filtros de tiempo y gráficos -->
 <div *ngIf="!mostrarContenido" class="charts">
+  
   <div class="chart-container">
+     
     <h2>Crecimiento de nuevos Usuarios</h2>
+  <div class="filtro-tiempo">
     <label for="filtroTiempoCrecimiento">Filtrar por:</label>
     <select id="filtroTiempoCrecimiento" [(ngModel)]="filtroTiempoCrecimiento" (change)="loadCrecimientoUsuariosData()">
       <option value="día">Día</option>
       <option value="mes">Mes</option>
     </select>
+  </div>
+
+  <!-- Indicador de carga para Crecimiento de Usuarios -->
+  <div *ngIf="cargandoCrecimientoUsuarios" class="no-data">
+    <div class="spinner"></div>
+    <p>Cargando datos gráfico...</p>
+  </div>
     <canvas id="crecimientoUsuariosChart"></canvas>
   </div>
 
   <div class="chart-container">
+    <!-- Indicador de carga para Inicios de Sesión -->
+    <div *ngIf="cargandoLogins" class="no-data">
+      <div class="spinner"></div>
+      <p>Cargando datos gráfico...</p>
+    </div>
     <h2>Historial de Inicios de Sesión por Fecha</h2>
     <label for="filtroTiempoLogins">Filtrar por:</label>
     <select id="filtroTiempoLogins" [(ngModel)]="filtroTiempoLogins" (change)="loadLoginsData()">
       <option value="día">Día</option>
       <option value="mes">Mes</option>
     </select>
+    
     <canvas id="loginsChart"></canvas>
   </div>
 </div>

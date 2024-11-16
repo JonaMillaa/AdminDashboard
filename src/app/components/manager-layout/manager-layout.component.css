@@ -56,22 +56,52 @@ a.mat-list-item:hover {
   background-color: rgba(243, 241, 237, 0.932); /* Fondo en hover */
 }
 
-/* Estilo de los íconos */
-.mat-icon {
-  font-size: 29px; /* Tamaño ajustado del ícono */
-  width: 24px;
-  height: 24px;
-  display: inline-flex;
+/* Estilo de los enlaces del menú */
+.menu-item {
+  display: flex;
   align-items: center;
-  color: white; /* Íconos en blanco */
-  padding: 5px;
+  padding: 12px 16px;
+  gap: 16px; /* Ajuste del espacio entre ícono y texto */
+  color: white;
+  font-size: 18px;
+  font-weight: 400;
+  border-radius: 8px;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+  text-align: left;
 }
 
-/* Botón de Cerrar Sesión */
-.logout-button {
-  margin-top: 30px;
-  width: 100%;
+.menu-item:hover {
+  background-color: rgba(255, 255, 255, 0.15);
   color: white;
+  box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.3);
+}
+
+/* Iconos en los enlaces */
+.mat-icon {
+  font-size: 24px;
+  color: white;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* Estilo para el texto */
+.menu-item span {
+  display: inline-block;
+  vertical-align: middle;
+  color: white;
+}
+
+/* Estilo de Cerrar Sesión */
+.logout {
+  margin-top: auto;
+  color: #f8d7da;
+}
+
+.logout:hover {
+  background-color: rgba(255, 68, 68, 0.2);
+  color: #f44336;
+  box-shadow: 1px 1px 5px rgba(255, 68, 68, 0.4);
 }
 
 /* Responsividad */

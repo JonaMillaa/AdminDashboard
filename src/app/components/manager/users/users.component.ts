@@ -57,12 +57,16 @@ export class UsersComponent implements OnInit, AfterViewInit {
   
   ayudantiasFinalizadas: any[] = []; // Variable para almacenar ayudantías finalizadas con detalle
 
-  loadingCrecimientoUsuarios = true;
-  loadingLogins = true;
+  
 
   constructor(private firebaseService: FirebaseService) { }
 
   ngOnInit(): void {
+
+    // Restablece el estado de carga al entrar en la ruta
+    this.cargandoCrecimientoUsuarios = true;
+    this.cargandoLogins = true;
+
     this.usuarios$ = this.firebaseService.getUsuarios();
     this.tutores$ = this.firebaseService.getUsuariosPorTipo('TUTOR');
     this.estudiantes$ = this.firebaseService.getUsuariosPorTipo('ESTUDIANTE');
@@ -79,6 +83,9 @@ export class UsersComponent implements OnInit, AfterViewInit {
     this.estudiantes$.pipe(
       map((estudiantes: Usuario[]) => estudiantes.length)
     ).subscribe((count: number) => this.totalEstudiantes = count);
+
+    this.loadCrecimientoUsuariosData();
+    this.loadLoginsData();
   }
 
   ngAfterViewInit(): void {
@@ -86,6 +93,13 @@ export class UsersComponent implements OnInit, AfterViewInit {
       this.loadCrecimientoUsuariosData();
       this.loadLoginsData();
     }
+  }
+
+  ngOnDestroy(): void {
+    // Restablece el estado de carga al salir de la ruta
+    this.cargandoCrecimientoUsuarios = true;
+    this.cargandoLogins = true;
+    this.destroyCharts();
   }
 
   toggleContenido(): void {
@@ -132,14 +146,20 @@ export class UsersComponent implements OnInit, AfterViewInit {
     };
   }
 
+    // Variables para indicar el estado de carga de cada gráfico
+  cargandoCrecimientoUsuarios: boolean = true;
+  cargandoLogins: boolean = true;
+
   public loadCrecimientoUsuariosData(): void {
+    this.cargandoCrecimientoUsuarios = true; // Inicia la carga
 
     // Destruir el gráfico anterior si existe
     if (this.crecimientoUsuariosChart) {
       this.crecimientoUsuariosChart.destroy();
       this.crecimientoUsuariosChart = null;
     }
-  
+  // Simula un retraso artificial de 1 segundo
+  setTimeout(() => {
     this.firebaseService.getCrecimientoUsuarios().subscribe((data) => {
       const { labels, counts } = this.agruparPorTiempo(data, this.filtroTiempoCrecimiento);
   
@@ -228,17 +248,22 @@ export class UsersComponent implements OnInit, AfterViewInit {
           }
         }
       });
+      this.cargandoCrecimientoUsuarios = false; // Finaliza la carga
     });
+  }, 1000); // Retraso de 1 segundo
   }
  
   public loadLoginsData(): void {
+
+    this.cargandoLogins = true; // Inicia la carga
 
     // Destruir el gráfico anterior si existe
     if (this.loginsChart) {
       this.loginsChart.destroy();
       this.loginsChart = null;
     }
-  
+  // Simula un retraso artificial de 1 segundo
+  setTimeout(() => {
     this.firebaseService.getLoginsUsuarios().subscribe((data) => {
       const { labels, counts } = this.agruparPorTiempo(data, this.filtroTiempoLogins);
   
@@ -324,7 +349,9 @@ export class UsersComponent implements OnInit, AfterViewInit {
           }
         }
       });
+      this.cargandoLogins = false; // Finaliza la carga
     });
+  }, 1000); // Retraso de 1 segundo
   }
   
   private destroyCharts(): void {
