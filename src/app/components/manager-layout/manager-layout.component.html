@@ -5,50 +5,51 @@
       <h3 class="sidenav-header" *ngIf="opened">Menú Principal</h3>
       <mat-divider></mat-divider>
 
-      <a mat-list-item routerLink="/manager/dashboard">
+      <a mat-list-item routerLink="/manager/dashboard" class="menu-item">
         <mat-icon>dashboard</mat-icon>
         <span *ngIf="opened">Dashboard</span>
       </a>
 
-      <a mat-list-item routerLink="/manager/publicaciones">
+      <a mat-list-item routerLink="/manager/publicaciones" class="menu-item">
         <mat-icon>post_add</mat-icon>
         <span *ngIf="opened">Publicaciones</span>
       </a>
 
-      <a mat-list-item routerLink="/manager/monitoreo">
+      <a mat-list-item routerLink="/manager/monitoreo" class="menu-item">
         <mat-icon>insights</mat-icon>
         <span *ngIf="opened">Monitoreo</span>
       </a>
 
-      <a mat-list-item routerLink="/manager/reportes">
+      <a mat-list-item routerLink="/manager/reportes" class="menu-item">
         <mat-icon>insert_chart</mat-icon>
         <span *ngIf="opened">Reportes</span>
       </a> 
 
-      <a mat-list-item routerLink="/manager/usuarios">
+      <a mat-list-item routerLink="/manager/users" class="menu-item">
         <mat-icon>people</mat-icon>
         <span *ngIf="opened">Gestión de Usuarios</span>
       </a>
 
-      <a mat-list-item routerLink="/manager/facturacion">
+      <a mat-list-item routerLink="/manager/facturacion" class="menu-item">
         <mat-icon>receipt</mat-icon>
         <span *ngIf="opened">Facturación</span>
       </a>
 
-      <a mat-list-item routerLink="/manager/notificacion">
+      <a mat-list-item routerLink="/manager/notificacion" class="menu-item">
         <mat-icon>notifications_active</mat-icon>
         <span *ngIf="opened">Notificación</span>
       </a> 
-      <a mat-list-item routerLink="/manager/calendario">
+      <a mat-list-item routerLink="/manager/calendario" class="menu-item">
         <mat-icon>event</mat-icon>
         <span *ngIf="opened">Eventos</span>
       </a>
-     
-          <!-- Botón de Cerrar Sesión -->
-          <a mat-list-item (click)="logout()">
-            <mat-icon>logout</mat-icon>
-            <span *ngIf="opened">Cerrar Sesión</span>
-          </a>
+    
+
+            <!-- Cerrar Sesión -->
+      <a mat-list-item class="menu-item logout" (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon> <!-- Icono de salida para cerrar sesión -->
+        <span *ngIf="opened">Cerrar Sesión</span>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
 

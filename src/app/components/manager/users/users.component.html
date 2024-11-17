@@ -1,6 +1,8 @@
   <mat-toolbar class="navbar">
   <mat-toolbar-row class="navbar-row">
+    <h3>Total de usuarios en la app</h3>
     <div class="navbar-links">
+
       <div class="nav-item tutores">
         <mat-icon class="nav-icon">supervisor_account</mat-icon>
         <a class="nav-link">Tutores: {{ totalTutores }}</a>
@@ -23,27 +25,42 @@
 
 <!-- Filtros de tiempo y gráficos -->
 <div *ngIf="!mostrarContenido" class="charts">
+  
   <div class="chart-container">
-    <h3>Crecimiento de Usuarios</h3>
+     
+    <h2>Crecimiento de nuevos Usuarios</h2>
+  <div class="filtro-tiempo">
     <label for="filtroTiempoCrecimiento">Filtrar por:</label>
     <select id="filtroTiempoCrecimiento" [(ngModel)]="filtroTiempoCrecimiento" (change)="loadCrecimientoUsuariosData()">
       <option value="día">Día</option>
       <option value="mes">Mes</option>
     </select>
+  </div>
+
+  <!-- Indicador de carga para Crecimiento de Usuarios -->
+  <div *ngIf="cargandoCrecimientoUsuarios" class="no-data">
+    <div class="spinner"></div>
+    <p>Cargando datos gráfico...</p>
+  </div>
     <canvas id="crecimientoUsuariosChart"></canvas>
   </div>
 
   <div class="chart-container">
-    <h3>Inicios de Sesión</h3>
+    <!-- Indicador de carga para Inicios de Sesión -->
+    <div *ngIf="cargandoLogins" class="no-data">
+      <div class="spinner"></div>
+      <p>Cargando datos gráfico...</p>
+    </div>
+    <h2>Historial de Inicios de Sesión por Fecha</h2>
     <label for="filtroTiempoLogins">Filtrar por:</label>
     <select id="filtroTiempoLogins" [(ngModel)]="filtroTiempoLogins" (change)="loadLoginsData()">
       <option value="día">Día</option>
       <option value="mes">Mes</option>
     </select>
+    
     <canvas id="loginsChart"></canvas>
   </div>
 </div>
-
 
 <!-- Contenedor de gestión de usuarios, visible solo si mostrarContenido es true -->
 <div *ngIf="mostrarContenido" class="content">
@@ -53,7 +70,7 @@
         <mat-card *ngFor="let usuario of usuarios$ | async" class="user-card">
           <mat-card-header>
             <div mat-card-avatar class="avatar">
-              <img [src]="usuario.Foto || '../assets/images/user.png'" alt="" />
+              <img [src]="usuario.Foto || '../../assets/images/user.png'" alt="" />
             </div>
             <mat-card-title>{{ usuario.Nombre }} {{ usuario.Apellido }}</mat-card-title>
             <mat-card-subtitle>{{ usuario.Rol }} - {{ usuario.Carrera }}</mat-card-subtitle>
@@ -103,4 +120,43 @@
       </div>
     </mat-tab>
   </mat-tab-group>
+</div>
+
+<!-- Tabla de Ayudantías Finalizadas -->
+<div *ngIf="!mostrarContenido">
+  <div *ngIf="ayudantiasFinalizadas.length > 0" class="table-container">
+    <h2>Detalles de Participación de Estudiantes en Ayudantías Finalizadas</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre del Estudiante</th>
+          <th>Apellido del Estudiante</th>
+          <th>Título de la Ayudantía</th>
+          <th>Descripción</th>
+          <th>Categoría</th>
+          <th>Subcategoría</th>
+          <th>Fecha de Ayudantía</th>
+          <th>Participantes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ayudantia of ayudantiasFinalizadas">
+          <td>{{ ayudantia.nombre_estudiante }}</td>
+          <td>{{ ayudantia.apellido_estudiante }}</td>
+          <td>{{ ayudantia.titulo_ayudantia }}</td>
+          <td>{{ ayudantia.descripcion_ayudantia }}</td>
+          <td>{{ ayudantia.categoria }}</td>
+          <td>{{ ayudantia.subcategoria }}</td>
+          <td>{{ ayudantia.fecha_ayudantia }}</td>
+          <td>{{ ayudantia.participantes }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="!ayudantiasFinalizadas.length" class="no-data">
+  <div class="spinner"></div>
+  <p *ngIf="ayudantiasFinalizadas.length === 0">Cargando datos...</p>
 </div>

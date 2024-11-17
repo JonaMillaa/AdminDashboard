@@ -3,20 +3,43 @@
     <mat-nav-list>
 
       <h3 class="sidenav-header" *ngIf="opened">Menú Principal</h3>
-      <mat-divider></mat-divider>
+      <mat-divider class="sidenav-divider"></mat-divider>
+      
+      <!-- Reporte Diario -->
+      <a mat-list-item routerLink="/admin/reportes-dia" class="menu-item">
+        <mat-icon>analytics</mat-icon> <!-- Icono de reporte o análisis -->
+        <span *ngIf="opened">Reporte Diario</span>
+      </a>
 
+      <!-- Usuarios -->
+      <a mat-list-item routerLink="/admin/usuarios" class="menu-item">
+        <mat-icon>group</mat-icon> <!-- Icono de grupo de personas para usuarios -->
+        <span *ngIf="opened">Usuarios</span>
+      </a>
 
-      <a mat-list-item routerLink="/admin/soporte">
-        <mat-icon>support</mat-icon>
-        <span *ngIf="opened">Soporte</span>
+      <!-- Pagos Pendientes -->
+      <a mat-list-item routerLink="/admin/pagos-pendientes" class="menu-item">
+        <mat-icon>attach_money</mat-icon> <!-- Icono de dinero para pagos -->
+        <span *ngIf="opened">Pagos Pendientes</span>
       </a> 
 
-       <!-- Botón de Cerrar Sesión -->
-       <a mat-list-item (click)="logout()">
-            <mat-icon>logout</mat-icon>
-            <span *ngIf="opened">Cerrar Sesión</span>
-          </a>
+      <!-- Publicaciones del Día -->
+      <a mat-list-item routerLink="/admin/reportes-publicaciones-dia" class="menu-item">
+        <mat-icon>event_note</mat-icon> <!-- Icono de evento o publicación -->
+        <span *ngIf="opened">Publicaciones del día</span>
+      </a>
 
+      <!-- Soporte -->
+      <a mat-list-item routerLink="/admin/soporte" class="menu-item">
+        <mat-icon>help</mat-icon> <!-- Icono de ayuda para soporte -->
+        <span *ngIf="opened">Soporte</span>
+      </a>
+
+      <!-- Cerrar Sesión -->
+      <a mat-list-item class="menu-item logout" (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon> <!-- Icono de salida para cerrar sesión -->
+        <span *ngIf="opened">Cerrar Sesión</span>
+      </a>
 
     </mat-nav-list>
   </mat-sidenav>
