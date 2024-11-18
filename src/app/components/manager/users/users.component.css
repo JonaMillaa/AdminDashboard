@@ -343,9 +343,6 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
-
-<<<<<<< HEAD
-=======
   .filtro-tiempo {
     position: fixed;
     top: 20px; /* Ajusta la distancia desde la parte superior de la ventana */
@@ -366,6 +363,3 @@
     padding: 5px;
     font-size: 14px;
   }
-  
-
->>>>>>> manager

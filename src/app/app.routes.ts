@@ -7,6 +7,7 @@ import { ManagerLayoutComponent } from './components/manager-layout/manager-layo
 import { AuthGuard } from './guards/auth.guard';
 import { DashboardComponent } from './components/manager/dashboard/dashboard.component';
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 import { UsersComponent } from './components/manager/users/users.component';
 // import { SoporteComponent } from './components/manager/soporte/soporte.component';
@@ -14,6 +15,10 @@ import { UsersComponent } from './components/manager/users/users.component';
 import { UsersComponent } from './components/manager/users/users.component';
 //import { SoporteComponent } from './components/manager/soporte/soporte.component';
 >>>>>>> manager
+=======
+import { UsersComponent } from './components/manager/users/users.component';
+//import { SoporteComponent } from './components/manager/soporte/soporte.component';
+>>>>>>> origin/manager
 import { CalendarComponent } from './components/manager/calendar/calendar.component';
 import { PublicacionesComponent } from './components/manager/publicaciones/publicaciones.component';
 import { MonitoreoComponent } from './components/manager/monitoreo/monitoreo.component';
@@ -37,12 +42,17 @@ export const routes: Routes = [
     canActivate: [AuthGuard], // Protegido con AuthGuard
     children: [
 <<<<<<< HEAD
+<<<<<<< HEAD
 
       // { path: 'soporte', component: SoporteComponent },
 =======
     
       //{ path: 'soporte', component: SoporteComponent },
 >>>>>>> manager
+=======
+    
+      //{ path: 'soporte', component: SoporteComponent },
+>>>>>>> origin/manager
       { path: 'datos', component: DatosDelDiaComponent },
       { path: 'pruebas', component: PruebasComponent },
       { path: 'reportes-dia', component: ReportesDiaComponent },// Ruta para reportes del día en admin
@@ -68,9 +78,13 @@ export const routes: Routes = [
       ]
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
    
 >>>>>>> manager
+=======
+   
+>>>>>>> origin/manager
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

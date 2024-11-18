@@ -56,13 +56,8 @@ export class UsersComponent implements OnInit, AfterViewInit {
 
   
   ayudantiasFinalizadas: any[] = []; // Variable para almacenar ayudantías finalizadas con detalle
-
-<<<<<<< HEAD
   loadingCrecimientoUsuarios = true;
   loadingLogins = true;
-=======
-  
->>>>>>> manager
 
   constructor(private firebaseService: FirebaseService) { }
 

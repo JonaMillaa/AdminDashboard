@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Firestore, addDoc, collection, collectionData, query, where, orderBy, doc, updateDoc} from '@angular/fire/firestore';
 import { Observable, from  } from 'rxjs';
 =======
 import { Firestore, addDoc, collection, collectionData, query, where, orderBy, getDoc, doc} from '@angular/fire/firestore';
 import { Observable, forkJoin, from} from 'rxjs';
 >>>>>>> manager
+=======
+import { Firestore, addDoc, collection, collectionData, query, where, orderBy, getDoc, doc} from '@angular/fire/firestore';
+import { Observable, forkJoin, from} from 'rxjs';
+>>>>>>> origin/manager
 import { Usuario } from '../models/usuario.model';
 import { Ayudantia } from '../models/ayudantia.model';
 import { Pregunta_ayudantia } from '../models/preguntas_ayudantia.model';
@@ -13,24 +18,32 @@ import { Publicacion } from '../models/publicacion.interface';
 import { Calificacion } from '../models/calificacion.interface';
 import { TutorRanking } from '../models/tutor-ranking.interface';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Router } from '@angular/router';  
 import { getDocs } from 'firebase/firestore'; // Importa desde firebase/firestore
 import { format } from 'date-fns';
 =======
 >>>>>>> manager
+=======
+>>>>>>> origin/manager
 import { map, combineLatestWith, switchMap } from 'rxjs/operators';
 import { LoginData } from '../models/LoginData';
 import { CrecimientoUsuario } from '../models/CrecimientoUsuario';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> manager
+=======
+
+>>>>>>> origin/manager
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
+<<<<<<< HEAD
 <<<<<<< HEAD
  
   constructor(private firestore: Firestore,
@@ -39,6 +52,8 @@ export class FirebaseService {
   private isLoggedIn: boolean = false;  
     // Método para registrar un nuevo usuario y guardar el evento de registro
 =======
+=======
+>>>>>>> origin/manager
   constructor(
     private firestore: Firestore,
     private router: Router
@@ -47,7 +62,10 @@ export class FirebaseService {
 
   private isLoggedIn: boolean = false;
 
+<<<<<<< HEAD
 >>>>>>> manager
+=======
+>>>>>>> origin/manager
   login(user: string): void {
     if (user === 'admin' || user === 'manager') {
       this.isLoggedIn = true;
