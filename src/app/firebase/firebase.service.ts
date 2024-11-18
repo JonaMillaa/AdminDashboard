@@ -1,30 +1,53 @@
 import { Injectable } from '@angular/core';
+<<<<<<< HEAD
 import { Firestore, addDoc, collection, collectionData, query, where, orderBy, doc, updateDoc} from '@angular/fire/firestore';
 import { Observable, from  } from 'rxjs';
+=======
+import { Firestore, addDoc, collection, collectionData, query, where, orderBy, getDoc, doc} from '@angular/fire/firestore';
+import { Observable, forkJoin, from} from 'rxjs';
+>>>>>>> manager
 import { Usuario } from '../models/usuario.model';
 import { Ayudantia } from '../models/ayudantia.model';
 import { Pregunta_ayudantia } from '../models/preguntas_ayudantia.model';
 import { Publicacion } from '../models/publicacion.interface';
 import { Calificacion } from '../models/calificacion.interface';
 import { TutorRanking } from '../models/tutor-ranking.interface';
+<<<<<<< HEAD
 import { Router } from '@angular/router';  
 import { getDocs } from 'firebase/firestore'; // Importa desde firebase/firestore
 import { format } from 'date-fns';
+=======
+>>>>>>> manager
 import { map, combineLatestWith, switchMap } from 'rxjs/operators';
 import { LoginData } from '../models/LoginData';
 import { CrecimientoUsuario } from '../models/CrecimientoUsuario';
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> manager
 
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
+<<<<<<< HEAD
  
   constructor(private firestore: Firestore,
     private router: Router,
     ) {} 
   private isLoggedIn: boolean = false;  
     // Método para registrar un nuevo usuario y guardar el evento de registro
+=======
+  constructor(
+    private firestore: Firestore,
+    private router: Router
+  ) {} 
+
+
+  private isLoggedIn: boolean = false;
+
+>>>>>>> manager
   login(user: string): void {
     if (user === 'admin' || user === 'manager') {
       this.isLoggedIn = true;
