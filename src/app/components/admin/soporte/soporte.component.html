@@ -1,0 +1,85 @@
+<div class="container">
+    <h2>Administrar Reportes</h2>
+  
+    <!-- Filtro de estado -->
+    <div class="filter-container">
+      <label for="filtroEstado">Filtrar por estado:</label>
+      <select [(ngModel)]="filtroEstado" (change)="aplicarFiltro()">
+        <option value="Todos">Todos</option>
+        <option value="en curso">En curso</option>
+        <option value="resuelto">Resuelto</option>
+        <option value="no resuelto">No resuelto</option>
+      </select>
+    </div>
+  
+    <!-- Listado de reportes -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Categoría</th>
+          <th>Sub Categoría</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reporte of filteredReportes">
+          <td>{{ reporte.categoria }}</td>
+          <td>{{ reporte.sub_categoria }}</td>
+          <td>{{ reporte.estado }}</td>
+          <td>
+            <button (click)="verDetalleReporte(reporte)" class="btn btn-info">Ver Detalle</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Detalle del reporte seleccionado -->
+    <div *ngIf="reporteSeleccionado" class="reporte-detalle card">
+      <div class="card-header">
+        <h3>Detalle del Reporte</h3>
+      </div>
+      <div class="card-content">
+        <div class="detail-item">
+          <i class="fas fa-folder-open"></i>
+          <p><strong>Categoría:</strong> {{ reporteSeleccionado.categoria }}</p>
+        </div>
+        <div class="detail-item">
+          <i class="fas fa-list-alt"></i>
+          <p><strong>Sub Categoría:</strong> {{ reporteSeleccionado.sub_categoria }}</p>
+        </div>
+        <div class="detail-item">
+          <i class="fas fa-align-left"></i>
+          <p><strong>Descripción:</strong> {{ reporteSeleccionado.descripcion }}</p>
+        </div>
+  
+        <div class="detail-item">
+          <i class="fas fa-folder-open"></i>
+          <p><strong>Nombre del usuario:</strong> {{ usuarioReporte?.Nombre }} {{ usuarioReporte?.Apellido }}</p>
+        </div>
+  
+        <div class="detail-item">
+          <i class="fas fa-folder-open"></i>
+          <p><strong>ID usuario:</strong> {{ usuarioReporte?.ID }}</p>
+        </div>
+  
+        <div class="detail-item">
+          <i class="fas fa-folder-open"></i>
+          <p><strong>Rol:</strong> {{ usuarioReporte?.Rol }}</p>
+        </div>
+      </div>
+  
+      <div class="card-footer">
+        <h4>Responder y Actualizar Estado</h4>
+        <textarea [(ngModel)]="respuesta" rows="4" placeholder="Escriba su respuesta..."></textarea>
+        <label for="estado">Actualizar Estado</label>
+        <select [(ngModel)]="nuevoEstado">
+          <option value="en curso">En curso</option>
+          <option value="resuelto">Resuelto</option>
+          <option value="no resuelto">No resuelto</option>
+        </select>
+        <button (click)="responderReporte()" class="btn btn-success">Enviar Respuesta</button>
+      </div>
+    </div>
+  </div>
+  

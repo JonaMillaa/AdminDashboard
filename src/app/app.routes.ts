@@ -6,19 +6,10 @@ import { AdminLayoutComponent } from './components/admin-layout/admin-layout.com
 import { ManagerLayoutComponent } from './components/manager-layout/manager-layout.component';
 import { AuthGuard } from './guards/auth.guard';
 import { DashboardComponent } from './components/manager/dashboard/dashboard.component';
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 import { UsersComponent } from './components/manager/users/users.component';
 // import { SoporteComponent } from './components/manager/soporte/soporte.component';
-=======
-import { UsersComponent } from './components/manager/users/users.component';
 //import { SoporteComponent } from './components/manager/soporte/soporte.component';
->>>>>>> manager
-=======
-import { UsersComponent } from './components/manager/users/users.component';
-//import { SoporteComponent } from './components/manager/soporte/soporte.component';
->>>>>>> origin/manager
 import { CalendarComponent } from './components/manager/calendar/calendar.component';
 import { PublicacionesComponent } from './components/manager/publicaciones/publicaciones.component';
 import { MonitoreoComponent } from './components/manager/monitoreo/monitoreo.component';
@@ -32,6 +23,9 @@ import { ContadorSesionComponent} from './components/admin/contador-sesion/conta
 import { UsuariosComponent } from './components/admin/usuarios/usuarios.component';
 import { PagosPendientesComponent } from './components/admin/pagos-pendientes/pagos-pendientes.component'; // Importación del componente
 import { ReportesPublicacionesDiaComponent } from './components/admin/reportes-publicaciones-dia/reportes-publicaciones-dia.component';
+import { SoporteComponent } from './components/admin/soporte/soporte.component';
+import { IntervencionPagosComponent } from './components/admin/intervencion-pagos/intervencion-pagos.component';
+import { ModificarPublicacionComponent } from './components/admin/modificar-publicacion/modificar-publicacion.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -41,25 +35,32 @@ export const routes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [AuthGuard], // Protegido con AuthGuard
     children: [
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-      // { path: 'soporte', component: SoporteComponent },
-=======
+      { path: 'soporte', component:SoporteComponent},
     
       //{ path: 'soporte', component: SoporteComponent },
->>>>>>> manager
-=======
-    
-      //{ path: 'soporte', component: SoporteComponent },
->>>>>>> origin/manager
+
       { path: 'datos', component: DatosDelDiaComponent },
       { path: 'pruebas', component: PruebasComponent },
       { path: 'reportes-dia', component: ReportesDiaComponent },// Ruta para reportes del día en admin
       { path: 'contador-sesion', component: ContadorSesionComponent }, // Ruta para contador de inicio de sesión
       {path: 'usuarios', component: UsuariosComponent},
+
+      {path: 'pagos-pendientes', // ruta para el componente de pagos pendientes
+      component: PagosPendientesComponent},
+      {path: 'reportes-publicaciones-dia' , component: ReportesPublicacionesDiaComponent},
+      { 
+        path: 'intervencion-pagos/:id', 
+        component: IntervencionPagosComponent // Ruta dinámica para el componente de intervención
+      }, 
+      {
+        path: 'modificar-publicacion/:id',
+        component: ModificarPublicacionComponent,
+      },
+      
       {path: 'pagos-pendientes', component: PagosPendientesComponent},
       {path: 'reportes-publicaciones-dia' , component: ReportesPublicacionesDiaComponent}
+
     ] 
   },
   {
@@ -77,14 +78,7 @@ export const routes: Routes = [
       { path: 'calendario', component: CalendarComponent }
       ]
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-   
->>>>>>> manager
-=======
-   
->>>>>>> origin/manager
+
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' }
 ];

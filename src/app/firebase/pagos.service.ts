@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Firestore, collection, collectionData, doc, docData, query, updateDoc, where } from '@angular/fire/firestore';
+import { forkJoin, Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { Publicacion } from '../models/publicacion.interface';
+import { InterfacePostulacion } from '../models/interface-postulacion';
+import { InterfaceAsistencia } from '../models/interface-asistencia';
+import { Usuario } from '../models/usuario.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PagosService {
   constructor(private firestore: Firestore) {}
@@ -36,4 +39,39 @@ export class PagosService {
       )
     );
   }
+
+  // Obtener detalles de una publicación por ID
+  getPublicacionById(id: string): Observable<Publicacion> {
+    const publicacionDoc = doc(this.firestore, `Publicaciones/${id}`);
+    return docData(publicacionDoc, { idField: 'id_publicacion' }) as Observable<Publicacion>;
+  } getParticipantesPorPublicacion(idPublicacion: string): Observable<InterfaceAsistencia[]> {
+    const ref = collection(this.firestore, 'asistencia_publicacion');
+    const q = query(ref, where('id_publicacion', '==', idPublicacion));
+    return collectionData(q, { idField: 'id' }) as Observable<InterfaceAsistencia[]>;
+  }
+  
+  // Obtener asistencia por ID de publicación
+  getAsistenciaPorPublicacion(idPublicacion: string): Observable<InterfaceAsistencia> {
+    const ref = collection(this.firestore, 'Asistencia_publicacion');
+    const q = query(ref, where('id_publicacion', '==', idPublicacion));
+    return collectionData(q, { idField: 'id' }).pipe(
+      map((asistencias: InterfaceAsistencia[]) => asistencias[0]) // Devuelve el primer resultado
+    );
+  }
+  
+  // Obtener detalles de los participantes desde la colección Usuarios
+  getDetallesParticipantes(asistencia: Array<{ id_usuario: string }>): Observable<Usuario[]> {
+    const usuariosObservables = asistencia.map(a =>
+      docData(doc(this.firestore, `Usuarios/${a.id_usuario}`)).pipe(take(1)) as Observable<Usuario>
+    );
+    return forkJoin(usuariosObservables);
+  } 
+
+  actualizarPublicacion(id: string, data: Partial<Publicacion>): Promise<void> {
+    const docRef = doc(this.firestore, `Publicaciones/${id}`);
+    return updateDoc(docRef, data);
+  }
+  
 }
+  
+

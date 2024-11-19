@@ -38,7 +38,6 @@ export class UsuarioDetalleComponent {
     this.usuarioForm = this.fb.group({
       Nombre: [data.Nombre, Validators.required],
       Apellido: [data.Apellido, Validators.required],
-      Email: [data.Email, [Validators.required, Validators.email]],
       Telefono: [data.Telefono, Validators.required],
       Estado: [data.Estado, Validators.required],
       Rut: [data.Rut, Validators.required],

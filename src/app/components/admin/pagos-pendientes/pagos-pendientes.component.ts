@@ -6,48 +6,58 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-pagos-pendientes',
   templateUrl: './pagos-pendientes.component.html',
   styleUrls: ['./pagos-pendientes.component.css'],
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatCardModule, MatButtonModule, MatIconModule],
-})
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+  ],})
 export class PagosPendientesComponent implements OnInit {
-  // Asegúrate de que 'acciones' esté en la lista de columnas
-  displayedColumns: string[] = [
-    'titulo', 'nombreUsuario', 'apellidoUsuario', 'duracion', 'hora', 'formato', 'estado', 'acciones'
-  ];
+  displayedColumns: string[] = ['titulo', 'nombreUsuario', 'apellidoUsuario', 'duracion', 'hora', 'formato', 'estado', 'acciones'];
+  dataSource = new MatTableDataSource<Publicacion>();
+  publicacionesPorEstado: { [key: string]: Publicacion[] } = {};
 
-  pagosPendientesDataSource = new MatTableDataSource<Publicacion>();
-  pagosFinalizadosDataSource = new MatTableDataSource<Publicacion>();
-
-  pagosPendientesCount: number = 0;
-  pagosFinalizadosCount: number = 0;
-
-  tablaActual: 'pendientes' | 'finalizados' = 'pendientes';
-
-  constructor(private publicacionesService: PagosService) {}
+  constructor(private pagosService: PagosService, private router: Router) {}
 
   ngOnInit(): void {
     this.cargarPagosPendientesYFinalizados();
   }
 
   cargarPagosPendientesYFinalizados(): void {
-    this.publicacionesService.getPagosPendientesYFinalizados().subscribe((publicaciones) => {
-      const pagosPendientes = publicaciones.filter(pub => pub.estado === 'EN_CURSO');
-      const pagosFinalizados = publicaciones.filter(pub => pub.estado === 'FINALIZADA');
+    this.pagosService.getPagosPendientesYFinalizados().subscribe((publicaciones) => {
+      const enCurso = publicaciones.filter((pub) => pub.estado === 'EN_CURSO');
+      const finalizadas = publicaciones.filter((pub) => pub.estado === 'FINALIZADA');
 
-      this.pagosPendientesDataSource.data = pagosPendientes;
-      this.pagosFinalizadosDataSource.data = pagosFinalizados;
+      this.publicacionesPorEstado = {
+        Todos: [...enCurso, ...finalizadas],
+        EN_CURSO: enCurso,
+        FINALIZADA: finalizadas,
+      };
 
-      this.pagosPendientesCount = pagosPendientes.length;
-      this.pagosFinalizadosCount = pagosFinalizados.length;
+      this.dataSource.data = this.publicacionesPorEstado['Todos']; // Muestra todos por defecto
     });
   }
 
-  mostrarTabla(tipo: 'pendientes' | 'finalizados'): void {
-    this.tablaActual = tipo;
+  filtrarPorEstado(event: MatSelectChange): void {
+    const estado = event.value;
+    this.dataSource.data = this.publicacionesPorEstado[estado] || [];
+  }
+
+  intervenir(idPublicacion: string): void {
+    this.router.navigate([`/admin/intervencion-pagos`, idPublicacion]);
   }
 }

@@ -1,44 +1,98 @@
 .usuarios-container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: Arial, sans-serif;
+}
+
+.usuarios-container h2 {
+  text-align: center;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Tabla de usuarios */
+table.mat-elevation-z8 {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table.mat-elevation-z8 th,
+table.mat-elevation-z8 td {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
+}
+
+table.mat-elevation-z8 th {
+  background-color: #37406e;
+  color: white;
+ 
+}
+
+table.mat-elevation-z8 tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table.mat-elevation-z8 tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+table.mat-elevation-z8 td button {
+  margin-right: 10px;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Botones */
+button[color="primary"] {
+  background-color: #1976d2;
+  color: white;
+}
+
+button[color="primary"]:hover {
+  background-color: #155a9a;
+}
+
+button[color="accent"] {
+  background-color: #f57c00;
+  color: white;
+}
+
+button[color="accent"]:hover {
+  background-color: #e65100;
+}
+
+/* Spinner */
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .usuarios-container {
+    width: 95%;
   }
-  
-  .usuario-tabla {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .usuario-tabla th, .usuario-tabla td {
-    padding: 20px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .usuario-tabla th {
-    background-color: #f1f1f1;
-    color: #333;
-    font-weight: bold;
-  }
-  
-  .usuario-tabla td {
-    color: #555;
-  }
-  
-  .usuario-tabla tr:hover {
-    background-color: #f5f5f5;
-  }
-  
-  .usuario-tabla td:last-child {
-    text-align: center;
-  }
-  
-  button {
+
+  table.mat-elevation-z8 th,
+  table.mat-elevation-z8 td {
     font-size: 0.9em;
-    padding: 7px 10px;
   }
-  
+
+  button {
+    font-size: 0.8em;
+    padding: 5px 8px;
+  }
+}
