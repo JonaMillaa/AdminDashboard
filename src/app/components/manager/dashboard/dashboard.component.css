@@ -66,7 +66,7 @@ h3{
 
 /* Estilos específicos para cada nav-item */
 .nav-item.usuarios {
-    background-color: #a400f0;
+    background-color: #3A86FF;
     width: 15rem;
     padding: 5px;
     margin-top: 5px;
@@ -74,7 +74,7 @@ h3{
   }
 
   .nav-item.tutores {
-    background-color: #007acc;
+    background-color: #8338EC;
     width: 15rem;
     padding: 5px;
     margin-top: 5px;
@@ -82,7 +82,7 @@ h3{
   }
 
   .nav-item.estudiantes {
-    background-color: #28a745;
+    background-color: #FF006E;
     width: 15rem;
     padding: 5px;
     margin-top: 5px;
@@ -90,7 +90,7 @@ h3{
   }
 
   .nav-item.publicaciones {
-    background-color: #6c757d;
+    background-color: #FB5607;
     width: 17rem;
     padding: 5px;
     margin-top: 5px;
