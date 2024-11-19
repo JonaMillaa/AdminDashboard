@@ -1,10 +1,37 @@
-.detalle-container {
-    padding: 20px;
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
+.dialog-title {
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #37406e;
+}
+
+.dialog-content {
+  padding: 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Dos columnas de igual tamaño */
+  gap: 16px; /* Espaciado entre los campos */
+  align-items: center;
+}
+
+.form-item {
+  width: 100%; /* Asegura que los campos ocupen el 100% de su columna */
+}
+
+.form-item.full-width {
+  grid-column: span 2; /* El campo de Estado ocupa ambas columnas */
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.dialog-actions button {
+  font-size: 1em;
+  padding: 6px 16px;
+}

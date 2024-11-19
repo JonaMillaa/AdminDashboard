@@ -1,0 +1,186 @@
+
+/* Estilo general */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f6f9;
+  color: #2c3e50;
+}
+
+/* Contenedor principal */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f6f6ff;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+/* Título principal */
+h2 {
+  text-align: center;
+  font-size: 28px;
+  color: #34495e;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+/* Filtro de estado */
+.filter-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.filter-container label {
+  margin-right: 10px;
+  font-weight: 500;
+  color: #555;
+}
+
+.filter-container select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Tabla */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.table th,
+.table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #37406e;
+  color: white;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Botones */
+.btn {
+  padding: 10px 15px;
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #1c6691;
+}
+
+/* Estilo de la tarjeta del detalle del reporte */
+.reporte-detalle {
+  margin-top: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Card estilo */
+.card {
+  background: #f1f1f1;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #34495e;
+  color: white;
+  padding: 15px;
+  border-radius: 10px 10px 0 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.card-footer {
+  padding: 20px;
+  border-top: 1px solid #ddd;
+}
+
+/* Elementos de detalle */
+.detail-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.detail-item i {
+  margin-right: 10px;
+  color: #2980b9;
+}
+
+.detail-item p {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* Formulario en detalle del reporte */
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: inherit;
+  background-color: #f6f6ff;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  resize: vertical;
+}
+
+/* Botón de enviar respuesta */
+.btn-success {
+  padding: 12px 20px;
+  background-color: #34495e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.btn-success:hover {
+  background-color: #2980b9;
+}
+
+.button-native {
+  color: white;
+}
+
+
+
+

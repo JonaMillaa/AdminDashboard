@@ -1,31 +1,91 @@
-/* reportes-publicaciones-dia.component.css */
-.tabla-container {
-    width: 80%;
-    margin: auto;
+
+
+/* Contenedor de reportes sin fondo para que el fondo de la página se vea alrededor */
+.reportes-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  font-family: Arial, sans-serif;
+}
+
+.reportes-container h2 {
+  text-align: center;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.filtro-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.filtro {
+  width: 200px;
+}
+
+.publicaciones-tabla {
+  width: 100%;
+  border-collapse: collapse;
+}  
+table.mat-elevation-z8 th{
+  background-color: #37406e;
+  color: white;
+}
+.publicaciones-tabla ng-container th {
+  background-color: #f1f1f1;
+  color: #555;
+  font-weight: bold;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+ td.mat-cell {
+  padding: 12px 8px;
+  font-size: 0.9em;
+  text-align: left;
+}
+
+th.mat-header-cell {
+  background-color: #4a90e2;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+td.mat-cell {
+  background-color: #f8f8f8;
+}
+
+tr:nth-child(even) td.mat-cell {
+  background-color: #ffffff;
+}
+
+tr.mat-row:hover {
+  background-color: #e1f5fe !important;
+}
+
+.no-publicaciones {
+  padding: 15px;
+  font-size: 1em;
+  text-align: center;
+  color: #757575;
+  background-color: #f1f1f1;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .reportes-container {
+    padding: 15px;
+    width: 95%;
   }
-  
-  h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  mat-form-field {
+  .filtro {
     width: 100%;
-    margin-bottom: 20px;
   }
-  
-  table {
-    width: 100%;
-  }
-  
-  th, td {
-    padding: 10px;
-    text-align: left;
-  }
-  
-  .mat-header-cell {
-    background-color: #f5f5f5;
-    font-weight: bold;
-  }
-  
+}

@@ -16,6 +16,9 @@ import { format } from 'date-fns';
   providedIn: 'root',
 })
 export class FirebaseService {
+  getDoc<T>(arg0: string, idPublicacion: string) {
+    throw new Error('Method not implemented.');
+  }
  
   constructor(private firestore: Firestore,
     private router: Router,

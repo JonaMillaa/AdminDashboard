@@ -1,55 +1,77 @@
 <!-- reportes-publicaciones-dia.component.html -->
-<div class="tabla-container">
-    <h2>Publicaciones del Día</h2>
-  
+<div class="background">
+  <div class="reportes-container container">
+    <h2>Reportes de Publicaciones del Día</h2>
+
     <!-- Selector de Filtro -->
-    <mat-form-field appearance="outline">
-      <mat-label>Filtrar por Estado</mat-label>
-      <mat-select (selectionChange)="filtrarPorEstado($event)">
-        <mat-option *ngFor="let estado of estados" [value]="estado">{{ estado }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  
+    <div class="filtro-container">
+      <mat-form-field appearance="outline" class="filtro">
+        <mat-label>Filtrar por Estado</mat-label>
+        <mat-select (selectionChange)="filtrarPorEstado($event)">
+          <mat-option *ngFor="let estado of estados" [value]="estado">{{ estado }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
     <!-- Tabla de Publicaciones -->
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="publicaciones-tabla mat-elevation-z8">
       <ng-container matColumnDef="titulo">
         <th mat-header-cell *matHeaderCellDef> Título </th>
-        <td mat-cell *matCellDef="let publicacion"> {{ publicacion.info_ayudantia?.titulo_ayudantia || 'N/A' }} </td>
+        <td mat-cell *matCellDef="let publicacion">{{ publicacion.info_ayudantia?.titulo_ayudantia || 'N/A' }}</td>
       </ng-container>
-  
+
       <ng-container matColumnDef="nombreUsuario">
         <th mat-header-cell *matHeaderCellDef> Nombre </th>
-        <td mat-cell *matCellDef="let publicacion"> {{ publicacion.nombreUsuario }} </td>
+        <td mat-cell *matCellDef="let publicacion">{{ publicacion.info_ayudantia.info_usuario.nombre }}</td>
       </ng-container>
-  
+
       <ng-container matColumnDef="apellidoUsuario">
         <th mat-header-cell *matHeaderCellDef> Apellido </th>
-        <td mat-cell *matCellDef="let publicacion"> {{ publicacion.apellidoUsuario }} </td>
+        <td mat-cell *matCellDef="let publicacion">{{  publicacion.info_ayudantia.info_usuario.apellido }}</td>
       </ng-container>
-  
+
       <ng-container matColumnDef="duracion">
         <th mat-header-cell *matHeaderCellDef> Duración </th>
-        <td mat-cell *matCellDef="let publicacion"> {{ publicacion.duracion }} hrs </td>
+        <td mat-cell *matCellDef="let publicacion">{{ publicacion.duracion }} hrs</td>
       </ng-container>
-  
+
       <ng-container matColumnDef="hora">
         <th mat-header-cell *matHeaderCellDef> Hora </th>
-        <td mat-cell *matCellDef="let publicacion"> {{ publicacion.hora }} </td>
+        <td mat-cell *matCellDef="let publicacion">{{ publicacion.hora }}</td>
       </ng-container>
-  
+
       <ng-container matColumnDef="formato">
         <th mat-header-cell *matHeaderCellDef> Formato </th>
-        <td mat-cell *matCellDef="let publicacion"> {{ publicacion.formato }} </td>
+        <td mat-cell *matCellDef="let publicacion">{{ publicacion.formato }}</td>
       </ng-container>
-  
+
       <ng-container matColumnDef="estado">
         <th mat-header-cell *matHeaderCellDef> Estado </th>
-        <td mat-cell *matCellDef="let publicacion"> {{ publicacion.estado }} </td>
-      </ng-container>
-  
+        <td mat-cell *matCellDef="let publicacion">{{ publicacion.estado }}</td>
+      </ng-container> 
+      <!-- Acciones -->
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef> Acciones </th>
+    <td mat-cell *matCellDef="let publicacion">
+      <button
+        mat-button
+        color="primary"
+        (click)="intervenir(publicacion.id_publicacion)"
+      >
+        Intervenir
+      </button>
+    </td>
+  </ng-container>
+
+
       <!-- Header y Filas -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+
+    <!-- Mensaje cuando no hay publicaciones -->
+    <div *ngIf="dataSource.data.length === 0" class="no-publicaciones">
+      No se encontraron publicaciones para el día de hoy.
+    </div>
   </div>
-  
+</div>
