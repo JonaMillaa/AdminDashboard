@@ -40,13 +40,7 @@ export class FirebaseService {
   private isLoggedIn: boolean = false;  
     // Método para registrar un nuevo usuario y guardar el evento de registro
 
-  constructor(
-    private firestore: Firestore,
-    private router: Router
-  ) {} 
-
-
-  private isLoggedIn: boolean = false;
+ 
 
   login(user: string): void {
     if (user === 'admin' || user === 'manager') {
