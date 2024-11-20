@@ -13,18 +13,24 @@ import { LoginData } from '../models/LoginData';
 import { CrecimientoUsuario } from '../models/CrecimientoUsuario';
 
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class FirebaseService {
-  constructor(
-    private firestore: Firestore,
-    private router: Router
-  ) {} 
+
+  getDoc<T>(arg0: string, idPublicacion: string) {
+    throw new Error('Method not implemented.');
+  }
 
 
-  private isLoggedIn: boolean = false;
+ 
+  constructor(private firestore: Firestore,
+    private router: Router,
+    ) {} 
+  private isLoggedIn: boolean = false;  
+    // Método para registrar un nuevo usuario y guardar el evento de registro
+
+ 
 
   login(user: string): void {
     if (user === 'admin' || user === 'manager') {

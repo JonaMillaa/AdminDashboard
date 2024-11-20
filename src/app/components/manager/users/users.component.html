@@ -25,7 +25,8 @@
 
 <!-- Filtros de tiempo y gráficos -->
 <div *ngIf="!mostrarContenido" class="charts">
-  
+  <div class="chart-container">
+    <h2>Crecimiento de nuevos Usuarios</h2>
   <div class="chart-container">
      
     <h2>Crecimiento de nuevos Usuarios</h2>
@@ -55,7 +56,6 @@
       <option value="día">Día</option>
       <option value="mes">Mes</option>
     </select>
-    
     <canvas id="loginsChart"></canvas>
   </div>
 </div>

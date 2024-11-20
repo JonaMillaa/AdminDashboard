@@ -1,0 +1,70 @@
+<div class="modificar-container">
+  <h2>Modificar Publicación</h2>
+
+  <form [formGroup]="publicacionForm" (ngSubmit)="guardarCambios()">
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Título</mat-label>
+        <input matInput formControlName="titulo" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Categoría</mat-label>
+        <input matInput formControlName="categoria" />
+      </mat-form-field>
+    
+    </div>
+ 
+    <div class="form-row"> 
+      <mat-form-field appearance="outline">
+        <mat-label>Subcategoría</mat-label>
+        <input matInput formControlName="subcategoria" />
+      </mat-form-field>  
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha</mat-label>
+        <input matInput type="date" formControlName="fecha" />
+      </mat-form-field>
+
+    
+    </div>
+
+    <div class="form-row">  
+      <mat-form-field appearance="outline">
+        <mat-label>Duración (horas)</mat-label>
+        <input matInput type="number" formControlName="duracion" />
+      </mat-form-field>
+      
+      <mat-form-field appearance="outline">
+        <mat-label>Hora</mat-label>
+        <input matInput type="time" formControlName="hora" />
+      </mat-form-field>
+     
+    </div>
+
+    <div class="form-row"> 
+      <mat-form-field appearance="outline">
+        <mat-label>Formato</mat-label>
+        <input matInput formControlName="formato" />
+      </mat-form-field> 
+
+      <mat-form-field appearance="outline">
+        <mat-label>Ubicación</mat-label>
+        <input matInput formControlName="ubicacion" />
+      </mat-form-field>
+
+    </div>
+
+    <div class="form-row">
+    
+      <mat-form-field appearance="outline">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput formControlName="descripcion"></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="buttons">
+      <button mat-raised-button color="primary" type="submit">Guardar</button>
+      <button mat-raised-button color="warn" (click)="cancelar()">Cancelar</button>
+    </div>
+  </form>
+</div>
