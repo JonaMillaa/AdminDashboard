@@ -1,31 +1,57 @@
 <div class="usuarios-container">
-    <h2>Listado de Usuarios</h2>
-  
-    <table class="usuario-tabla mat-elevation-z8">
-      <thead>
-        <tr>
-          <th>Nombre</th> 
-          <th>Rut</th>
-          <th>Teléfono</th>
-          <th>Estado</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let usuario of usuarios$ | async">
-          <td>{{ usuario.Nombre }} {{ usuario.Apellido }}</td> 
-          <td>{{ usuario.Rut }}</td>  
-          <td>{{ usuario.Telefono }}</td>
-          <td>{{ usuario.Estado }}</td> 
-        
-          <td>
-            <button mat-button color="primary" (click)="cambiarEstado(usuario)">
-              {{ usuario.Estado === 'ACTIVO' ? 'Bloquear' : 'Activar' }}
-            </button>
-            <button mat-button color="accent" (click)="editarUsuario(usuario)">Editar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <h2>Listado de Usuarios</h2>
+
+  <!-- Buscador -->
+  <mat-form-field appearance="outline" class="search-bar">
+    <mat-label>Buscar usuario</mat-label>
+    <input matInput (input)="aplicarFiltro($event)" placeholder="Nombre, Apellido o Rut">
+  </mat-form-field>
+
+  <!-- Indicador de carga -->
+  <div *ngIf="cargando" class="spinner">
+    <mat-spinner diameter="50"></mat-spinner>
   </div>
-  
+
+  <!-- Tabla de usuarios -->
+  <table mat-table [dataSource]="usuariosDataSource" class="mat-elevation-z8" *ngIf="usuariosDataSource.data.length">
+    <!-- Columnas -->
+    <ng-container matColumnDef="nombre">
+      <th mat-header-cell *matHeaderCellDef> Nombre </th>
+      <td mat-cell *matCellDef="let usuario"> {{ usuario.Nombre }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="apellido">
+      <th mat-header-cell *matHeaderCellDef> Apellido </th>
+      <td mat-cell *matCellDef="let usuario"> {{ usuario.Apellido }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="rut">
+      <th mat-header-cell *matHeaderCellDef> Rut </th>
+      <td mat-cell *matCellDef="let usuario"> {{ usuario.Rut }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="telefono">
+      <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+      <td mat-cell *matCellDef="let usuario"> {{ usuario.Telefono }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef> Estado </th>
+      <td mat-cell *matCellDef="let usuario"> {{ usuario.Estado }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+      <td mat-cell *matCellDef="let usuario">
+        <button mat-button color="primary" (click)="cambiarEstado(usuario)">
+          {{ usuario.Estado === 'ACTIVO' ? 'Bloquear' : 'Activar' }}
+        </button>
+        <button mat-button color="accent" (click)="editarUsuario(usuario)">Editar</button>
+      </td>
+    </ng-container>
+
+    <!-- Header y Filas -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

@@ -1,0 +1,160 @@
+.intervencion-container {
+  display: flex;
+  gap: 20px; /* Separación entre columnas */
+  height: 100vh;
+  padding: 10px; /* Espaciado interno */
+}
+
+.chat-container {
+  flex: 1.5; /* Reduce el tamaño del chat */
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #ccc;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.details-participants-container {
+  flex: 1; /* La columna derecha ocupa menos espacio */
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Separación entre los bloques arriba y abajo */
+}
+
+.details-container {
+  flex: 2; /* Haz que los detalles ocupen más espacio */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow-y: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.participants-container {
+  flex: 1; /* Haz que los participantes ocupen menos espacio */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow-y: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.chat-title {
+  flex: 1;
+  text-align: center;
+  font-weight: bold;
+}
+
+.messages-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #f7f7f7;
+}
+
+.message-item {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.sent {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.received {
+  text-align: left;
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 10px;
+}
+
+.message-avatar img {
+  width: 100%;
+  height: 100%;
+}
+
+.message-content {
+  max-width: 70%;
+}
+
+.message-info {
+  font-size: 0.9em;
+  color: #555;
+  display: flex;
+  justify-content: space-between;
+}
+
+.message-text {
+  margin: 5px 0;
+  font-size: 1em;
+}
+
+.no-messages {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+}
+
+.message-input {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.message-input-field {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.participants-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.participant-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.participant-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.participant-info div {
+  font-size: 1em;
+}
+
+.details-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Distribuye el contenido y el botón */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow-y: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.details-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center; /* Centra el botón horizontalmente */
+}

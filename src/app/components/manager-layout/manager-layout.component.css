@@ -5,7 +5,7 @@
 
 /* Estilo del Sidenav */
 .sidenav {
-  background: linear-gradient(195deg, rgba(30, 30, 90, 0.9), rgba(0, 141, 172, 0.584)),url('../../assets/images/pexels-marta-dzedyshko-1042863-2067569.jpg');
+  background: linear-gradient(195deg, rgba(30, 30, 90, 0.9), rgba(0, 141, 172, 0.584)),url('/public/assets/images/pexels-marta-dzedyshko-1042863-2067569.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

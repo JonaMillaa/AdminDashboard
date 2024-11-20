@@ -26,14 +26,19 @@ import { FirebaseService } from '../../firebase/firebase.service';
   styleUrls: ['./admin-layout.component.css'],
 })
 export class AdminLayoutComponent {
-  @ViewChild('sidenav') sidenav!: MatSidenav; // Agrega ViewChild para el sidenav
+  @ViewChild('sidenav') sidenav!: MatSidenav;
 
   opened = true;
+  activeItem: string = ''; // Mantiene el elemento seleccionado
 
   constructor(private authService: FirebaseService, private router: Router) {}
 
+  setActiveItem(item: string) {
+    this.activeItem = item;
+  }
+
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/login']); // Navega al login tras cerrar sesión
+    this.router.navigate(['/login']);
   }
 }

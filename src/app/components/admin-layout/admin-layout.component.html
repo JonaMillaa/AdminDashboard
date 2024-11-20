@@ -6,39 +6,63 @@
       <mat-divider class="sidenav-divider"></mat-divider>
       
       <!-- Reporte Diario -->
-      <a mat-list-item routerLink="/admin/reportes-dia" class="menu-item">
-        <mat-icon>analytics</mat-icon> <!-- Icono de reporte o análisis -->
+      <a mat-list-item 
+         routerLink="/admin/reportes-dia" 
+         class="menu-item" 
+         [ngClass]="{'active': activeItem === 'reportes-dia'}"
+         (click)="setActiveItem('reportes-dia')">
+        <mat-icon>analytics</mat-icon>
         <span *ngIf="opened">Reporte Diario</span>
       </a>
 
       <!-- Usuarios -->
-      <a mat-list-item routerLink="/admin/usuarios" class="menu-item">
-        <mat-icon>group</mat-icon> <!-- Icono de grupo de personas para usuarios -->
+      <a mat-list-item 
+         routerLink="/admin/usuarios" 
+         class="menu-item"
+         [ngClass]="{'active': activeItem === 'usuarios'}"
+         (click)="setActiveItem('usuarios')">
+        <mat-icon>group</mat-icon>
         <span *ngIf="opened">Usuarios</span>
       </a>
 
       <!-- Pagos Pendientes -->
-      <a mat-list-item routerLink="/admin/pagos-pendientes" class="menu-item">
-        <mat-icon>attach_money</mat-icon> <!-- Icono de dinero para pagos -->
+      <a mat-list-item 
+         routerLink="/admin/pagos-pendientes" 
+         class="menu-item"
+         [ngClass]="{'active': activeItem === 'pagos-pendientes'}"
+         (click)="setActiveItem('pagos-pendientes')">
+        <mat-icon>attach_money</mat-icon>
         <span *ngIf="opened">Pagos Pendientes</span>
       </a> 
 
       <!-- Publicaciones del Día -->
-      <a mat-list-item routerLink="/admin/reportes-publicaciones-dia" class="menu-item">
-        <mat-icon>event_note</mat-icon> <!-- Icono de evento o publicación -->
+      <a mat-list-item 
+         routerLink="/admin/reportes-publicaciones-dia" 
+         class="menu-item"
+         [ngClass]="{'active': activeItem === 'reportes-publicaciones-dia'}"
+         (click)="setActiveItem('reportes-publicaciones-dia')">
+        <mat-icon>event_note</mat-icon>
         <span *ngIf="opened">Publicaciones del día</span>
       </a>
 
       <!-- Soporte -->
-      <a mat-list-item routerLink="/admin/soporte" class="menu-item">
-        <mat-icon>help</mat-icon> <!-- Icono de ayuda para soporte -->
+      <a mat-list-item 
+         routerLink="/admin/soporte" 
+         class="menu-item"
+         [ngClass]="{'active': activeItem === 'soporte'}"
+         (click)="setActiveItem('soporte')">
+        <mat-icon>contact_support</mat-icon>
         <span *ngIf="opened">Soporte</span>
       </a>
-
+    
       <!-- Cerrar Sesión -->
-      <a mat-list-item class="menu-item logout" (click)="logout()">
-        <mat-icon>exit_to_app</mat-icon> <!-- Icono de salida para cerrar sesión -->
-        <span *ngIf="opened">Cerrar Sesión</span>
+      <a mat-list-item 
+         class="menu-item logout"
+         (click)="logout()"
+         [ngClass]="{'active': activeItem === 'logout'}"
+         (click)="setActiveItem('logout')">
+        <mat-icon >exit_to_app</mat-icon>
+        <span *ngIf="opened" >Cerrar Sesión</span>
       </a>
 
     </mat-nav-list>
