@@ -30,20 +30,11 @@
   <div class="chart-container">
      
     <h2>Crecimiento de nuevos Usuarios</h2>
-  <div class="filtro-tiempo">
     <label for="filtroTiempoCrecimiento">Filtrar por:</label>
     <select id="filtroTiempoCrecimiento" [(ngModel)]="filtroTiempoCrecimiento" (change)="loadCrecimientoUsuariosData()">
       <option value="día">Día</option>
       <option value="mes">Mes</option>
     </select>
-    <canvas id="crecimientoUsuariosChart"></canvas>
-  </div>
-
-  <div class="chart-container">
-
-  </div>
-
-  </div>
 
   <!-- Indicador de carga para Crecimiento de Usuarios -->
   <div *ngIf="cargandoCrecimientoUsuarios" class="no-data">

@@ -153,13 +153,13 @@ export class UsersComponent implements OnInit, AfterViewInit {
   public loadCrecimientoUsuariosData(): void {
     this.cargandoCrecimientoUsuarios = true; // Inicia la carga
 
-    // Destruir el gráfico anterior si existe
-    if (this.crecimientoUsuariosChart) {
+  // Simula un retraso artificial de 1 segundo
+  setTimeout(() => {
+     // Destruir el gráfico anterior si existe
+     if (this.crecimientoUsuariosChart) {
       this.crecimientoUsuariosChart.destroy();
       this.crecimientoUsuariosChart = null;
     }
-  // Simula un retraso artificial de 1 segundo
-  setTimeout(() => {
     this.firebaseService.getCrecimientoUsuarios().subscribe((data) => {
       const { labels, counts } = this.agruparPorTiempo(data, this.filtroTiempoCrecimiento);
   
@@ -254,16 +254,15 @@ export class UsersComponent implements OnInit, AfterViewInit {
   }
  
   public loadLoginsData(): void {
-
     this.cargandoLogins = true; // Inicia la carga
-
-    // Destruir el gráfico anterior si existe
-    if (this.loginsChart) {
+  // Simula un retraso artificial de 1 segundo
+  setTimeout(() => {
+     // Destruir el gráfico anterior si existe
+     if (this.loginsChart) {
       this.loginsChart.destroy();
       this.loginsChart = null;
     }
-  // Simula un retraso artificial de 1 segundo
-  setTimeout(() => {
+    
     this.firebaseService.getLoginsUsuarios().subscribe((data) => {
       const { labels, counts } = this.agruparPorTiempo(data, this.filtroTiempoLogins);
   
@@ -355,13 +354,17 @@ export class UsersComponent implements OnInit, AfterViewInit {
   }
   
   private destroyCharts(): void {
-    if (this.crecimientoUsuariosChart) {
-      this.crecimientoUsuariosChart.destroy();
-      this.crecimientoUsuariosChart = null;
+    if (document.getElementById('crecimientoUsuariosChart')) {
+      if (this.crecimientoUsuariosChart) {
+        this.crecimientoUsuariosChart.destroy();
+        this.crecimientoUsuariosChart = null;
+      }
     }
-    if (this.loginsChart) {
-      this.loginsChart.destroy();
-      this.loginsChart = null;
+    if (document.getElementById('loginsChart')) {
+      if (this.loginsChart) {
+        this.loginsChart.destroy();
+        this.loginsChart = null;
+      }
     }
   }
 
