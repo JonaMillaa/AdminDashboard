@@ -14,7 +14,7 @@ import { PublicacionesComponent } from './components/manager/publicaciones/publi
 import { MonitoreoComponent } from './components/manager/monitoreo/monitoreo.component';
 import { ReportesComponent } from './components/manager/reportes/reportes.component';
 import { FacturacionComponent } from './components/manager/facturacion/facturacion.component';
-import { NotificacionComponent } from './components/manager/notificacion/notificacion.component';
+import { PublicacionesPorEstadoComponent } from './components/manager/publicaciones-por-estado/publicaciones-por-estado.component';
 import { DatosDelDiaComponent } from './components/admin/datos-del-dia/datos-del-dia.component';
 import { PruebasComponent } from './components/admin/pruebas/pruebas.component';
 import { ReportesDiaComponent } from './components/admin/reportes-dia/reportes-dia.component'; // Importación de ReportesDiaComponent
@@ -52,7 +52,7 @@ export const routes: Routes = [
       { path: 'monitoreo', component: MonitoreoComponent },
       { path: 'reportes', component: ReportesComponent }, 
       { path: 'users', component: UsersComponent },
-      { path: 'notificacion', component: NotificacionComponent },
+      { path: 'publicacion-por-estado', component: PublicacionesPorEstadoComponent },
       { path: 'facturacion', component: FacturacionComponent },
       { path: 'calendario', component: CalendarComponent }
       ]

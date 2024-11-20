@@ -7,7 +7,7 @@ import { Pregunta_ayudantia } from '../models/preguntas_ayudantia.model';
 import { Publicacion } from '../models/publicacion.interface';
 import { Calificacion } from '../models/calificacion.interface';
 import { TutorRanking } from '../models/tutor-ranking.interface';
-import { map, combineLatestWith, switchMap } from 'rxjs/operators';
+import { map, combineLatestWith, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { LoginData } from '../models/LoginData';
 import { CrecimientoUsuario } from '../models/CrecimientoUsuario';
@@ -363,6 +363,41 @@ export class FirebaseService {
     return `${day}-${month}-${year}`;
   }
 
+      // Obtener todas las postulaciones
+  getPostulacionesPorEstado(estado: string): Observable<any[]> {
+    const coleccion = collection(this.firestore, 'Postulaciones');
+    const consulta = query(coleccion, where('estado_postulacion', '==', estado));
+    return collectionData(consulta, { idField: 'id' });
+  }
+
+  // Obtener una publicación por ID
+  getPublicacionById(id: string): Observable<any> {
+    const publicacionRef = doc(this.firestore, `Publicaciones/${id}`);
+    return from(getDoc(publicacionRef)).pipe(
+      map((snapshot) => (snapshot.exists() ? snapshot.data() : null))
+    );
+  }
+
+  // Combinar Postulaciones y Publicaciones
+  getPostulacionesConPublicaciones(estado: string): Observable<any[]> {
+    return this.getPostulacionesPorEstado(estado).pipe(
+      switchMap((postulaciones: any[]) => {
+        // Mapear cada postulación con la publicación relacionada
+        const detallePostulaciones$ = postulaciones.map((postulacion) => 
+          this.getPublicacionById(postulacion.id_publicacion).pipe(
+            map((publicacion) => ({
+              ...postulacion,
+              fecha_ayudantia: publicacion?.fecha_ayudantia || null,
+              titulo: publicacion?.titulo || null,
+            }))
+          )
+        );
+
+        // Combinar todas las solicitudes en un único observable
+        return forkJoin(detallePostulaciones$);
+      })
+    );
+  }
   
 }
 
