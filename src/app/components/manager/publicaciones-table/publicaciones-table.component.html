@@ -1,0 +1,278 @@
+<mat-card class="table-container">
+  <mat-card-title>Lista Detallada de Publicaciones y Ayudantías Activas</mat-card-title>
+  <mat-card-content>
+    <div class="filters">
+      <mat-form-field appearance="fill">
+        <mat-label>Estado</mat-label>
+        <mat-select [(value)]="filtroEstado" (selectionChange)="aplicarFiltros()">
+          <mat-option value="">Todos</mat-option>
+          <mat-option value="EN_CURSO">EN CURSO</mat-option>
+          <mat-option value="FINALIZADA">FINALIZADA</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Formato</mat-label>
+        <mat-select [(value)]="filtroFormato" (selectionChange)="aplicarFiltros()">
+          <mat-option value="">Todos</mat-option>
+          <mat-option value="PRESENCIAL">PRESENCIAL</mat-option>
+          <mat-option value="REMOTO">REMOTO</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Buscar</mat-label>
+        <input matInput [(ngModel)]="filtroBusqueda" (keyup)="aplicarFiltros()" placeholder="Buscar por nombre o apellido">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="limpiarFiltros()">Limpiar Filtros</button>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef class="column-small"> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{ element.info_ayudantia.info_usuario.nombre }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="apellido">
+        <th mat-header-cell *matHeaderCellDef> Apellido </th>
+        <td mat-cell *matCellDef="let element"> {{ element.info_ayudantia.info_usuario.apellido }} </td>
+      </ng-container>
+
+      <!-- <ng-container matColumnDef="categoria">
+        <th mat-header-cell *matHeaderCellDef> Categoría </th>
+        <td mat-cell *matCellDef="let element"> {{ element.info_ayudantia.categoria }} </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let element"> {{ element.estado }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="formato">
+        <th mat-header-cell *matHeaderCellDef> Formato </th>
+        <td mat-cell *matCellDef="let element"> {{ element.formato }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fecha_ayudantia">
+        <th mat-header-cell *matHeaderCellDef class="column-small"> Fecha </th>
+        <td mat-cell *matCellDef="let element"> {{ element.fecha_ayudantia }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="hora">
+        <th mat-header-cell *matHeaderCellDef class="column-small"> Hora </th>
+        <td mat-cell *matCellDef="let element"> {{ element.hora }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="detalle_ubicacion">
+        <th mat-header-cell *matHeaderCellDef class="column-small"> Ubicación </th>
+        <td mat-cell *matCellDef="let element" class="column-small" [matTooltip]="element.detalle_ubicacion"> 
+          {{ element.detalle_ubicacion }} 
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="duracion">
+        <th mat-header-cell *matHeaderCellDef > Duración </th>
+        <td mat-cell *matCellDef="let element"> {{ element.duracion }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="titulo_ayudantia">
+        <th mat-header-cell *matHeaderCellDef> Título </th>
+        <td mat-cell *matCellDef="let element" class="column-small" [matTooltip]="element.info_ayudantia.titulo_ayudantia"> 
+          {{ element.info_ayudantia.titulo_ayudantia }} 
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="participantes">
+        <th mat-header-cell *matHeaderCellDef> Participantes </th>
+        <td mat-cell *matCellDef="let element"> {{ element.participantes }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="descripcion_ayudantia">
+        <th mat-header-cell *matHeaderCellDef class="column-small"> Descripción </th>
+        <td mat-cell *matCellDef="let element" class="column-small" [matTooltip]="element.info_ayudantia.descripcion_ayudantia"> 
+          {{ element.info_ayudantia.descripcion_ayudantia }} 
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      
+      <!-- Mensaje de datos vacíos -->
+      <tr *ngIf="dataSource.data.length === 0">
+        <td colspan="12" style="text-align: center; padding: 20px;">No hay datos disponibles</td>
+      </tr>
+    </table>
+
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-card-content>
+</mat-card>
+
+
+<!-- KPIs y Gráficos -->
+<mat-card class="kpi-container">
+  <mat-card-title>Indicadores Clave (KPIs)</mat-card-title>
+  <mat-card-content>
+    <div class="kpi-grid">
+      <!-- Total de ayudantías activas -->
+      <mat-card class="kpi-card">
+        <mat-card-title>Total Ayudantías Activas</mat-card-title>
+        <mat-card-content>
+          <h2>{{ totalAyudantiasActivas }}</h2>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Ayudantías pendientes de publicación -->
+      <mat-card class="kpi-card">
+        <mat-card-title>Promedio de Duración (hrs)</mat-card-title>
+        <mat-card-content>
+          <h2>{{ promedioDuracion }}</h2>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Participantes totales -->
+      <mat-card class="kpi-card">
+        <mat-card-title>Total Participantes</mat-card-title>
+        <mat-card-content>
+          <h2>{{ participantesTotales }}</h2>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Gráfico de pastel: Ayudantías pendientes por formato -->
+    <div class="chart-container">
+      <h3>Ayudantías Pendientes por Formato</h3>
+      <canvas id="pendingPublicationPieChart"></canvas>
+    </div>
+
+    <!-- Gráfico de pastel: Formato más utilizado -->
+    <div class="chart-container">
+      <h3>Formato Más Utilizado</h3>
+      <canvas id="mostUsedFormatPieChart"></canvas>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <h2>Lista Detallada de Publicaciones y Ayudantías Activas</h2>
+
+<div class="table-container">
+    <div class="filters">
+      <mat-form-field appearance="fill">
+        <mat-label>Estado</mat-label>
+        <mat-select [(value)]="filtroEstado" (selectionChange)="aplicarFiltros()">
+          <mat-option value="">Todos</mat-option>
+          <mat-option value="EN_CURSO">EN CURSO</mat-option>
+          <mat-option value="FINALIZADA">FINALIZADA</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Formato</mat-label>
+        <mat-select [(value)]="filtroFormato" (selectionChange)="aplicarFiltros()">
+          <mat-option value="">Todos</mat-option>
+          <mat-option value="PRESENCIAL">PRESENCIAL</mat-option>
+          <mat-option value="REMOTO">REMOTO</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Buscar</mat-label>
+        <input matInput [(ngModel)]="filtroBusqueda" (keyup)="aplicarFiltros()" placeholder="Buscar por nombre o apellido">
+      </mat-form-field>
+  
+      <button mat-button (click)="limpiarFiltros()">Limpiar Filtros</button>
+    </div>
+  
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef class="column-small"> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{ element.info_ayudantia.info_usuario.nombre }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="apellido">
+        <th mat-header-cell *matHeaderCellDef> Apellido </th>
+        <td mat-cell *matCellDef="let element"> {{ element.info_ayudantia.info_usuario.apellido }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="categoria">
+        <th mat-header-cell *matHeaderCellDef> Categoría </th>
+        <td mat-cell *matCellDef="let element"> {{ element.info_ayudantia.categoria }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let element"> {{ element.estado }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="formato">
+        <th mat-header-cell *matHeaderCellDef> Formato </th>
+        <td mat-cell *matCellDef="let element"> {{ element.formato }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="fecha_ayudantia">
+        <th mat-header-cell *matHeaderCellDef class="column-small"> Fecha </th>
+        <td mat-cell *matCellDef="let element"> {{ element.fecha_ayudantia }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="hora">
+        <th mat-header-cell *matHeaderCellDef class="column-small"> Hora </th>
+        <td mat-cell *matCellDef="let element"> {{ element.hora }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="detalle_ubicacion">
+        <th mat-header-cell *matHeaderCellDef class="column-small"> Ubicación </th>
+        <td mat-cell *matCellDef="let element" class="column-small" [matTooltip]="element.detalle_ubicacion"> 
+          {{ element.detalle_ubicacion }} 
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="duracion">
+        <th mat-header-cell *matHeaderCellDef > Duración (hrs) </th>
+        <td mat-cell *matCellDef="let element"> {{ element.duracion }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="titulo_ayudantia">
+        <th mat-header-cell *matHeaderCellDef> Título </th>
+        <td mat-cell *matCellDef="let element" class="column-small" [matTooltip]="element.info_ayudantia.titulo_ayudantia"> 
+          {{ element.info_ayudantia.titulo_ayudantia }} 
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="participantes">
+        <th mat-header-cell *matHeaderCellDef> Participantes </th>
+        <td mat-cell *matCellDef="let element"> {{ element.participantes }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="descripcion_ayudantia">
+        <th mat-header-cell *matHeaderCellDef class="column-small"> Descripción </th>
+        <td mat-cell *matCellDef="let element" class="column-small" [matTooltip]="element.info_ayudantia.descripcion_ayudantia"> 
+          {{ element.info_ayudantia.descripcion_ayudantia }} 
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      
+        <tr *ngIf="dataSource.data.length === 0">
+            <td colspan="12" style="text-align: center; padding: 20px;">No hay datos disponibles</td>
+        </tr>
+    </table>
+
+      <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    
+  </div> -->
+  <!-- La tabla sirve para que el administrador pueda **visualizar, filtrar y buscar** 
+  fácilmente información detallada de las publicaciones, como estado, formato, 
+  fecha, participantes, y datos del usuario (nombre, apellido), facilitando la 
+  **gestión y análisis** de la actividad en la plataforma. -->
