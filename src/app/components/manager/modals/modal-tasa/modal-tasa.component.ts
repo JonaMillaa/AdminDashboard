@@ -1,6 +1,6 @@
-import { Component, Inject} from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule  } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 
@@ -11,9 +11,10 @@ import { MatDividerModule } from '@angular/material/divider';
     MatIconModule,
     MatDividerModule,
     CommonModule,
+    MatDialogModule
   ],
   templateUrl: './modal-tasa.component.html',
-  styleUrl: './modal-tasa.component.css'
+  styleUrls: ['./modal-tasa.component.css']
 })
 export class ModalTasaComponent {
 
@@ -56,5 +57,4 @@ export class ModalTasaComponent {
       };
     }
   }
-
 }
