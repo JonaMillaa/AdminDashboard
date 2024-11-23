@@ -1,14 +1,13 @@
-<h2 mat-dialog-title>Detalles del Mes</h2>
+<h2 mat-dialog-title>Detalles de la Categoría</h2>
 <mat-dialog-content>
-  <p><strong>Mes:</strong> {{ formatMonth(data.label) }}</p>
-  <p><strong>Número de Publicaciones:</strong> {{ data.currentCount }}</p>
-  <p><strong>Diferencia con el mes anterior:</strong> {{ calculateDifference() }}</p>
-  <p>
-    <strong>Análisis:</strong>
-    <span [style.color]="getGrowthExplanation().color">
-      {{ getGrowthExplanation().text }}
-    </span>
-  </p>
+  <p><strong>Categoría:</strong> {{ data.category }}</p>
+  <p><strong>Total de Publicaciones:</strong> {{ data.count }}</p>
+  <p><strong>Promedio:</strong> {{ data.average | number:'1.0-2' }}</p>
+  <ul>
+    <li *ngFor="let publication of data.publications">
+      {{ publication.title }} - {{ publication.date }}
+    </li>
+  </ul>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button (click)="closeModal()">Cerrar</button>

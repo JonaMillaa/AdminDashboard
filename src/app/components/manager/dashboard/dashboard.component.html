@@ -26,10 +26,10 @@
   <!-- Indicadores del dashboard -->
   <div class="dashboard-indicators">
 
-    <!-- Tasa de Crecimiento y decrecimiento -->
+    <!-- Publicaciones por Categoría -->
 
     <div class="indicator">
-      <h3>Tasa de Crecimiento</h3>
+      <h3>Publicaciones por Categoría</h3>
       <mat-form-field appearance="fill">
         <mat-label>Seleccionar Mes</mat-label>
         <mat-select [(value)]="selectedGrowthMonth" (selectionChange)="onGrowthMonthChange($event.value)">
@@ -38,6 +38,7 @@
       </mat-form-field>
       <canvas id="growthRateChart" class="fixed-size-chart"></canvas>
     </div>
+
 
 
     <!-- Promedio de Publicaciones -->
