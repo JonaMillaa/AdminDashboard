@@ -55,7 +55,7 @@ export class DashboardComponent implements OnInit{
 
   growthRate: number = 0;
 
-  growthRateChart: any;
+  
   averageChart: any;
   declineChart: any;
 
@@ -66,7 +66,7 @@ export class DashboardComponent implements OnInit{
 
 
   sunburstChart: any;
-  selectedMonth: string = '10'; // Mes por defecto: Enero
+  selectedMonth: string = '11'; // Mes por defecto: Enero
   months = [
     { name: 'Enero', value: '01' },
     { name: 'Febrero', value: '02' },
@@ -96,6 +96,13 @@ export class DashboardComponent implements OnInit{
 
   // Función para inicializar los datos del dashboard
   ngOnInit(): void {
+     // Seleccionar automáticamente el mes actual
+     const currentMonth = new Date().getMonth() + 1; // Mes actual (1-12)
+     this.selectedGrowthMonth = currentMonth.toString().padStart(2, '0'); // Formato 'MM'
+ 
+     // Cargar datos automáticamente al abrir la página
+     this.onGrowthMonthChange(this.selectedGrowthMonth);
+
     if (isPlatformBrowser(this.platformId)) {
     this.loadDashboardData();
     this.loadSunburstData(this.selectedMonth);
@@ -291,7 +298,8 @@ export class DashboardComponent implements OnInit{
     });
   }
 
-  selectedGrowthMonth: string = '10'; // Mes por defecto: Octubre
+  growthRateChart: Chart | null = null; // Inicializar como null
+  selectedGrowthMonth: string = ''; // Mes por defecto: Octubre
   growthMonths = [
     { name: 'Enero', value: '01' },
     { name: 'Febrero', value: '02' },
@@ -309,18 +317,21 @@ export class DashboardComponent implements OnInit{
 
   onGrowthMonthChange(selectedGrowthMonth: string): void {
     this.firebaseService.getPublications().subscribe(publications => {
+      // Preparar datos por categoría y mes seleccionado
       const chartData = this.prepareCategoryData(publications, selectedGrowthMonth);
-
+  
       if (chartData.data.every((count: number) => count === 0)) {
         this.dialog.open(ModalNoDataComponent, {
           data: { message: 'No hay datos disponibles para el mes seleccionado.' }
         });
         return;
       }
-
-      this.createCategoryBarChart(chartData); // Crear el gráfico con interacción
+  
+      // Crear el gráfico con los datos filtrados
+      this.createCategoryBarChart(chartData);
     });
   }
+  
 
   openDetailsModal(category: string, count: number): void {
     this.firebaseService.getPublications().subscribe(publications => {
@@ -363,6 +374,22 @@ export class DashboardComponent implements OnInit{
     this.growthRate = lastMonthCount === 0 ? 0 : ((currentMonthCount - lastMonthCount) / lastMonthCount) * 100;
   }
 
+  loadGrowthRateChart(selectedMonth: string): void {
+    this.firebaseService.getPublications().subscribe(publications => {
+      // Preparar datos para el gráfico
+      const chartData = this.prepareCategoryData(publications, selectedMonth);
+
+      if (chartData.data.every((count: number) => count === 0)) {
+        this.dialog.open(ModalNoDataComponent, {
+          data: { message: 'No hay datos disponibles para el mes seleccionado.' }
+        });
+        return;
+      }
+
+      // Crear o actualizar el gráfico
+      this.createCategoryBarChart(chartData);
+    });
+  }
   //Función para Preparar Datos por Categoría
   prepareCategoryData(publications: any[], selectedMonth: string): { labels: string[], data: number[] } {
     const categories = [
@@ -374,40 +401,40 @@ export class DashboardComponent implements OnInit{
       'Ciencias Sociales'
     ];
 
-    // Inicializar el conteo por categorías
     const groupedData: { [category: string]: number } = {};
     categories.forEach(category => (groupedData[category] = 0));
 
-    // Filtrar publicaciones por mes seleccionado y agruparlas por categoría
     publications.forEach(pub => {
-      const [day, month] = pub.fecha_ayudantia.split('-').map(Number);
-      if (month === parseInt(selectedMonth) && categories.includes(pub.categoria)) {
-        groupedData[pub.categoria]++;
+      const dateStr = pub.fecha_ayudantia;
+      const category = pub.info_ayudantia?.categoria;
+
+      if (dateStr && category) {
+        const [day, month] = dateStr.split('-').map(Number);
+        if (month === parseInt(selectedMonth) && categories.includes(category)) {
+          groupedData[category]++;
+        }
       }
     });
 
-    // Retornar etiquetas y datos
-    const labels = Object.keys(groupedData); // Categorías
-    const data = Object.values(groupedData); // Cantidades por categoría
-
-    console.log('Etiquetas (Categorías):', labels);
-    console.log('Datos (Cantidades):', data);
+    const labels = Object.keys(groupedData);
+    const data = Object.values(groupedData);
 
     return { labels, data };
   }
+  
 
   //Actualizar la Función para Crear el Gráfico
   createCategoryBarChart(chartData: { labels: string[], data: number[] }): void {
     if (isPlatformBrowser(this.platformId)) {
       const ctx = document.getElementById('growthRateChart') as HTMLCanvasElement;
-
+  
       if (ctx) {
         if (this.growthRateChart) {
           this.growthRateChart.destroy();
         }
-
+  
         const average = chartData.data.reduce((a, b) => a + b, 0) / chartData.data.length; // Calcular el promedio
-
+  
         this.growthRateChart = new Chart(ctx, {
           type: 'bar',
           data: {
@@ -418,19 +445,10 @@ export class DashboardComponent implements OnInit{
                 data: chartData.data, // Cantidades por categoría
                 backgroundColor: chartData.labels.map((label, index) =>
                   chartData.data[index] > average ? 'rgba(54, 162, 235, 0.8)' : 'rgba(255, 99, 132, 0.8)'
-                ), // Cambiar colores según comparación con el promedio
+                ), // Colores dinámicos según promedio
+                borderColor: 'rgba(0, 0, 0, 0.1)',
                 borderWidth: 1
               },
-              {
-                label: 'Promedio',
-                data: Array(chartData.labels.length).fill(average), // Línea horizontal para el promedio
-                type: 'line',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 2,
-                fill: false,
-                pointRadius: 0, // Sin puntos en la línea
-                yAxisID: 'y'
-              }
             ]
           },
           options: {
@@ -461,21 +479,13 @@ export class DashboardComponent implements OnInit{
                   callback: (value) => Number.isInteger(value) ? value : null // Filtra valores no enteros
                 }
               }
-            },
-            onClick: (event, elements) => {
-              if (elements.length > 0) {
-                const index = elements[0].index; // Índice de la barra clicada
-                const selectedCategory = chartData.labels[index]; // Categoría seleccionada
-                const selectedCount = chartData.data[index]; // Número de publicaciones
-                this.openDetailsModal(selectedCategory, selectedCount);
-              }
             }
           }
         });
       }
     }
   }
-
+  
   // Preparar los datos del gráfico
   prepareGrowthRateData(publications: any[]): any {
     const groupedData: { [monthYear: string]: number } = {};
