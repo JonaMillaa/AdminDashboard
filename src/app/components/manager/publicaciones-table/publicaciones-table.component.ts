@@ -12,6 +12,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { Chart } from 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-publicaciones-table',
@@ -57,7 +59,10 @@ export class PublicacionesTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(
+    private firebaseService: FirebaseService, 
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.cargarPublicaciones();
@@ -76,57 +81,84 @@ export class PublicacionesTableComponent implements OnInit {
   actualizarTabla(): void {
     let dataFiltrada = this.publicaciones;
 
+    // Filtro por estado
     if (this.filtroEstado) {
       dataFiltrada = dataFiltrada.filter(pub => pub.estado === this.filtroEstado);
     }
+
+    // Filtro por formato
     if (this.filtroFormato) {
       dataFiltrada = dataFiltrada.filter(pub => pub.formato === this.filtroFormato);
     }
+
+    // Filtro por búsqueda (nombre o apellido)
     if (this.filtroBusqueda) {
       const busquedaLower = this.filtroBusqueda.toLowerCase();
       dataFiltrada = dataFiltrada.filter(pub => {
-        const nombre = pub.info_usuario.nombre?.toLowerCase() || '';
-        const apellido = pub.info_usuario.apellido?.toLowerCase() || '';
+        const nombre = pub.info_ayudantia.info_usuario.nombre?.toLowerCase() || '';
+        const apellido = pub.info_ayudantia.info_usuario.apellido?.toLowerCase() || '';
         return nombre.includes(busquedaLower) || apellido.includes(busquedaLower);
       });
     }
+
+    // Actualizamos el dataSource
     this.dataSource.data = dataFiltrada;
+
+    // Si no se encuentran resultados, mostramos un mensaje de Snackbar
+    if (dataFiltrada.length === 0) {
+      this.mostrarMensaje('No se encontraron resultados para los filtros aplicados.');
+    }
+  }
+
+  mostrarMensaje(mensaje: string): void {
+    this.snackBar.open(mensaje, 'Cerrar', {
+      duration: 3000, // Duración del mensaje en milisegundos
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: ['snackbar-custom']
+    });
   }
 
   aplicarFiltros(): void {
-    const filtroEstado = this.filtroEstado.toLowerCase();
-    const filtroFormato = this.filtroFormato.toLowerCase();
-    const filtroBusqueda = this.filtroBusqueda.toLowerCase();
-
-    this.dataSource.filterPredicate = (data: any, filter: string) => {
-      const matchEstado = filtroEstado ? data.estado.toLowerCase().includes(filtroEstado) : true;
-      const matchFormato = filtroFormato ? data.formato.toLowerCase().includes(filtroFormato) : true;
-      const matchBusqueda = filtroBusqueda
-        ? (data.info_usuario.nombre.toLowerCase() + ' ' + data.info_usuario.apellido.toLowerCase()).includes(filtroBusqueda)
-        : true;
-
-      return matchEstado && matchFormato && matchBusqueda;
-    };
-
-    this.dataSource.filter = `${filtroEstado}${filtroFormato}${filtroBusqueda}`.trim().toLowerCase();
+    this.actualizarTabla();
   }
+
+  // aplicarFiltros(): void {
+  //   const filtroEstado = this.filtroEstado.toLowerCase();
+  //   const filtroFormato = this.filtroFormato.toLowerCase();
+  //   const filtroBusqueda = this.filtroBusqueda.toLowerCase();
+
+  //   this.dataSource.filterPredicate = (data: any, filter: string) => {
+  //     const matchEstado = filtroEstado ? data.estado.toLowerCase().includes(filtroEstado) : true;
+  //     const matchFormato = filtroFormato ? data.formato.toLowerCase().includes(filtroFormato) : true;
+  //     const matchBusqueda = filtroBusqueda
+  //       ? (data.info_usuario.nombre.toLowerCase() + ' ' + data.info_usuario.apellido.toLowerCase()).includes(filtroBusqueda)
+  //       : true;
+
+  //     return matchEstado && matchFormato && matchBusqueda;
+  //   };
+
+  //   this.dataSource.filter = `${filtroEstado}${filtroFormato}${filtroBusqueda}`.trim().toLowerCase();
+  // }
 
   limpiarFiltros(): void {
     this.filtroEstado = '';
     this.filtroFormato = '';
     this.filtroBusqueda = '';
     this.actualizarTabla();
-    this.aplicarFiltros();
   }
 
 
   // KPIs y Gráficos 
 
   totalAyudantiasActivas: number = 0;
-  promedioDuracion: number = 0;
+  // promedioDuracion: number = 0;
   participantesTotales: number = 50; // Dato fijo como ejemplo
   pendingPublicationData: { EN_CURSO: number; FINALIZADA: number } = { EN_CURSO: 0, FINALIZADA: 0 };
   mostUsedFormatData: { PRESENCIAL: number; REMOTO: number } = { PRESENCIAL: 0, REMOTO: 0 };
+  promedioDuracion: string = '0.0'; // Guardado como string para formatear a dos dígitos
+  promedioParticipantes: number = 0; // Número entero
+
 
   loadKPIs(): void {
     this.firebaseService.getPublications().subscribe((publications: any[]) => {
@@ -136,7 +168,16 @@ export class PublicacionesTableComponent implements OnInit {
       // Promedio de duración
       const duraciones = publications.map(pub => parseInt(pub.duracion, 10));
       const totalDuracion = duraciones.reduce((a, b) => a + b, 0);
-      this.promedioDuracion = publications.length ? totalDuracion / publications.length : 0;
+      this.promedioDuracion = publications.length
+        ? (totalDuracion / publications.length).toFixed(1)
+        : '0.0';
+
+      // Promedio de participantes (como número entero)
+      const participantes = publications.map(pub => parseInt(pub.participantes, 10));
+      const totalParticipantes = participantes.reduce((a, b) => a + b, 0);
+      this.promedioParticipantes = publications.length
+        ? Math.round(totalParticipantes / publications.length)
+        : 0;
 
       // Datos para gráficas
       this.pendingPublicationData = this.calculateStateData(publications, ['EN_CURSO', 'FINALIZADA']);
@@ -180,7 +221,17 @@ export class PublicacionesTableComponent implements OnInit {
     return data;
   }
 
-  createPieChart(chartId: string, data: any, label: string): void {
+  // Función para obtener un color aleatorio
+  getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  createPieChart(chartId: string, data: { [key: string]: number }, label: string): void {
     const ctx = document.getElementById(chartId) as HTMLCanvasElement;
     if (ctx) {
       new Chart(ctx, {
@@ -190,7 +241,7 @@ export class PublicacionesTableComponent implements OnInit {
           datasets: [
             {
               data: Object.values(data),
-              backgroundColor: ['#42A5F5', '#66BB6A']
+              backgroundColor: Object.keys(data).map(() => this.getRandomColor())
             }
           ]
         },
@@ -200,13 +251,17 @@ export class PublicacionesTableComponent implements OnInit {
             legend: {
               position: 'top'
             },
-            tooltip: {
-              callbacks: {
-                label: (context: any) => `${context.label}: ${context.raw}`
-              }
+            datalabels: {
+              color: '#ffffff', // Color del texto dentro del gráfico
+              font: {
+                weight: 'bold',
+                size: 16
+              },
+              formatter: (value: number) => value.toString() // Mostrar cantidad dentro del gráfico
             }
           }
-        }
+        },
+        plugins: [ChartDataLabels] // Plugin para etiquetas
       });
     }
   }

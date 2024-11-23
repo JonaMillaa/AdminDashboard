@@ -26,7 +26,6 @@ import { ReportesPublicacionesDiaComponent } from './components/admin/reportes-p
 import { SoporteComponent } from './components/admin/soporte/soporte.component';
 import { IntervencionPagosComponent } from './components/admin/intervencion-pagos/intervencion-pagos.component';
 import { ModificarPublicacionComponent } from './components/admin/modificar-publicacion/modificar-publicacion.component';
-import { PublicacionesTableComponent } from './components/manager/publicaciones-table/publicaciones-table.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -77,7 +76,6 @@ export const routes: Routes = [
       { path: 'publicacion-por-estado', component: PublicacionesPorEstadoComponent },
       { path: 'facturacion', component: FacturacionComponent },
       { path: 'calendario', component: CalendarComponent },
-      { path: 'publicaciones-table', component: PublicacionesTableComponent }
       ]
   },
 

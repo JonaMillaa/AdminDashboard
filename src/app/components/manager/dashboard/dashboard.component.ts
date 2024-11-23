@@ -39,7 +39,7 @@ import { PublicacionesTableComponent } from '../../../components/manager/publica
     MatFormFieldModule,
     MatSelectModule,
     MatDialogModule,
-    // PublicacionesTableComponent
+    PublicacionesTableComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

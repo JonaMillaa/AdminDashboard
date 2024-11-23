@@ -130,12 +130,34 @@ tr:hover {
   color: #1976d2;
 }
 
+.chart-grid {
+  display: flex;
+  gap: 20px; /* Espacio entre los gráficos */
+  flex-wrap: wrap; /* Permitir que se acomoden en otra línea si el espacio es insuficiente */
+  justify-content: space-around; /* Centrar gráficos */
+  margin-top: 40px;
+}
+
 .chart-container {
   margin-top: 40px;
   text-align: center;
+  min-width: 400px; /* Tamaño mínimo del gráfico */
+  max-width: 500px; /* Tamaño máximo del gráfico */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f5f5f5;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .chart-container canvas {
-  max-width: 600px;
+  max-width: 100%; /* Escalar el gráfico según el contenedor */
   margin: 0 auto;
+}
+
+/* File: publicaciones-table.component.css */
+.snackbar-custom {
+  background-color: #f44336; /* Rojo para indicar error */
+  color: #ffffff; /* Texto blanco */
+  font-size: 16px; /* Tamaño de fuente legible */
+  text-align: center;
 }
