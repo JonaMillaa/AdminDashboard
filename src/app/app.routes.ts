@@ -23,13 +23,10 @@ import { ContadorSesionComponent} from './components/admin/contador-sesion/conta
 import { UsuariosComponent } from './components/admin/usuarios/usuarios.component';
 import { PagosPendientesComponent } from './components/admin/pagos-pendientes/pagos-pendientes.component'; // Importación del componente
 import { ReportesPublicacionesDiaComponent } from './components/admin/reportes-publicaciones-dia/reportes-publicaciones-dia.component';
-<<<<<<< HEAD
 import { SoporteComponent } from './components/admin/soporte/soporte.component';
 import { IntervencionPagosComponent } from './components/admin/intervencion-pagos/intervencion-pagos.component';
 import { ModificarPublicacionComponent } from './components/admin/modificar-publicacion/modificar-publicacion.component';
-=======
 import { PublicacionesTableComponent } from './components/manager/publicaciones-table/publicaciones-table.component';
->>>>>>> 7826aa5 (Se agrega componente publicaciones-table)
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
