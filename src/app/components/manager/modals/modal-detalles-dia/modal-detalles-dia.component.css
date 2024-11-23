@@ -6,36 +6,48 @@
 }
 
 .modal-content {
-  margin: 16px 0;
-  font-size: 1rem;
-  color: #333;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  max-width: 900px;
+  max-height: 80vh; /* Altura máxima para el modal */
+  overflow: auto; /* Permitir scroll */
 }
 
+.table-container {
+  max-height: 300px; /* Altura limitada para la tabla */
+  overflow-y: auto; /* Scroll vertical */
+  margin-bottom: 1rem;
+}
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
 
+thead {
+  background-color: #f1f1f1;
+  position: sticky;
+  top: 0; /* Fijar encabezado al hacer scroll */
+}
 
+th, td {
+  text-align: left;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
 
+th {
+  font-weight: bold;
+}
 
-/* modal-detalles-dia.component.css */
-.mini-chart-container {
-    margin-top: 20px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  canvas {
-    width: 100% !important;
-    max-width: 400px;
-  }
-
-  /* From Uiverse.io by CristianMontoya98 */ 
+/* From Uiverse.io by CristianMontoya98 */ 
 .btn {
   width: 5.5em;
   height: 1.9em;
   margin: 0.5em;
-  background: rgb(103, 71, 216);
+  background: rgb(54, 42, 218);
   color: white;
   border: none;
   border-radius: 0.625em;

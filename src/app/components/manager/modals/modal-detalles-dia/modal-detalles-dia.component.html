@@ -1,5 +1,4 @@
-<div class="container">
-    <!-- modal-detalles-dia.component.html -->
+<!-- <div class="container">
     <div class="modal-content">
     <h2>Detalles del Día</h2>
     <p>Día: {{ data.selectedDay }}</p>
@@ -7,11 +6,57 @@
     <p>Promedio Mensual: {{ data.monthlyAverage }}</p>
     <p [ngStyle]="{ color: analysisColor }">{{ data.analysisMessage }}</p>
 
-    <!-- <div class="mini-chart-container">
-      <canvas id="miniTrendChart" width="400" height="200"></canvas>
-    </div>        -->
-
     <button class="btn" (click)="closeModal()">Aceptar</button>
    </div>
-</div>
+</div> -->
 
+<!-- <div class="container">
+  <div class="modal-content">
+    <h2>Detalles de Publicaciones en {{ data.month }} {{ data.year }}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Día</th>
+          <th>Formato</th>
+          <th>Hora</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detail of data.dayDetails">
+          <td>{{ detail.day }}</td>
+          <td>{{ detail.format }}</td>
+          <td>{{ detail.hour }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn" (click)="closeModal()">Aceptar</button>
+  </div>
+</div> -->
+
+<div class="container">
+  <div class="modal-content">
+    <h2>Detalles de Publicaciones en {{ data.month }} {{ data.year }}</h2>
+    <!-- Tabla con scroll interno -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Día</th>
+            <th>Formato</th>
+            <th>Hora</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let detail of data.dayDetails">
+            <td>{{ detail.day }}</td>
+            <td>{{ detail.format }}</td>
+            <td>{{ detail.hour }}</td>
+            <td>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="btn" (click)="closeModal()">Aceptar</button>
+  </div>
+</div>

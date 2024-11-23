@@ -75,7 +75,7 @@ export const routes: Routes = [
       { path: 'users', component: UsersComponent },
       { path: 'publicacion-por-estado', component: PublicacionesPorEstadoComponent },
       { path: 'facturacion', component: FacturacionComponent },
-      { path: 'calendario', component: CalendarComponent }
+      { path: 'calendario', component: CalendarComponent },
       ]
   },
 
