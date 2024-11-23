@@ -1,18 +1,16 @@
-<div class="modal-container">
-  <div class="modal-header">
-    <h2>Detalles del Gráfico</h2>
-  </div>
-  <mat-divider></mat-divider>
-  <div class="modal-content">
-    <p><strong>Mes:</strong> {{ formatMonth(data.label) }}</p>
-    <p><strong>Total de Publicaciones:</strong> {{ data.currentCount }}</p>
-    <p><strong>Diferencia con el mes anterior:</strong> {{ calculateDifference() }}</p>
-    <p [ngStyle]="{'color': getGrowthExplanation().color}">
-      <strong>Análisis:</strong> {{ getGrowthExplanation().text }}
-    </p>
-  </div>
-  <mat-divider></mat-divider>
-  <div class="modal-actions">
-    <button class="btn" (click)="closeModal()">Aceptar</button>
-  </div>
-</div>
+<h2 mat-dialog-title>Detalles del Mes</h2>
+<mat-dialog-content>
+  <p><strong>Mes:</strong> {{ formatMonth(data.label) }}</p>
+  <p><strong>Número de Publicaciones:</strong> {{ data.currentCount }}</p>
+  <p><strong>Diferencia con el mes anterior:</strong> {{ calculateDifference() }}</p>
+  <p>
+    <strong>Análisis:</strong>
+    <span [style.color]="getGrowthExplanation().color">
+      {{ getGrowthExplanation().text }}
+    </span>
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeModal()">Cerrar</button>
+</mat-dialog-actions>
+
