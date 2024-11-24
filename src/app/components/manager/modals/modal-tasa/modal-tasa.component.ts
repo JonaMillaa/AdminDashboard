@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule  } from '@angular/materi
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 
+
 @Component({
   selector: 'app-modal-tasa',
   standalone: true,
@@ -11,7 +12,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatIconModule,
     MatDividerModule,
     CommonModule,
-    MatDialogModule
+    MatDialogModule,
+
   ],
   templateUrl: './modal-tasa.component.html',
   styleUrls: ['./modal-tasa.component.css']
