@@ -37,7 +37,7 @@ export class IntervencionPagosComponent implements OnInit {
   nuevoMensaje = ''; 
   participantes: Usuario[] = []; // Lista de participantes con información detallada
  arrayAsistencia: Array<{ id_usuario: string }> = []; // Lista temporal de IDs de participantes
- 
+ cargando = true; // Spinner visible inicialmente
   constructor(
     private route: ActivatedRoute,
     private chatService: ChatService,
@@ -59,7 +59,8 @@ export class IntervencionPagosComponent implements OnInit {
     });
   
     // Llama al método para obtener participantes
-    this.obtenerParticipantes();
+    this.obtenerParticipantes(); 
+    
   }
   
   obtenerParticipantes(): void {

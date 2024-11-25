@@ -28,8 +28,10 @@ import { IntervencionPagosComponent } from './components/admin/intervencion-pago
 import { ModificarPublicacionComponent } from './components/admin/modificar-publicacion/modificar-publicacion.component';
 import { ReportesUsersComponent } from './components/manager/reportes-users/reportes-users.component';
 import { UsuariosAppComponent } from './components/manager/usuarios-app/usuarios-app.component';
+import { HomeComponent } from './components/home/home.component';
 
 export const routes: Routes = [
+  { path: '', component: HomeComponent }, // Ruta inicial para HomeComponent
   { path: 'login', component: LoginComponent },
 
   {
@@ -83,8 +85,8 @@ export const routes: Routes = [
       ]
   },
 
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', redirectTo: '/login' }
+  { path: '', redirectTo: '', pathMatch: 'full' },
+  { path: '**', redirectTo: '' }
 ];
 
 export const appRouting = [provideRouter(routes)];

@@ -1,85 +1,82 @@
-import { Component, OnInit } from '@angular/core';
-import { SoporteService } from '../../../firebase/soporte.service';
-import { Usuario } from '../../../models/usuario.model';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { Reportes } from '../../../models/reportes';
+import { SoporteRespuestaComponent } from '../soporte-respuesta/soporte-respuesta.component';
+import { SoporteService } from '../../../firebase/soporte.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-soporte',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatButtonModule,
+    SoporteRespuestaComponent,
+  ],
   templateUrl: './soporte.component.html',
-  styleUrl: './soporte.component.css'
+  styleUrls: ['./soporte.component.css'],
+  providers: [
+    { provide: MatPaginatorIntl, useFactory: getSpanishPaginatorIntl },
+  ],
 })
 export class SoporteComponent implements OnInit {
-  reportes: Reportes[] = [];
-  reporteSeleccionado: Reportes | null = null;
-  usuarioReporte: Usuario | null = null; // Nuevo: para almacenar datos del usuario asociado
-  respuesta: string = '';
-  nuevoEstado: string = '';
-  filtroEstado: string = 'Todos';
-  filteredReportes: Reportes[] = [];
+  displayedColumns: string[] = ['categoria', 'subCategoria', 'estado', 'acciones'];
+  dataSource = new MatTableDataSource<Reportes>([]);
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private soporteService: SoporteService ) {}
+  constructor(private soporteService: SoporteService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.obtenerReportes();
   }
 
-  // Obtener todos los reportes
   obtenerReportes(): void {
     this.soporteService.getReportes().subscribe((reportes) => {
-      this.reportes = reportes;
-      this.filteredReportes = reportes;
+      this.dataSource.data = reportes;
+      this.dataSource.paginator = this.paginator;
     });
   }
 
-  // Ver detalles de un reporte y obtener el usuario asociado
+  aplicarFiltro(filtro: string): void {
+    this.dataSource.filter = filtro.trim().toLowerCase();
+  }
+
   verDetalleReporte(reporte: Reportes): void {
-    this.reporteSeleccionado = reporte;
-    this.nuevoEstado = reporte.estado; // Inicializamos con el estado actual
-
-    // Obtener la informaciÃ³n del usuario usando el ID del reporte
     this.soporteService.getUsuarioPorID(reporte.id_usuario).subscribe((usuario) => {
-      if (usuario) {
-        this.usuarioReporte = usuario;
-      }
-    });
-  }
-
-  // Filtrar reportes por estado
-  aplicarFiltro(): void {
-    if (this.filtroEstado === 'Todos') {
-      this.filteredReportes = this.reportes;
-    } else {
-      this.filteredReportes = this.reportes.filter(
-        (reporte) => reporte.estado === this.filtroEstado
-      );
-    }
-  }
-
-  // Responder y actualizar el estado del reporte
-  responderReporte(): void {
-    if (this.reporteSeleccionado) {
-      const nuevaRespuesta = {
-        reporte_id: this.reporteSeleccionado.id,
-        respuesta: this.respuesta,
-        estado_actualizado: this.nuevoEstado,
-        fecha_respuesta: new Date().toISOString(),
-      };
-
-      this.soporteService.guardarRespuesta(nuevaRespuesta).then(() => {
-        this.soporteService
-          .actualizarEstadoReporte(this.reporteSeleccionado!.id, this.nuevoEstado)
-          .then(() => {
-            this.respuesta = '';
-            this.reporteSeleccionado = null;
-            this.usuarioReporte = null; // Resetear el usuario asociado
-            this.obtenerReportes(); // Actualizar la lista de reportes
-          });
+      this.dialog.open(SoporteRespuestaComponent, {
+        width: '650px',
+        height: '515px', 
+        data: { reporte, usuario },
       });
-    }
+    });
   }
 }
 
+export function getSpanishPaginatorIntl(): MatPaginatorIntl {
+  const paginatorIntl = new MatPaginatorIntl();
+  paginatorIntl.itemsPerPageLabel = 'Elementos por página';
+  paginatorIntl.nextPageLabel = 'Siguiente página';
+  paginatorIntl.previousPageLabel = 'Página anterior';
+  paginatorIntl.firstPageLabel = 'Primera página';
+  paginatorIntl.lastPageLabel = 'Última página';
+  paginatorIntl.getRangeLabel = (page, pageSize, length) => {
+    if (length === 0 || pageSize === 0) {
+      return `0 de ${length}`;
+    }
+    const startIndex = page * pageSize;
+    const endIndex = Math.min(startIndex + pageSize, length);
+    return `${startIndex + 1} - ${endIndex} de ${length}`;
+  };
+  return paginatorIntl;
+}
