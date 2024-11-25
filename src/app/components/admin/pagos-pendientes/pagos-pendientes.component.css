@@ -54,3 +54,7 @@ table.mat-elevation-z8 th{
   padding: 20px;
   border-radius: 4px;
 }
+button[color="primary"] {
+  background-color:#155a9a;
+  color: white;
+}

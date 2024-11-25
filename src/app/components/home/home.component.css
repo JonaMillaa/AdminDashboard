@@ -1,0 +1,336 @@
+/* Contenedor principal */
+.home-container {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    padding-top: 70px;
+}
+
+/* Header */
+.home-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #37406E;
+    color: white;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+    height: 50px;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.nav-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.nav-center a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-center a:hover {
+    color: #ffcc00;
+}
+
+.nav-right {
+    margin-left: auto;
+}
+
+.nav-right a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-right a:hover {
+    color: #ffcc00;
+}
+
+/* Hero Section */
+.hero {
+    padding: 100px 20px 50px;
+    text-align: center;
+    background: linear-gradient(
+        195deg,
+        rgba(30, 30, 90, 0.9),
+        rgba(0, 141, 172, 0.7)
+    ),
+    url('https://www.shutterstock.com/image-photo/adult-learning-education-concept-woman-600nw-2493354727.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 0;
+}
+
+/* About Section */
+.about {
+    padding: 50px 20px;
+    background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+}
+
+.about h2 {
+    font-size: 2rem;
+    color: #1976d2;
+    text-align: center;
+}
+
+.about-cards {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.about-card {
+    flex: 1;
+    max-width: 300px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.about-image {
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+}
+
+.about-text {
+    padding: 20px;
+}
+
+.about-text h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: #1976d2;
+}
+
+.about-text p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Features Section */
+.features {
+    padding: 50px 20px;
+    background: #f5f7fa;
+    text-align: center;
+}
+
+.features h2 {
+    font-size: 2rem;
+    color: #1976d2;
+}
+
+.feature-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex: 1 1 200px;
+    max-width: 250px;
+    text-align: center;
+}
+
+.feature-card h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: #1976d2;
+}
+
+.feature-card p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Gallery Section */
+.gallery {
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    text-align: center;
+}
+
+.gallery-header {
+    margin-bottom: 30px;
+}
+
+.gallery-header h2 {
+    font-size: 2rem;
+    color: #1976d2;
+    margin-bottom: 10px;
+}
+
+.gallery-header p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.gallery-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.gallery-item {
+    flex: 1 1 200px;
+    max-width: 250px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid #1976d2;
+}
+
+.gallery-item p {
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+}
+/* Download Section */
+.download {
+    padding: 60px 20px;
+    background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+    text-align: center;
+}
+
+.download-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.download-title {
+    font-size: 2.5rem;
+    color: #1976d2;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.download-subtitle {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.download-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.download-image {
+    flex: 1;
+    max-width: 300px;
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.download-info {
+    flex: 1;
+    max-width: 500px;
+    text-align: left;
+}
+
+.download-info p {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.download-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.btn-google-play img,
+.btn-app-store img {
+    width: 150px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.btn-google-play img:hover,
+.btn-app-store img:hover {
+    transform: scale(1.05);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .download-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .download-info {
+        text-align: center;
+    }
+
+    .download-buttons {
+        justify-content: center;
+    }
+}
+
+
+/* Footer */
+.footer {
+    padding: 15px 20px;
+    background-color:  #37406E;
+    color: white;
+    text-align: center;
+    font-size: 0.9rem;
+}

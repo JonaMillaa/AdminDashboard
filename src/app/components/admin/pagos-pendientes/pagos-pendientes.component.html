@@ -10,7 +10,6 @@
           <mat-option value="Todos">Todos</mat-option>
           <mat-option value="EN_CURSO">En Curso</mat-option>
           <mat-option value="FINALIZADA">Finalizada</mat-option>
-         
         </mat-select>
       </mat-form-field>
     </div>
@@ -66,9 +65,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <!-- Mensaje cuando no hay datos -->
-    <div *ngIf="dataSource.data.length === 0" class="no-publicaciones">
-      No se encontraron publicaciones.
-    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
   </div>
 </div>

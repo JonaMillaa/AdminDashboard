@@ -1,45 +1,135 @@
-/* src/app/components/login/login.component.css */
+/* Contenedor Principal */
+.web-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%; 
+  background: 
+  linear-gradient(195deg, rgba(30, 30, 90, 0.9), rgba(0, 141, 172, 0.7)),
+  url('https://www.shutterstock.com/image-photo/adult-learning-education-concept-woman-600nw-2493354727.jpg'); /* Imagen de fondo */
+background-size: cover; /* La imagen de fondo cubre toda la pantalla */
+background-position: center; /* Centra la imagen de fondo */
+padding: 20px;
+}
 
-html, body {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f4f6f9;
-  }
+/* Tarjeta del Login */
+.web-login-card {
+  padding: 2rem;
+  max-width: 700px; /* Ajustar ancho máximo */
+  width: 80%; /* Ajustar ancho relativo */ 
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.856);
+  border: 1px solid #eaeaea;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Contenido de la Tarjeta */
+.web-login-content {
+  display: flex;
+  flex-direction: row;
+  gap: 40px; /* Espaciado entre columnas */
+}
+
+/* Contenedor Izquierdo */
+.web-login-left {
+  flex: 1; /* Proporción del espacio ocupado */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrado horizontal */
+  justify-content: center; /* Centrado vertical */
+  padding: 20px;
+  text-align: center; /* Centrar texto */
+}
+
+.web-login-logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.web-login-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #333333;
+  margin-bottom: 15px;
+}
+
+.web-login-subtitle {
+  font-size: 1rem;
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+/* Contenedor Derecho */
+.web-login-right {
+  flex: 2; /* Proporción del espacio ocupado */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Formulario */
+.web-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;  
+}
+
+.web-login-field {
+  width: 100%; 
   
-  .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+}
+
+.web-login-field input {
+  font-size: 1.1rem; 
+  
+}
+
+/* Botón */
+.web-login-button[type="submit"] {
+  width: 100%;
+  height: 50px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: #155a9a;
+  color: #ffffff;
+  transition: background-color 0.3s ease;
+}
+
+.web-login-button:hover {
+  background-color: #1565c0;
+}
+
+
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .web-login-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .web-login-left,
+  .web-login-right {
+    flex: unset;
     width: 100%;
   }
-  
-  .login-card {
-    padding: 2rem;
-    max-width: 400px;
-    width: 100%;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+
+  .web-login-logo {
+    margin: 0 auto;
   }
-  
-  .login-title {
+
+  .web-login-title {
     text-align: center;
-    margin-bottom: 1.5rem;
-    color: #333;
   }
-  
-  .login-field {
-    width: 100%;
-    margin-bottom: 1.5rem;
+
+  .web-login-subtitle {
+    text-align: center;
   }
-  
-  .login-checkbox {
-    margin-bottom: 1.5rem;
-  }
-  
-  .login-button {
-    width: 100%;
-  }
-  
+}

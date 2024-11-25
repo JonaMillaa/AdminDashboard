@@ -1,40 +1,49 @@
-<!-- src/app/components/login/login.component.html -->
-<div class="login-container">
-  <mat-card class="login-card">
-    <h2 class="login-title">Iniciar Sesión</h2>
-    <form (ngSubmit)="login()">
-      <!-- Campo de Correo Electrónico -->
-      <mat-form-field appearance="outline" class="login-field">
-        <mat-label>Correo Electrónico</mat-label>
-        <input
-          matInput
-          type="email"
-          [(ngModel)]="email"
-          name="email"
-          placeholder=""
-          required
-        />
-      </mat-form-field>
+<div class="web-login-container">
+  <mat-card class="web-login-card">
+    <!-- Contenedor Principal -->
+    <div class="web-login-content">
+      <!-- Contenedor del Logo y Título -->
+      <div class="web-login-left">
+        <img src="/assets/images/logo.png" alt="Logo Yo Te Ayudo" class="web-login-logo" />
+        <h2 class="web-login-title">Yo Te Ayudo</h2>
+        <p class="web-login-subtitle">Inicia sesión para administrador</p>
+      </div>
 
-      <!-- Campo de Contraseña -->
-      <mat-form-field appearance="outline" class="login-field">
-        <mat-label>Contraseña</mat-label>
-        <input
-          matInput
-          type="password"
-          [(ngModel)]="password"
-          name="password"
-          placeholder=""
-          required
-        />
-      </mat-form-field>
+      <!-- Formulario -->
+      <div class="web-login-right">
+        <form (ngSubmit)="login()" class="web-login-form">
+          <!-- Campo de Correo Electrónico -->
+          <mat-form-field appearance="outline" class="web-login-field">
+            <mat-label>Correo Electrónico</mat-label>
+            <input
+              matInput
+              type="email"
+              [(ngModel)]="email"
+              name="email"
+              placeholder="Escribe tu correo electrónico"
+              required
+            />
+          </mat-form-field>
 
-    
-      
-      <!-- Botón de Enviar -->
-      <button mat-raised-button color="primary" type="submit" class="login-button">
-        Iniciar Sesión
-      </button>
-    </form>
+          <!-- Campo de Contraseña -->
+          <mat-form-field appearance="outline" class="web-login-field">
+            <mat-label>Contraseña</mat-label>
+            <input
+              matInput
+              type="password"
+              [(ngModel)]="password"
+              name="password"
+              placeholder="Escribe tu contraseña"
+              required
+            />
+          </mat-form-field>
+
+          <!-- Botón de Enviar -->
+          <button mat-raised-button color="primary" type="submit" class="web-login-button">
+            Iniciar Sesión
+          </button>
+        </form>
+      </div>
+    </div>
   </mat-card>
 </div>

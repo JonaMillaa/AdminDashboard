@@ -26,8 +26,10 @@ import { ReportesPublicacionesDiaComponent } from './components/admin/reportes-p
 import { SoporteComponent } from './components/admin/soporte/soporte.component';
 import { IntervencionPagosComponent } from './components/admin/intervencion-pagos/intervencion-pagos.component';
 import { ModificarPublicacionComponent } from './components/admin/modificar-publicacion/modificar-publicacion.component';
+import { HomeComponent } from './components/home/home.component';
 
 export const routes: Routes = [
+  { path: '', component: HomeComponent }, // Ruta inicial para HomeComponent
   { path: 'login', component: LoginComponent },
 
   {
@@ -79,8 +81,8 @@ export const routes: Routes = [
       ]
   },
 
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: '**', redirectTo: '/login' }
+  { path: '', redirectTo: '', pathMatch: 'full' },
+  { path: '**', redirectTo: '' }
 ];
 
 export const appRouting = [provideRouter(routes)];

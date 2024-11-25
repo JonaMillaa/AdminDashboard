@@ -1,85 +1,37 @@
 <div class="container">
-    <h2>Administrar Reportes</h2>
-  
-    <!-- Filtro de estado -->
-    <div class="filter-container">
-      <label for="filtroEstado">Filtrar por estado:</label>
-      <select [(ngModel)]="filtroEstado" (change)="aplicarFiltro()">
-        <option value="Todos">Todos</option>
-        <option value="en curso">En curso</option>
-        <option value="resuelto">Resuelto</option>
-        <option value="no resuelto">No resuelto</option>
-      </select>
-    </div>
-  
-    <!-- Listado de reportes -->
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Categoría</th>
-          <th>Sub Categoría</th>
-          <th>Estado</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let reporte of filteredReportes">
-          <td>{{ reporte.categoria }}</td>
-          <td>{{ reporte.sub_categoria }}</td>
-          <td>{{ reporte.estado }}</td>
-          <td>
-            <button (click)="verDetalleReporte(reporte)" class="btn btn-info">Ver Detalle</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <!-- Detalle del reporte seleccionado -->
-    <div *ngIf="reporteSeleccionado" class="reporte-detalle card">
-      <div class="card-header">
-        <h3>Detalle del Reporte</h3>
-      </div>
-      <div class="card-content">
-        <div class="detail-item">
-          <i class="fas fa-folder-open"></i>
-          <p><strong>Categoría:</strong> {{ reporteSeleccionado.categoria }}</p>
-        </div>
-        <div class="detail-item">
-          <i class="fas fa-list-alt"></i>
-          <p><strong>Sub Categoría:</strong> {{ reporteSeleccionado.sub_categoria }}</p>
-        </div>
-        <div class="detail-item">
-          <i class="fas fa-align-left"></i>
-          <p><strong>Descripción:</strong> {{ reporteSeleccionado.descripcion }}</p>
-        </div>
-  
-        <div class="detail-item">
-          <i class="fas fa-folder-open"></i>
-          <p><strong>Nombre del usuario:</strong> {{ usuarioReporte?.Nombre }} {{ usuarioReporte?.Apellido }}</p>
-        </div>
-  
-        <div class="detail-item">
-          <i class="fas fa-folder-open"></i>
-          <p><strong>ID usuario:</strong> {{ usuarioReporte?.ID }}</p>
-        </div>
-  
-        <div class="detail-item">
-          <i class="fas fa-folder-open"></i>
-          <p><strong>Rol:</strong> {{ usuarioReporte?.Rol }}</p>
-        </div>
-      </div>
-  
-      <div class="card-footer">
-        <h4>Responder y Actualizar Estado</h4>
-        <textarea [(ngModel)]="respuesta" rows="4" placeholder="Escriba su respuesta..."></textarea>
-        <label for="estado">Actualizar Estado</label>
-        <select [(ngModel)]="nuevoEstado">
-          <option value="en curso">En curso</option>
-          <option value="resuelto">Resuelto</option>
-          <option value="no resuelto">No resuelto</option>
-        </select>
-        <button (click)="responderReporte()" class="btn btn-success">Enviar Respuesta</button>
-      </div>
-    </div>
-  </div>
-  
+  <h2>Administrar Reportes</h2>
+  <mat-form-field appearance="outline" class="search-bar">
+    <mat-label>Filtrar por estado</mat-label>
+    <mat-select (selectionChange)="aplicarFiltro($event.value)">
+      <mat-option value="">Todos</mat-option>
+      <mat-option value="en curso">En curso</mat-option>
+      <mat-option value="resuelto">Resuelto</mat-option>
+      <mat-option value="no resuelto">No resuelto</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="categoria">
+      <th mat-header-cell *matHeaderCellDef>Categoría</th>
+      <td mat-cell *matCellDef="let reporte">{{ reporte.categoria }}</td>
+    </ng-container>
+    <ng-container matColumnDef="subCategoria">
+      <th mat-header-cell *matHeaderCellDef>Sub Categoría</th>
+      <td mat-cell *matCellDef="let reporte">{{ reporte.sub_categoria }}</td>
+    </ng-container>
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let reporte">{{ reporte.estado }}</td>
+    </ng-container>
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let reporte">
+        <button mat-button color="primary" (click)="verDetalleReporte(reporte)">Ver Detalle</button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+</div>

@@ -55,7 +55,7 @@ table.mat-elevation-z8 td button {
 
 /* Botones */
 button[color="primary"] {
-  background-color: #1976d2;
+  background-color:#155a9a;
   color: white;
 }
 
@@ -64,12 +64,12 @@ button[color="primary"]:hover {
 }
 
 button[color="accent"] {
-  background-color: #f57c00;
+  background-color: #3c11a9;
   color: white;
 }
 
 button[color="accent"]:hover {
-  background-color: #e65100;
+  background-color:  #155a9a;
 }
 
 /* Spinner */
@@ -95,4 +95,6 @@ button[color="accent"]:hover {
     font-size: 0.8em;
     padding: 5px 8px;
   }
-}
+} 
+
+

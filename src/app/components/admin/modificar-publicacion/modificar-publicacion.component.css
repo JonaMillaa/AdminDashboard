@@ -2,7 +2,7 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 30px;
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -44,11 +44,12 @@ button {
 }
 
 button[type="submit"] {
-  background-color: #4caf50;
+  background-color:#155a9a;
   color: #fff;
 }
 
 button[color="warn"] {
-  background-color: #f44336;
+  background-color: #3c11a9;
   color: #fff;
-}
+} 
+
