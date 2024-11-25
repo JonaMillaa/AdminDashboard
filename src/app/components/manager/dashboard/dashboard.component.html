@@ -1,59 +1,51 @@
 <div class="dashboard-container">
+  <!-- Título principal del dashboard -->
+  
+
   <!-- Barra de navegación (navbar) -->
   <mat-toolbar class="navbar">
-    <mat-toolbar-row class="navbar-row">
-      <div class="navbar-links">
-        <div class="nav-item usuarios">
-          <mat-icon class="nav-icon">person</mat-icon>
-          <a routerLink="/manager/usuarios" class="nav-link">Usuarios Activos: {{ totalUsuariosActivos }}</a>
-        </div>
-        <div class="nav-item tutores">
-          <mat-icon class="nav-icon">school</mat-icon>
-          <a routerLink="/tutores" class="nav-link">Tutores: {{ totalTutores }}</a>
-        </div>
-        <div class="nav-item estudiantes">
-          <mat-icon class="nav-icon">school</mat-icon>
-          <a routerLink="/estudiantes" class="nav-link">Estudiantes: {{ totalEstudiantes }}</a>
-        </div>
-        <div class="nav-item publicaciones">
-          <mat-icon class="nav-icon">library_books</mat-icon>
-          <a routerLink="/publicaciones" class="nav-link">Publicaciones en Curso: {{ totalPublicaciones }}</a>
-        </div>
-      </div>
-    </mat-toolbar-row>
+    <header class="dashboard-header">
+      <h1>Panel de Control: Análisis de Publicaciones y Actividad</h1>
+      <p>Explora métricas clave para gestionar y optimizar las publicaciones por categoría y período.</p>
+    </header>
   </mat-toolbar>
 
   <!-- Indicadores del dashboard -->
   <div class="dashboard-indicators">
-<!-- Publicaciones por Categoría -->
+    <!-- Publicaciones por Categoría -->
+    <div class="indicator">
+      <h3>Publicaciones por Categoría</h3>
+      <mat-form-field appearance="fill">
+        <mat-label>Seleccionar Mes</mat-label>
+        <mat-select [(value)]="selectedGrowthMonth" (selectionChange)="onGrowthMonthChange($event.value)">
+          <mat-option *ngFor="let month of growthMonths" [value]="month.value">{{ month.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <canvas id="growthRateChart" class="fixed-size-chart"></canvas>
+      <!-- El gráfico permite al administrador visualizar de forma clara y rápida 
+      la distribución y cantidad de publicaciones por categorías o meses, 
+      ayudándolo a identificar áreas de mayor o menor actividad, 
+      y a tomar decisiones informadas para mejorar 
+      la asignación de recursos o estrategias en cada categoría o periodo. -->
+    </div>
 
-  <div class="indicator">
-    <h3>Publicaciones por Categoría</h3>
-    <mat-form-field appearance="fill">
-      <mat-label>Seleccionar Mes</mat-label>
-      <mat-select [(value)]="selectedGrowthMonth" (selectionChange)="onGrowthMonthChange($event.value)">
-        <mat-option *ngFor="let month of growthMonths" [value]="month.value">{{ month.name }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <canvas id="growthRateChart" class="fixed-size-chart"></canvas>
-  </div>
-
+    <!-- Publicaciones por Mes -->
     <div class="indicator">
       <h3>Cantidad de Publicaciones por Mes en el Año Seleccionado</h3>
-        <mat-form-field appearance="fill" class="filter">
-          <mat-label>Año</mat-label>
-          <mat-select [(value)]="selectedYear" (selectionChange)="onYearChange($event)">
-            <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+      <mat-form-field appearance="fill" class="filter">
+        <mat-label>Año</mat-label>
+        <mat-select [(value)]="selectedYear" (selectionChange)="onYearChange($event)">
+          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+        </mat-select>
+      </mat-form-field>
       <canvas id="barChart" class="fixed-size-chart"></canvas>
-        <!-- Propósito del gráfico:
-        El gráfico permite al administrador visualizar de manera rápida y clara la actividad mensual de
-         publicaciones en un año específico. Proporciona una perspectiva general de los meses más activos 
-        y menos activos, ayudándole a identificar patrones de uso y períodos de mayor o menor demanda. -->
+      <!-- Propósito del gráfico:
+      El gráfico permite al administrador visualizar de manera rápida y clara la actividad mensual de
+       publicaciones en un año específico. Proporciona una perspectiva general de los meses más activos 
+      y menos activos, ayudándole a identificar patrones de uso y períodos de mayor o menor demanda. -->
     </div>
   </div>
-  <app-publicaciones-table></app-publicaciones-table> 
+
+  <!-- Tabla de Publicaciones -->
+  <app-publicaciones-table></app-publicaciones-table>
 </div>
-
-

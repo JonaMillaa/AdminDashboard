@@ -1,15 +1,44 @@
-<h2 mat-dialog-title>Detalles de la Categoría</h2>
-<mat-dialog-content>
-  <p><strong>Categoría:</strong> {{ data.category }}</p>
-  <p><strong>Total de Publicaciones:</strong> {{ data.count }}</p>
-  <p><strong>Promedio:</strong> {{ data.average | number:'1.0-2' }}</p>
-  <ul>
-    <li *ngFor="let publication of data.publications">
-      {{ publication.title }} - {{ publication.date }}
-    </li>
-  </ul>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button (click)="closeModal()">Cerrar</button>
-</mat-dialog-actions>
+<mat-dialog-content class="modal-content">
+  <div class="modal-header">
+    <h3>{{ data.category }}</h3>
+    <!-- <p class="modal-subtitle">Detalles de Publicaciones</p> -->
+  </div>
 
+  <div class="modal-body">
+    <div class="stat-section">
+      <div class="stat-item">
+        <strong>Total de Publicaciones:</strong>
+        <span>{{ data.count }}</span>
+      </div>
+      <div class="stat-item">
+        <strong>Promedio publicaciones:</strong>
+        <span>{{ data.average }}</span>
+      </div>
+    </div>
+
+    <div class="publication-list" *ngIf="data.publications?.length > 0; else noPublications">
+      <h4>Lista de Publicaciones</h4>
+      <div class="publication-scroll">
+        <ul>
+          <li *ngFor="let publication of data.publications">
+            <div class="publication-item">
+              <span class="publication-title">{{ publication.title }}</span>
+              <span class="publication-date">{{ publication.date }}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Mensaje cuando no hay publicaciones -->
+    <ng-template #noPublications>
+      <div class="no-publications-message">
+        <p style="color: gray; text-align: center;">No hay publicaciones disponibles para esta categoría en este mes.</p>
+      </div>
+    </ng-template>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="modal-actions">
+  <button class="btn" mat-raised-button color="primary" (click)="closeModal()">Cerrar</button>
+</mat-dialog-actions>

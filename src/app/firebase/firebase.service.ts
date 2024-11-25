@@ -11,7 +11,7 @@ import { map, combineLatestWith, switchMap, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { LoginData } from '../models/LoginData';
 import { CrecimientoUsuario } from '../models/CrecimientoUsuario';
-
+import { Reportes } from '../models/reportes';
 
 @Injectable({
   providedIn: 'root',
@@ -23,14 +23,14 @@ export class FirebaseService {
   }
 
 
- 
+
   constructor(private firestore: Firestore,
     private router: Router,
-    ) {} 
-  private isLoggedIn: boolean = false;  
+    ) {}
+  private isLoggedIn: boolean = false;
     // Método para registrar un nuevo usuario y guardar el evento de registro
 
- 
+
 
   login(user: string): void {
     if (user === 'admin' || user === 'manager') {
@@ -50,7 +50,7 @@ export class FirebaseService {
     if (typeof window !== 'undefined' && localStorage) {
 
       return localStorage.getItem('user') !== null;
-      
+
     }
     return false; // O un valor por defecto
   }
@@ -295,7 +295,7 @@ export class FirebaseService {
   getRankingTutores(): Observable<TutorRanking[]> {
     const usuariosRef = collection(this.firestore, 'Usuarios');
     const usuariosQuery = query(usuariosRef, where('Rol', '==', 'TUTOR'));
-  
+
     return collectionData(usuariosQuery).pipe(
       map((usuarios: Usuario[]) => usuarios.map((usuario) => ({
         usuario,
@@ -342,7 +342,7 @@ export class FirebaseService {
   getAyudantiasFinalizadas(): Observable<any[]> {
     const coleccion = collection(this.firestore, 'Publicaciones');
     return collectionData(coleccion, { idField: 'id' }).pipe(
-      map((publicaciones: any[]) => 
+      map((publicaciones: any[]) =>
         publicaciones
           .filter(publicacion => publicacion.estado === 'FINALIZADA')
           .map(publicacion => ({
@@ -389,7 +389,7 @@ export class FirebaseService {
     return this.getPostulacionesPorEstado(estado).pipe(
       switchMap((postulaciones: any[]) => {
         // Mapear cada postulación con la publicación relacionada
-        const detallePostulaciones$ = postulaciones.map((postulacion) => 
+        const detallePostulaciones$ = postulaciones.map((postulacion) =>
           this.getPublicacionById(postulacion.id_publicacion).pipe(
             map((publicacion) => ({
               ...postulacion,
@@ -404,6 +404,12 @@ export class FirebaseService {
       })
     );
   }
-  
+
+
+  // Obtener todos los reportes
+  getReportes(): Observable<Reportes[]> {
+    const ref = collection(this.firestore, 'Reportes');
+    return collectionData(ref, { idField: 'id' }) as Observable<Reportes[]>;
+  }
 }
 

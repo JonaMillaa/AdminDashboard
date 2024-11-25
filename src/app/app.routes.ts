@@ -26,6 +26,8 @@ import { ReportesPublicacionesDiaComponent } from './components/admin/reportes-p
 import { SoporteComponent } from './components/admin/soporte/soporte.component';
 import { IntervencionPagosComponent } from './components/admin/intervencion-pagos/intervencion-pagos.component';
 import { ModificarPublicacionComponent } from './components/admin/modificar-publicacion/modificar-publicacion.component';
+import { ReportesUsersComponent } from './components/manager/reportes-users/reportes-users.component';
+import { UsuariosAppComponent } from './components/manager/usuarios-app/usuarios-app.component';
 import { HomeComponent } from './components/home/home.component';
 
 export const routes: Routes = [
@@ -39,7 +41,7 @@ export const routes: Routes = [
     children: [
 
       { path: 'soporte', component:SoporteComponent},
-    
+
       //{ path: 'soporte', component: SoporteComponent },
 
       { path: 'datos', component: DatosDelDiaComponent },
@@ -51,19 +53,19 @@ export const routes: Routes = [
       {path: 'pagos-pendientes', // ruta para el componente de pagos pendientes
       component: PagosPendientesComponent},
       {path: 'reportes-publicaciones-dia' , component: ReportesPublicacionesDiaComponent},
-      { 
-        path: 'intervencion-pagos/:id', 
+      {
+        path: 'intervencion-pagos/:id',
         component: IntervencionPagosComponent // Ruta dinámica para el componente de intervención
-      }, 
+      },
       {
         path: 'modificar-publicacion/:id',
         component: ModificarPublicacionComponent,
       },
-      
+
       {path: 'pagos-pendientes', component: PagosPendientesComponent},
       {path: 'reportes-publicaciones-dia' , component: ReportesPublicacionesDiaComponent}
 
-    ] 
+    ]
   },
   {
     path: 'manager',
@@ -73,11 +75,13 @@ export const routes: Routes = [
       { path: 'publicaciones', component: PublicacionesComponent },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'monitoreo', component: MonitoreoComponent },
-      { path: 'reportes', component: ReportesComponent }, 
+      { path: 'reportes', component: ReportesComponent },
       { path: 'users', component: UsersComponent },
+      { path: 'usuarios-app', component: UsuariosAppComponent },
       { path: 'publicacion-por-estado', component: PublicacionesPorEstadoComponent },
       { path: 'facturacion', component: FacturacionComponent },
       { path: 'calendario', component: CalendarComponent },
+      { path: 'reportes-users', component: ReportesUsersComponent },
       ]
   },
 
