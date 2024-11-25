@@ -203,20 +203,48 @@ mat-card-content p {
   font-size: 16px;
 }
 
-
-.charts {
+.chart-section {
   display: flex;
-  justify-content: space-around;
-  padding: 20px;
+  flex-direction: column;
+  gap: 20px;
 }
 
+/* .charts {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 20px;
+} */
+
+
 .chart-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
   position: relative;
   /* Para posicionar el spinner en el centro */
   min-height: 250px;
   /* Asegura un espacio mínimo para el contenedor */
-  width: 45%;
+  width: 48%; /* Cambiado para que ocupen la mitad del contenedor */
+  background: #090979;
+  /* Fondo gris claro */
+  border-radius: 8px;
+  /* Bordes redondeados */
+  padding: 20px;
+  /* Espaciado interno */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Sombra suave */
+  /* margin: 20px auto; */
+  /* Espaciado entre gráficos y centrado */
+}
+
+.chart-container-graph {
+  flex: 1;
+  min-height: 250px;
+  /* Asegura un espacio mínimo para el contenedor */
+  width: 100%; /* Ajustado para ocupar el 100% del contenedor padre */
   background: #e6e6e7;
+  position: relative;
   /* Fondo gris claro */
   border-radius: 8px;
   /* Bordes redondeados */
@@ -227,6 +255,12 @@ mat-card-content p {
   margin: 20px auto;
   /* Espaciado entre gráficos y centrado */
 }
+
+.fixed-size-chart {
+  width: 90% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
+  height: 85% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
+}
+
 
 .chart-loading-overlay {
   position: absolute;
@@ -252,7 +286,6 @@ mat-card-content p {
 
 .chart-container canvas {
   max-width: 100%;
-  /* Ajusta el ancho del gráfico al contenedor */
 }
 
 h2 {
@@ -310,6 +343,7 @@ option {
   margin-top: 20px;
   font-family: Arial, sans-serif;
   margin: 1rem;
+  overflow-x: auto;
 }
 
 table {

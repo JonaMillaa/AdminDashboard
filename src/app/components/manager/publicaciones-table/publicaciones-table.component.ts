@@ -154,7 +154,7 @@ export class PublicacionesTableComponent implements OnInit {
   totalAyudantiasActivas: number = 0;
   // promedioDuracion: number = 0;
   participantesTotales: number = 50; // Dato fijo como ejemplo
-  pendingPublicationData: { EN_CURSO: number; FINALIZADA: number } = { EN_CURSO: 0, FINALIZADA: 0 };
+  pendingPublicationData: { PUBLICADO: number; FINALIZADA: number } = { PUBLICADO: 0, FINALIZADA: 0 };
   mostUsedFormatData: { PRESENCIAL: number; REMOTO: number } = { PRESENCIAL: 0, REMOTO: 0 };
   promedioDuracion: string = '0.0'; // Guardado como string para formatear a dos dígitos
   promedioParticipantes: number = 0; // Número entero
@@ -180,7 +180,7 @@ export class PublicacionesTableComponent implements OnInit {
         : 0;
 
       // Datos para gráficas
-      this.pendingPublicationData = this.calculateStateData(publications, ['EN_CURSO', 'FINALIZADA']);
+      this.pendingPublicationData = this.calculateStateData(publications, ['PUBLICADO', 'FINALIZADA']);
       this.mostUsedFormatData = this.calculateFormatData(publications, 'EN_CURSO');
 
       // Crear gráficos
@@ -191,15 +191,15 @@ export class PublicacionesTableComponent implements OnInit {
 
   calculateStateData(
     publications: any[],
-    estados: ('EN_CURSO' | 'FINALIZADA')[]
-  ): { EN_CURSO: number; FINALIZADA: number } {
+    estados: ('PUBLICADO' | 'FINALIZADA')[]
+  ): { PUBLICADO: number; FINALIZADA: number } {
     // Inicializamos el objeto con las claves específicas
-    const data: { EN_CURSO: number; FINALIZADA: number } = { EN_CURSO: 0, FINALIZADA: 0 };
+    const data: { PUBLICADO: number; FINALIZADA: number } = { PUBLICADO: 0, FINALIZADA: 0 };
   
     publications.forEach(pub => {
       if (estados.includes(pub.estado)) {
         // Aseguramos que pub.estado sea del tipo esperado
-        const estado = pub.estado as 'EN_CURSO' | 'FINALIZADA';
+        const estado = pub.estado as 'PUBLICADO' | 'FINALIZADA';
         data[estado]++;
       }
     });

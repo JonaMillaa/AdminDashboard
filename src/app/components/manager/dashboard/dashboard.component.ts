@@ -324,7 +324,7 @@ export class DashboardComponent implements OnInit{
           count,
           average: Math.round(count / (filteredPublications.length || 1)), // Calcular promedio
           publications: filteredPublications.map(pub => ({
-            title: pub.titulo || 'Sin título',
+            title: pub.info_ayudantia.titulo_ayudantia || 'Sin título',
             date: pub.fecha_ayudantia || 'Sin fecha'
           }))
         }
