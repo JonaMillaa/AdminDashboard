@@ -35,3 +35,12 @@
   font-size: 1em;
   padding: 6px 16px;
 }
+button[color="primary"] {
+  background-color:#155a9a;
+  color: white;
+}
+
+button[color="accent"] {
+  background-color: #3c11a9;
+  color: white;
+}

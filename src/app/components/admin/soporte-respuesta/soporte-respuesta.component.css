@@ -1,0 +1,134 @@
+/* Estilo general para el modal */
+.modal-content {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 700px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  /* Encabezado */
+  .modal-content h2 {
+    text-align: center;
+    font-size: 1.5em;
+    color: #37406E;
+    margin-bottom: 20px;
+  }
+  
+  /* Contenedor de detalles */
+  .detail-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .detail-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .detail-item strong {
+    color: #37406E;
+    font-weight: 500;
+    margin-right: 10px;
+  }
+  
+  /* Formulario de respuesta */
+  textarea {
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.9em;
+    resize: vertical;
+    background-color: #f9f9f9;
+  }
+  
+  textarea:focus {
+    border-color: #1976d2;
+    outline: none;
+  }
+  
+  label {
+    display: block;
+    margin-top: 15px;
+    font-size: 0.9em;
+    color: #333;
+  }
+  
+  select {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.9em;
+    background-color: #f9f9f9;
+  }
+  
+  select:focus {
+    border-color: #1976d2;
+    outline: none;
+  }
+  
+  /* Acciones del modal */
+  .modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  button {
+    padding: 8px 20px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  button[color="warn"] {
+    background-color: #3c11a9;
+    color: #fff;
+  }
+  
+  button[color="warn"]:hover {
+    background-color: #3c11a9;
+  }
+  
+  button[color="primary"] {
+    background-color:#155a9a;
+    color: white;
+  }
+  
+  button[color="primary"]:hover {
+    background-color: #155a9a;
+  }
+  
+  /* Responsividad */
+  @media (max-width: 768px) {
+    .modal-content {
+      width: 90%;
+      top: 40%;
+      transform: translateY(-40%);
+    }
+  
+    .detail-container {
+      grid-template-columns: 1fr; /* Cambia a una sola columna en pantallas pequeñas */
+    }
+  
+    button {
+      width: 48%; /* Para que los botones sean más pequeños */
+    }
+  }
+  

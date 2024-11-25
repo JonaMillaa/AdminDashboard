@@ -12,7 +12,8 @@
   border-right: 1px solid #ccc;
   background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  overflow: hidden; /* Esconde contenido desbordado */
 }
 
 .details-participants-container {
@@ -40,10 +41,15 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Encabezado del chat */
 .chat-header {
-  display: flex;
-  align-items: center;
+  background-color: #37406e; /* Color del encabezado */
+  color: white;
   padding: 10px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.2em; 
+  overflow: hidden; /* Esconde contenido desbordado */
 }
 
 .chat-title {
@@ -52,25 +58,27 @@
   font-weight: bold;
 }
 
+/* Contenedor de mensajes */
 .messages-container {
-  flex: 1;
-  overflow-y: auto;
+  flex: 1; /* Ocupa todo el espacio entre el encabezado y el input */
   padding: 10px;
+  overflow-y: auto;
   background-color: #f7f7f7;
 }
-
+/* Mensajes individuales */
 .message-item {
   display: flex;
   margin-bottom: 10px;
 }
 
 .sent {
-  flex-direction: row-reverse;
+  flex-direction: row-reverse; /* Mensajes enviados alineados a la derecha */
   text-align: right;
 }
 
+
 .received {
-  text-align: left;
+  text-align: left; /* Mensajes recibidos alineados a la izquierda */
 }
 
 .message-avatar {
@@ -87,37 +95,60 @@
 }
 
 .message-content {
-  max-width: 70%;
+  max-width: 70%; /* Limita el ancho máximo de los mensajes */
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #e1f5fe; /* Fondo para mensajes recibidos */
+  word-wrap: break-word; /* Permite que el texto largo se ajuste */
+}
+
+.sent .message-content {
+  background-color: #c8e6c9; /* Fondo para mensajes enviados */
 }
 
 .message-info {
   font-size: 0.9em;
   color: #555;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; 
 }
 
 .message-text {
-  margin: 5px 0;
-  font-size: 1em;
+  margin: 0;
 }
-
+/* Mensajes vacíos */
 .no-messages {
   text-align: center;
   color: #999;
   padding: 20px;
 }
 
+/* Input para enviar mensajes */
 .message-input {
   display: flex;
   align-items: center;
   padding: 10px;
-  border-top: 1px solid #ccc;
+
 }
 
 .message-input-field {
-  flex: 1;
-  margin-right: 10px;
+  flex: 1; /* El input ocupa el espacio disponible */
+  padding: 10px;
+
+
+  margin-right: 1px;
+}
+.send-button {
+  padding: 30px 40px;
+  background-color: #1976d2;
+  color: white;
+
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.send-button:hover {
+  background-color: #155a9a;
 }
 
 .participants-container ul {
@@ -157,4 +188,9 @@
   margin-top: 20px;
   display: flex;
   justify-content: center; /* Centra el botón horizontalmente */
+} 
+button[color="primary"] {
+  background-color:#155a9a;
+  color: white;
 }
+

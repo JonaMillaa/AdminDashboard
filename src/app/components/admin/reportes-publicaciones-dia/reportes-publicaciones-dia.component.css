@@ -88,4 +88,9 @@ tr.mat-row:hover {
   .filtro {
     width: 100%;
   }
+} 
+
+button[color="primary"] {
+  background-color:#155a9a;
+  color: white;
 }

@@ -32,8 +32,8 @@ export class ModificarPublicacionComponent implements OnInit {
     this.cargarPublicacion();
 
     this.publicacionForm = this.fb.group({
-      titulo: ['', Validators.required],
-      descripcion: ['', Validators.required],
+      titulo_ayudantia: ['', Validators.required],
+      descripcion_ayudantia: ['', Validators.required],
       fecha: ['', Validators.required],
       hora: ['', Validators.required],
       duracion: ['', Validators.required],
@@ -49,8 +49,8 @@ export class ModificarPublicacionComponent implements OnInit {
       this.publicacionActual = data;
 
       this.publicacionForm.patchValue({
-        titulo: data.info_ayudantia.titulo_ayudantia,
-        descripcion: data.info_ayudantia.descripcion_ayudantia,
+        titulo_ayudantia: data.info_ayudantia.titulo_ayudantia,
+        descripcion_ayudantia: data.info_ayudantia.descripcion_ayudantia,
         fecha: this.convertirFechaAISO(data.fecha_ayudantia), // Convertir para el input
         hora: data.hora,
         duracion: data.duracion,
