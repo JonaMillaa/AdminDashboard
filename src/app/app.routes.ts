@@ -27,6 +27,7 @@ import { SoporteComponent } from './components/admin/soporte/soporte.component';
 import { IntervencionPagosComponent } from './components/admin/intervencion-pagos/intervencion-pagos.component';
 import { ModificarPublicacionComponent } from './components/admin/modificar-publicacion/modificar-publicacion.component';
 import { ReportesUsersComponent } from './components/manager/reportes-users/reportes-users.component';
+import { UsuariosAppComponent } from './components/manager/usuarios-app/usuarios-app.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -74,6 +75,7 @@ export const routes: Routes = [
       { path: 'monitoreo', component: MonitoreoComponent },
       { path: 'reportes', component: ReportesComponent },
       { path: 'users', component: UsersComponent },
+      { path: 'usuarios-app', component: UsuariosAppComponent },
       { path: 'publicacion-por-estado', component: PublicacionesPorEstadoComponent },
       { path: 'facturacion', component: FacturacionComponent },
       { path: 'calendario', component: CalendarComponent },

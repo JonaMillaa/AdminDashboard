@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FirebaseService } from '../../../firebase/firebase.service';
-import { Observable, of } from 'rxjs';
+import { Observable, of, combineLatest} from 'rxjs';
 import { Usuario } from '../../../models/usuario.model';
 import { map } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
@@ -37,11 +37,12 @@ import { MatSortModule } from '@angular/material/sort';
 
 
 export class UsersComponent implements OnInit, AfterViewInit {
-  usuarios$: Observable<Usuario[]> = of([]);
+  // usuarios$: Observable<Usuario[]> = of([]);
   tutores$: Observable<Usuario[]> = of([]);
   estudiantes$: Observable<Usuario[]> = of([]);
   totalTutores: number = 0;
   totalEstudiantes: number = 0;
+  public totalUsuarios!: number; // Para la suma total
 
   mostrarContenido: boolean = false;
 
@@ -67,7 +68,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
     this.cargandoCrecimientoUsuarios = true;
     this.cargandoLogins = true;
 
-    this.usuarios$ = this.firebaseService.getUsuarios();
+    // this.usuarios$ = this.firebaseService.getUsuarios();
     this.tutores$ = this.firebaseService.getUsuariosPorTipo('TUTOR');
     this.estudiantes$ = this.firebaseService.getUsuariosPorTipo('ESTUDIANTE');
 
@@ -76,16 +77,22 @@ export class UsersComponent implements OnInit, AfterViewInit {
       this.ayudantiasFinalizadas = data;
     });
 
+      // Calcular el total de tutores
     this.tutores$.pipe(
       map((tutores: Usuario[]) => tutores.length)
     ).subscribe((count: number) => this.totalTutores = count);
 
+    // Calcular el total de estudiantes
     this.estudiantes$.pipe(
       map((estudiantes: Usuario[]) => estudiantes.length)
     ).subscribe((count: number) => this.totalEstudiantes = count);
 
-    this.loadCrecimientoUsuariosData();
-    this.loadLoginsData();
+    // Calcular el total de usuarios (tutores + estudiantes)
+    combineLatest([this.tutores$, this.estudiantes$]).pipe(
+      map(([tutores, estudiantes]) => tutores.length + estudiantes.length)
+    ).subscribe((total: number) => {
+      this.totalUsuarios = total; // Asignar el total calculado
+    });
   }
 
   ngAfterViewInit(): void {
@@ -187,7 +194,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
                 text: 'Fecha',
                 color: '#333',
                 font: {
-                  size: 15,
+                  size: 10,
                   weight: 'bold'
                 },
               },

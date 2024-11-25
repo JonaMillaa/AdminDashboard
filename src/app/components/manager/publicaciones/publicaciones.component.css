@@ -3,6 +3,37 @@
   flex-direction: column; /* Organiza las secciones en una columna */
   gap: 20px; /* Espacio entre la parte superior y los gráficos */
 }
+.navbar {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  background-color: #3f51b5;
+  color: white;
+  padding: 10px;
+  height: 100px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #3f51b5;
+  padding: 20px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.logo {
+  height: 50px;
+  width: auto;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #dfdbdb;
+  margin: 0;
+}
 
 .top-container {
   display: grid;
