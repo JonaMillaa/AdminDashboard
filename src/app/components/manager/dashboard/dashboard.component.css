@@ -4,7 +4,6 @@
   gap: 20px;
 }
 
-
 .fixed-size-chart {
   width: 90% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
   height: 85% !important; /* Asegura que el canvas ocupe el 100% del contenedor */

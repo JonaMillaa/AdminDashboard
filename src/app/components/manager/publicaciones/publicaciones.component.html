@@ -2,7 +2,7 @@
 
   <!-- Cabecera con título y logo -->
   <div class="header">
-    <h1 class="title">Lista de Usuarios</h1>
+    <h1 class="title">Panel Analítico de Publicaciones y Usuarios por Formato y Estado</h1>
     <img src=".../../assets/images/logo.png" alt="Logo" class="logo" /> 
   </div>
   
@@ -29,7 +29,9 @@
     </div>
 
     <!-- Gráfico de tendencia -->
-    <div class="chart-item">
+    <div class="chart-item trendChart">
+       <!-- Título descriptivo para el gráfico -->
+      <h2 class="chart-title">Tendencia de Publicaciones por Formato (Presencial vs Remoto)</h2>
       <div class="filter-container">
         <mat-form-field appearance="fill" class="filter">
           <mat-label>Formato</mat-label>
@@ -39,7 +41,9 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <canvas id="trendChart"></canvas>
+
+      <canvas id="trendChart"  class="fixed-size-chart"></canvas>
+
     </div>
   </div>
 
@@ -66,7 +70,9 @@
           </mat-select>
         </mat-form-field>
       </div>
+
       <canvas id="stateChart" class="fixed-size-chart"></canvas>
+      
       <div class="modal" *ngIf="showStateModal">
         <div class="modal-content">
           <p>{{ stateModalMessage }}</p>
@@ -92,7 +98,9 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <canvas id="publicationChart" class="fixed-size-chart"></canvas>
+
+      <canvas id="publicationChart"  class="fixed-size-chart"></canvas>
+
       <div class="modal" *ngIf="showPublicationModal">
         <div class="modal-content">
           <p>{{ publicationModalMessage }}</p>

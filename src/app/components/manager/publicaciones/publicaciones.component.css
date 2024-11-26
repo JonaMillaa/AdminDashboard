@@ -3,14 +3,10 @@
   flex-direction: column; /* Organiza las secciones en una columna */
   gap: 20px; /* Espacio entre la parte superior y los gráficos */
 }
-.navbar {
-  display: grid;
-  grid-template-columns: 1fr;
-  width: 100%;
-  background-color: #3f51b5;
-  color: white;
-  padding: 10px;
-  height: 100px;
+
+.fixed-size-chart {
+  width: 100% !important; 
+  height: 75% !important; 
 }
 
 .header {
@@ -20,7 +16,10 @@
   background-color: #3f51b5;
   padding: 20px;
   border-bottom: 1px solid #ddd;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
+  margin: 0;
+  width: 100%; /* Asegura que ocupe todo el ancho */
+  box-sizing: border-box; /* Incluye el padding en el ancho total */
 }
 
 .logo {
@@ -37,8 +36,9 @@
 
 .top-container {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto;
 }
+
 
 .charts-container {
   display: flex;
@@ -49,11 +49,15 @@
   flex-wrap: nowrap;
 }
 
+.chart-item.trendChart{
+margin-left: 2rem;
+}
+
 .chart-item {
   flex: 1;
   min-width: 400px; /* Ancho mínimo para los gráficos */
   max-width: 700px; /* Ancho máximo para los gráficos */
-  height: 500px; /* Altura fija para los gráficos */
+  height: 700px; /* Altura fija para los gráficos */
   position: relative;
   padding: 15px;
   border: 1px solid #ddd;
@@ -103,20 +107,38 @@
   background-color: #0056b3;
 }
 
-.fixed-size-chart {
-  width: 100% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
-  height: 100% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
-}
-
-.stats-summary {
+/* .stats-summary {
   display: grid;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto auto auto auto;
   grid-template-columns: auto auto;
   margin-right: 3rem;
   margin-top: 1rem;
+} */
+
+/* Estilo para organizar las tarjetas */
+.stats-summary {
+  display: flex; /* Organiza los elementos horizontalmente */
+  gap: 1rem; /* Espaciado entre tarjetas */
+  justify-content: space-around; /* Espacia uniformemente las tarjetas */
+  margin-bottom: 1rem; /* Espaciado debajo de las tarjetas */
 }
 
 .stat-card {
+  flex: 1; /* Hace que las tarjetas tengan el mismo ancho */
+  text-align: center; /* Centra el contenido de las tarjetas */
+  padding: 1rem; /* Añade relleno interno */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Añade sombra para estilo */
+  width: 250px;
+  height: 130px;
+}
+
+.chart-title {
+  text-align: center; /* Centra el título del gráfico */
+  margin-bottom: 1rem; /* Espaciado entre el título y el gráfico */
+  font-size: 1.5rem;
+}
+/* .stat-card {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1rem;
@@ -124,7 +146,7 @@
   width: 250px;
   height: 130px;
   text-align: center;
-}
+} */
 
 .stat-card p {
   margin: 0;
