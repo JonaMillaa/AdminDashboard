@@ -123,24 +123,6 @@ export class PublicacionesTableComponent implements OnInit {
     this.actualizarTabla();
   }
 
-  // aplicarFiltros(): void {
-  //   const filtroEstado = this.filtroEstado.toLowerCase();
-  //   const filtroFormato = this.filtroFormato.toLowerCase();
-  //   const filtroBusqueda = this.filtroBusqueda.toLowerCase();
-
-  //   this.dataSource.filterPredicate = (data: any, filter: string) => {
-  //     const matchEstado = filtroEstado ? data.estado.toLowerCase().includes(filtroEstado) : true;
-  //     const matchFormato = filtroFormato ? data.formato.toLowerCase().includes(filtroFormato) : true;
-  //     const matchBusqueda = filtroBusqueda
-  //       ? (data.info_usuario.nombre.toLowerCase() + ' ' + data.info_usuario.apellido.toLowerCase()).includes(filtroBusqueda)
-  //       : true;
-
-  //     return matchEstado && matchFormato && matchBusqueda;
-  //   };
-
-  //   this.dataSource.filter = `${filtroEstado}${filtroFormato}${filtroBusqueda}`.trim().toLowerCase();
-  // }
-
   limpiarFiltros(): void {
     this.filtroEstado = '';
     this.filtroFormato = '';
@@ -231,39 +213,85 @@ export class PublicacionesTableComponent implements OnInit {
     return color;
   }
 
+  // createPieChart(chartId: string, data: { [key: string]: number }, label: string): void {
+  //   const ctx = document.getElementById(chartId) as HTMLCanvasElement;
+    
+  //   if (ctx) {
+  //     new Chart(ctx, {
+  //       type: 'pie',
+  //       data: {
+  //         labels: Object.keys(data),
+  //         datasets: [
+  //           {
+  //             data: Object.values(data),
+  //             backgroundColor: Object.keys(data).map(() => this.getRandomColor())
+  //           }
+  //         ]
+  //       },
+  //       options: {
+  //         responsive: true,
+  //         plugins: {
+  //           legend: {
+  //             position: 'top'
+  //           },
+  //           datalabels: {
+  //             color: '#ffffff', // Color del texto dentro del gráfico
+  //             font: {
+  //               weight: 'bold',
+  //               size: 16
+  //             },
+  //             formatter: (value: number) => value.toString() // Mostrar cantidad dentro del gráfico
+  //           }
+  //         }
+  //       },
+  //       plugins: [ChartDataLabels] // Plugin para etiquetas
+  //     });
+  //   }
+  // }
   createPieChart(chartId: string, data: { [key: string]: number }, label: string): void {
-    const ctx = document.getElementById(chartId) as HTMLCanvasElement;
-    if (ctx) {
-      new Chart(ctx, {
-        type: 'pie',
-        data: {
-          labels: Object.keys(data),
-          datasets: [
-            {
-              data: Object.values(data),
-              backgroundColor: Object.keys(data).map(() => this.getRandomColor())
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'top'
-            },
-            datalabels: {
-              color: '#ffffff', // Color del texto dentro del gráfico
-              font: {
-                weight: 'bold',
-                size: 16
-              },
-              formatter: (value: number) => value.toString() // Mostrar cantidad dentro del gráfico
-            }
-          }
-        },
-        plugins: [ChartDataLabels] // Plugin para etiquetas
-      });
+    const canvas = document.getElementById(chartId) as HTMLCanvasElement;
+    if (!canvas) {
+      console.error(`Canvas with ID ${chartId} not found`);
+      return;
     }
+  
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      console.error(`Failed to get 2D context for canvas ID ${chartId}`);
+      return;
+    }
+  
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(data),
+        datasets: [
+          {
+            data: Object.values(data),
+            backgroundColor: Object.keys(data).map(() => this.getRandomColor()),
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          datalabels: {
+            color: '#ffffff',
+            font: {
+              weight: 'bold',
+              size: 16,
+            },
+            formatter: (value: number) => value.toString(),
+          },
+        },
+      },
+      plugins: [ChartDataLabels],
+    });
   }
+  
+  
 }
 

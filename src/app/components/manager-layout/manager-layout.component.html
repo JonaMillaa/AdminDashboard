@@ -1,62 +1,104 @@
 <mat-sidenav-container class="dashboard-container">
   <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidenav">
     <mat-nav-list>
-
       <h3 class="sidenav-header" *ngIf="opened">Menú Principal</h3>
       <mat-divider></mat-divider>
 
-      <a mat-list-item routerLink="/manager/dashboard" class="menu-item">
+      <a mat-list-item 
+         routerLink="/manager/dashboard" 
+         class="menu-item" 
+         [ngClass]="{'active': activeItem === 'dashboard'}" 
+         (click)="setActiveItem('dashboard')">
         <mat-icon>dashboard</mat-icon>
         <span *ngIf="opened">Dashboard</span>
       </a>
 
-      <a mat-list-item routerLink="/manager/publicaciones" class="menu-item">
+      <a mat-list-item 
+         routerLink="/manager/publicaciones" 
+         class="menu-item" 
+         [ngClass]="{'active': activeItem === 'publicaciones'}" 
+         (click)="setActiveItem('publicaciones')">
         <mat-icon>person_add_alt</mat-icon>
-        <span *ngIf="opened">Postulaciones</span>
+        <span *ngIf="opened">Publicaciones</span>
       </a>
 
-      <a mat-list-item routerLink="/manager/monitoreo" class="menu-item">
+      <a mat-list-item 
+         routerLink="/manager/monitoreo" 
+         class="menu-item" 
+         [ngClass]="{'active': activeItem === 'monitoreo'}" 
+         (click)="setActiveItem('monitoreo')">
         <mat-icon>insights</mat-icon>
         <span *ngIf="opened">Monitoreo</span>
       </a>
 
-      <a mat-list-item routerLink="/manager/reportes" class="menu-item">
+      <a mat-list-item 
+         routerLink="/manager/reportes" 
+         class="menu-item" 
+         [ngClass]="{'active': activeItem === 'reportes'}" 
+         (click)="setActiveItem('reportes')">
         <mat-icon>insert_chart</mat-icon>
         <span *ngIf="opened">Reportes</span>
       </a>
 
-      <a mat-list-item routerLink="/manager/users" class="menu-item">
+      <a mat-list-item 
+         routerLink="/manager/users" 
+         class="menu-item" 
+         [ngClass]="{'active': activeItem === 'users'}" 
+         (click)="setActiveItem('users')">
         <mat-icon>people</mat-icon>
         <span *ngIf="opened">Gestión de Usuarios</span>
       </a>
 
-      <a mat-list-item routerLink="/manager/usuarios-app" class="menu-item">
+      <a mat-list-item 
+         routerLink="/manager/usuarios-app" 
+         class="menu-item" 
+         [ngClass]="{'active': activeItem === 'usuarios-app'}" 
+         (click)="setActiveItem('usuarios-app')">
         <mat-icon>people</mat-icon>
         <span *ngIf="opened">Total Usuarios</span>
       </a>
 
-      <a mat-list-item routerLink="/manager/facturacion" class="menu-item">
+      <a mat-list-item 
+         routerLink="/manager/facturacion" 
+         class="menu-item" 
+         [ngClass]="{'active': activeItem === 'facturacion'}" 
+         (click)="setActiveItem('facturacion')">
         <mat-icon>receipt</mat-icon>
         <span *ngIf="opened">Facturación</span>
       </a>
 
-      <a mat-list-item routerLink="/manager/publicacion-por-estado" class="menu-item">
+      <a mat-list-item 
+         routerLink="/manager/publicacion-por-estado" 
+         class="menu-item" 
+         [ngClass]="{'active': activeItem === 'publicacion-por-estado'}" 
+         (click)="setActiveItem('publicacion-por-estado')">
         <mat-icon>filter_alt</mat-icon>
         <span *ngIf="opened">Estados</span>
       </a>
 
-      <a mat-list-item routerLink="/manager/calendario" class="menu-item">
+      <a mat-list-item 
+         routerLink="/manager/calendario" 
+         class="menu-item" 
+         [ngClass]="{'active': activeItem === 'calendario'}" 
+         (click)="setActiveItem('calendario')">
         <mat-icon>event</mat-icon>
         <span *ngIf="opened">Eventos</span>
       </a>
 
-      <a mat-list-item routerLink="/manager/reportes-users" class="menu-item">
+      <a mat-list-item 
+         routerLink="/manager/reportes-users" 
+         class="menu-item" 
+         [ngClass]="{'active': activeItem === 'reportes-users'}" 
+         (click)="setActiveItem('reportes-users')">
         <mat-icon>table_chart</mat-icon>
         <span *ngIf="opened">Reportes usuarios</span>
       </a>
-            <!-- Cerrar Sesión -->
-      <a mat-list-item class="menu-item logout" (click)="logout()">
-        <mat-icon>exit_to_app</mat-icon> <!-- Icono de salida para cerrar sesión -->
+
+      <!-- Cerrar Sesión -->
+      <a mat-list-item 
+         class="menu-item logout" 
+         (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
         <span *ngIf="opened">Cerrar Sesión</span>
       </a>
     </mat-nav-list>

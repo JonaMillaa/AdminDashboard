@@ -40,47 +40,60 @@ h3{
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-  .navbar {
-    display: flex;
-    align-items: center;
-    background-color: #3f51b5; /* Azul Material Design */
-    color: #fff;
-    padding: 16px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    height: 6rem;
-  }
-  
-  .navbar-content {
-    display: flex;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .logo {
-    margin-right: 16px;
-  }
-  
-  .logo-img {
-    height: 50px;
-    width: auto;
-  }
-  
-  .dashboard-header {
-    flex: 1;
-    text-align: left;
-  }
-  
-  .dashboard-header h1 {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin: 0;
-  }
-  
-  .dashboard-header p {
-    font-size: 1rem;
-    margin: 4px 0 0;
-    color: #cfd8dc; /* Gris claro para contraste */
-  }
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: #3f51b5; /* Azul Material Design */
+  color: #fff;
+  /* padding: 16px; */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 6rem;
+  margin: 0;
+  width: 100%; /* Asegura que ocupe todo el ancho */
+  box-sizing: border-box; /* Incluye el padding en el ancho total */
+}
+
+/* Reinicia el margen y el padding del body y del html */
+html, body {
+  margin: 0; /* Elimina márgenes del body y html */
+  padding: 0; /* Elimina paddings del body y html */
+  box-sizing: border-box; /* Asegura un buen cálculo del tamaño */
+  width: 100%; /* Ajusta al ancho completo */
+}
+
+.dashboard-header {
+  flex: 1;
+  text-align: left;
+  margin: 0; /* Elimina cualquier margen interno del encabezado */
+  padding: 16px; /* Opcional: define un padding interno uniforme */
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  margin-right: 16px;
+}
+
+.logo-img {
+  height: 50px;
+  width: auto;
+}
+
+.dashboard-header h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.dashboard-header p {
+  font-size: 1rem;
+  margin: 4px 0 0;
+  color: #cfd8dc; /* Gris claro para contraste */
+}
 
 
 
