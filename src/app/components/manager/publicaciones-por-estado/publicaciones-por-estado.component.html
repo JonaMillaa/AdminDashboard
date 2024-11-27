@@ -1,0 +1,28 @@
+<div class="filtro-container">
+  <label for="estado">Seleccionar Estado:</label>
+  <p-dropdown 
+  [options]="estadosDropdown" 
+  [(ngModel)]="estadoSeleccionado" 
+  [showClear]="true" 
+  placeholder="Selecciona un Estado"
+  optionLabel="name"
+  (onChange)="onEstadoChange()"
+  dataKey="value">
+</p-dropdown>
+</div>
+
+<p-timeline [value]="events" align="alternate" styleClass="customized-timeline">
+    <ng-template pTemplate="marker" let-event>
+        <span class="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-1"
+            [style]="{ 'background-color': event.color }">
+            <i [class]="event.icon"></i>
+        </span>
+    </ng-template>
+    <ng-template pTemplate="content" let-event>
+        <p-card [header]="event.status" [subheader]="'Fecha Ayudantía: ' + event.date">
+            <p><strong>Título:</strong> {{ event.titulo }}</p>
+            <p><strong>Descripción:</strong> {{ event.description }}</p>
+            <p><strong>Estado:</strong> {{ event.estado }}</p>
+        </p-card>
+    </ng-template>
+</p-timeline>

@@ -5,7 +5,7 @@
       <div class="navbar-links">
         <div class="nav-item usuarios">
           <mat-icon class="nav-icon">person</mat-icon>
-          <a routerLink="/usuarios" class="nav-link">Usuarios Activos: {{ totalUsuariosActivos }}</a>
+          <a routerLink="/manager/usuarios" class="nav-link">Usuarios Activos: {{ totalUsuariosActivos }}</a>
         </div>
         <div class="nav-item tutores">
           <mat-icon class="nav-icon">school</mat-icon>
@@ -25,34 +25,35 @@
 
   <!-- Indicadores del dashboard -->
   <div class="dashboard-indicators">
+<!-- Publicaciones por Categoría -->
 
-    <!-- Tasa de Crecimiento y decrecimiento -->
-
-    <div class="indicator">
-      <h3>Tasa de Crecimiento</h3>
-      <mat-form-field appearance="fill">
-        <mat-label>Seleccionar Mes</mat-label>
-        <mat-select [(value)]="selectedGrowthMonth" (selectionChange)="onGrowthMonthChange($event.value)">
-          <mat-option *ngFor="let month of growthMonths" [value]="month.value">{{ month.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <canvas id="growthRateChart" class="fixed-size-chart"></canvas>
-    </div>
-
-
-    <!-- Promedio de Publicaciones -->
-    <div class="indicator">
-      <h3>Promedio de Publicaciones por Mes y Día</h3>
-      <mat-form-field appearance="fill" class="filter">
-        <mat-label>Mes</mat-label>
-        <mat-select [(value)]="selectedMonth" (selectionChange)="onMonthChange($event)">
-          <mat-option *ngFor="let month of months" [value]="month.value">{{ month.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <canvas id="sunburstChart" class="fixed-size-chart"></canvas>
-    </div>
-
-
+  <div class="indicator">
+    <h3>Publicaciones por Categoría</h3>
+    <mat-form-field appearance="fill">
+      <mat-label>Seleccionar Mes</mat-label>
+      <mat-select [(value)]="selectedGrowthMonth" (selectionChange)="onGrowthMonthChange($event.value)">
+        <mat-option *ngFor="let month of growthMonths" [value]="month.value">{{ month.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <canvas id="growthRateChart" class="fixed-size-chart"></canvas>
   </div>
 
+    <div class="indicator">
+      <h3>Cantidad de Publicaciones por Mes en el Año Seleccionado</h3>
+        <mat-form-field appearance="fill" class="filter">
+          <mat-label>Año</mat-label>
+          <mat-select [(value)]="selectedYear" (selectionChange)="onYearChange($event)">
+            <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      <canvas id="barChart" class="fixed-size-chart"></canvas>
+        <!-- Propósito del gráfico:
+        El gráfico permite al administrador visualizar de manera rápida y clara la actividad mensual de
+         publicaciones en un año específico. Proporciona una perspectiva general de los meses más activos 
+        y menos activos, ayudándole a identificar patrones de uso y períodos de mayor o menor demanda. -->
+    </div>
+  </div>
+  <app-publicaciones-table></app-publicaciones-table> 
 </div>
+
+

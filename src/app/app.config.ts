@@ -25,3 +25,4 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()) // Inicializa Auth
   ]
 };
+
