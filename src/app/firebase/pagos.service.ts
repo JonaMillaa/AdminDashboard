@@ -6,6 +6,7 @@ import { Publicacion } from '../models/publicacion.interface';
 import { InterfacePostulacion } from '../models/interface-postulacion';
 import { InterfaceAsistencia } from '../models/interface-asistencia';
 import { Usuario } from '../models/usuario.model';
+import { PostulacionEstudiante } from '../models/postulacion-estudiante';
 
 @Injectable({
   providedIn: 'root',
@@ -71,7 +72,19 @@ export class PagosService {
     const docRef = doc(this.firestore, `Publicaciones/${id}`);
     return updateDoc(docRef, data);
   }
-  
+  // Obtener postulaciones por ID de publicación
+getPostulacionesPorPublicacion(idPublicacion: string): Observable<InterfacePostulacion[]> {
+  const ref = collection(this.firestore, 'Postulaciones');
+  const q = query(ref, where('id_publicacion', '==', idPublicacion));
+  return collectionData(q) as Observable<InterfacePostulacion[]>;
+}
+
+// Obtener estudiantes añadidos
+getEstudiantesAñadidos(idPublicacion: string): Observable<PostulacionEstudiante[]> {
+  const ref = collection(this.firestore, 'Postulacion_estudiante');
+  const q = query(ref, where('id_publicacion', '==', idPublicacion));
+  return collectionData(q) as Observable<PostulacionEstudiante[]>;
+}
 }
   
 
