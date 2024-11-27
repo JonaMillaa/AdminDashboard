@@ -5,8 +5,9 @@
 }
 
 .fixed-size-chart {
-  width: 100% !important; 
+  width: 90% !important; 
   height: 75% !important; 
+  flex: 1; /* El gráfico ocupará el espacio disponible */
 }
 
 .header {
@@ -66,6 +67,50 @@ margin-left: 2rem;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
 }
+
+/* Contenedor principal para el gráfico y la tabla */
+.trendChart{
+  gap: 20px; /* Espacio entre el gráfico y la tabla */
+  min-width: 700px; 
+  max-width: 700px; 
+  height: 700px; 
+  position: relative;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f0ebeb;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+/* Estilos para la tabla */
+.table-container {
+  min-width: 300px; /* Tamaño mínimo de la tabla */
+  max-width: 700px; 
+  overflow: auto; /* Permite desplazamiento si la tabla es muy grande */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f0ebeb;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mat-table {
+  width: 100%;
+}
+
+.mat-header-cell, .mat-cell {
+  padding: 16px;
+}
+
+.mat-header-row {
+  background-color: #007bff;
+  color: white;
+}
+
+.mat-row:hover {
+  background-color: #f1f1f1;
+}
+
 
 .modal {
   position: absolute;
@@ -150,8 +195,9 @@ margin-left: 2rem;
 
 .stat-card p {
   margin: 0;
-  font-size: 1.1rem;
-  color: #666;
+  font-size: 1.2rem;
+  color: #000000;
+  font-weight: bold;
 }
 
 .stat-card h3 {

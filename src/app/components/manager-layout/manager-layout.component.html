@@ -23,6 +23,15 @@
       </a>
 
       <a mat-list-item 
+        routerLink="/manager/users" 
+        class="menu-item" 
+        [ngClass]="{'active': activeItem === 'users'}" 
+        (click)="setActiveItem('users')">
+        <mat-icon>people</mat-icon>
+        <span *ngIf="opened">Gestión de Usuarios</span>
+      </a>
+
+      <a mat-list-item 
          routerLink="/manager/monitoreo" 
          class="menu-item" 
          [ngClass]="{'active': activeItem === 'monitoreo'}" 
@@ -41,15 +50,6 @@
       </a>
 
       <a mat-list-item 
-         routerLink="/manager/users" 
-         class="menu-item" 
-         [ngClass]="{'active': activeItem === 'users'}" 
-         (click)="setActiveItem('users')">
-        <mat-icon>people</mat-icon>
-        <span *ngIf="opened">Gestión de Usuarios</span>
-      </a>
-
-      <a mat-list-item 
          routerLink="/manager/usuarios-app" 
          class="menu-item" 
          [ngClass]="{'active': activeItem === 'usuarios-app'}" 
@@ -58,14 +58,14 @@
         <span *ngIf="opened">Total Usuarios</span>
       </a>
 
-      <a mat-list-item 
+      <!-- <a mat-list-item 
          routerLink="/manager/facturacion" 
          class="menu-item" 
          [ngClass]="{'active': activeItem === 'facturacion'}" 
          (click)="setActiveItem('facturacion')">
         <mat-icon>receipt</mat-icon>
         <span *ngIf="opened">Facturación</span>
-      </a>
+      </a> -->
 
       <a mat-list-item 
          routerLink="/manager/publicacion-por-estado" 
@@ -76,14 +76,14 @@
         <span *ngIf="opened">Estados</span>
       </a>
 
-      <a mat-list-item 
+      <!-- <a mat-list-item 
          routerLink="/manager/calendario" 
          class="menu-item" 
          [ngClass]="{'active': activeItem === 'calendario'}" 
          (click)="setActiveItem('calendario')">
         <mat-icon>event</mat-icon>
         <span *ngIf="opened">Eventos</span>
-      </a>
+      </a> -->
 
       <a mat-list-item 
          routerLink="/manager/reportes-users" 
