@@ -123,24 +123,6 @@ export class PublicacionesTableComponent implements OnInit {
     this.actualizarTabla();
   }
 
-  // aplicarFiltros(): void {
-  //   const filtroEstado = this.filtroEstado.toLowerCase();
-  //   const filtroFormato = this.filtroFormato.toLowerCase();
-  //   const filtroBusqueda = this.filtroBusqueda.toLowerCase();
-
-  //   this.dataSource.filterPredicate = (data: any, filter: string) => {
-  //     const matchEstado = filtroEstado ? data.estado.toLowerCase().includes(filtroEstado) : true;
-  //     const matchFormato = filtroFormato ? data.formato.toLowerCase().includes(filtroFormato) : true;
-  //     const matchBusqueda = filtroBusqueda
-  //       ? (data.info_usuario.nombre.toLowerCase() + ' ' + data.info_usuario.apellido.toLowerCase()).includes(filtroBusqueda)
-  //       : true;
-
-  //     return matchEstado && matchFormato && matchBusqueda;
-  //   };
-
-  //   this.dataSource.filter = `${filtroEstado}${filtroFormato}${filtroBusqueda}`.trim().toLowerCase();
-  // }
-
   limpiarFiltros(): void {
     this.filtroEstado = '';
     this.filtroFormato = '';
@@ -181,7 +163,8 @@ export class PublicacionesTableComponent implements OnInit {
 
       // Datos para gráficas
       this.pendingPublicationData = this.calculateStateData(publications, ['PUBLICADO', 'FINALIZADA']);
-      this.mostUsedFormatData = this.calculateFormatData(publications, 'EN_CURSO');
+      // this.mostUsedFormatData = this.calculateFormatData(publications, 'EN_CURSO');
+      this.mostUsedFormatData = this.calculateFormatData(publications, 'FINALIZADA');
 
       // Crear gráficos
       this.createPieChart('pendingPublicationPieChart', this.pendingPublicationData, 'Estado de Ayudantías');
@@ -207,11 +190,10 @@ export class PublicacionesTableComponent implements OnInit {
     return data;
   }
   
-
   calculateFormatData(publications: any[], estado: string): { PRESENCIAL: number; REMOTO: number } {
     const data: { PRESENCIAL: number; REMOTO: number } = { PRESENCIAL: 0, REMOTO: 0 };
     publications.forEach((pub: any) => {
-      if (pub.estado === estado) {
+      if (pub.estado === estado) { // Verifica si el estado coincide
         const formato: 'PRESENCIAL' | 'REMOTO' = pub.formato;
         if (data[formato] !== undefined) {
           data[formato]++;
@@ -220,50 +202,60 @@ export class PublicacionesTableComponent implements OnInit {
     });
     return data;
   }
-
-  // Función para obtener un color aleatorio
-  getRandomColor(): string {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+  
+// Función para obtener un color aleatorio
+getRandomColor(): string {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
   }
+  return color;
+}
 
-  createPieChart(chartId: string, data: { [key: string]: number }, label: string): void {
-    const ctx = document.getElementById(chartId) as HTMLCanvasElement;
-    if (ctx) {
-      new Chart(ctx, {
-        type: 'pie',
-        data: {
-          labels: Object.keys(data),
-          datasets: [
-            {
-              data: Object.values(data),
-              backgroundColor: Object.keys(data).map(() => this.getRandomColor())
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'top'
+createPieChart(chartId: string, data: { [key: string]: number }, label: string): void {
+  const ctx = document.getElementById(chartId) as HTMLCanvasElement;
+
+  if (ctx) {
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(data), // Etiquetas (PRESENCIAL y REMOTO)
+        datasets: [
+          {
+            data: Object.values(data), // Valores de las cantidades
+            backgroundColor: Object.keys(data).map(() => this.getRandomColor()), // Colores aleatorios
+            borderWidth: 1, // Borde de las secciones
+            borderColor: '#ffffff' // Color del borde
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top'
+          },
+          datalabels: {
+            color: '#000000', // Texto negro para mayor contraste
+            font: {
+              weight: 'bold',
+              size: 14 // Tamaño ajustado
             },
-            datalabels: {
-              color: '#ffffff', // Color del texto dentro del gráfico
-              font: {
-                weight: 'bold',
-                size: 16
-              },
-              formatter: (value: number) => value.toString() // Mostrar cantidad dentro del gráfico
+            formatter: (value: number, context: any) => {
+              // Mostrar porcentaje y valor
+              const total = context.dataset.data.reduce((acc: number, val: number) => acc + val, 0);
+              const percentage = ((value / total) * 100).toFixed(1); // Calcula el porcentaje
+              return `${value} (${percentage}%)`; // Muestra valor y porcentaje
             }
           }
-        },
-        plugins: [ChartDataLabels] // Plugin para etiquetas
-      });
-    }
-  }
+        }
+      },
+      plugins: [ChartDataLabels] // Plugin para etiquetas dentro del gráfico
+    });
+  } 
+}
+
+  
 }
 
