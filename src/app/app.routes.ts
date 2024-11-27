@@ -29,6 +29,7 @@ import { ModificarPublicacionComponent } from './components/admin/modificar-publ
 import { ReportesUsersComponent } from './components/manager/reportes-users/reportes-users.component';
 import { UsuariosAppComponent } from './components/manager/usuarios-app/usuarios-app.component';
 import { HomeComponent } from './components/home/home.component';
+import { PublicacionesTableComponent } from './components/manager/publicaciones-table/publicaciones-table.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Ruta inicial para HomeComponent
