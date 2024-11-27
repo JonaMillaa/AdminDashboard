@@ -83,6 +83,7 @@
          (click)="setActiveItem('calendario')">
         <mat-icon>event</mat-icon>
         <span *ngIf="opened">Eventos</span>
+<<<<<<< HEAD
       </a> -->
 
       <a mat-list-item 
@@ -99,6 +100,17 @@
          class="menu-item logout" 
          (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
+=======
+      </a>
+    
+      <!-- <a mat-list-item routerLink="/manager/publicaciones-table" class="menu-item">
+        <mat-icon>table_chart</mat-icon>
+        <span *ngIf="opened">Tabla</span>
+      </a> -->
+            <!-- Cerrar Sesión -->
+      <a mat-list-item class="menu-item logout" (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon> <!-- Icono de salida para cerrar sesión -->
+>>>>>>> 790cc8f (Se modifica componente publicaciones-table)
         <span *ngIf="opened">Cerrar Sesión</span>
       </a>
     </mat-nav-list>
