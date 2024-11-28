@@ -47,12 +47,29 @@
     <div class="indicator">
       <h3>Cantidad de Publicaciones por Mes en el Año Seleccionado</h3>
       <mat-form-field appearance="fill" class="filter">
+        <mat-label>Mes</mat-label>
+        <mat-select [(value)]="selectedMonth" (selectionChange)="onMonthChange($event)">
+          <mat-option *ngFor="let month of months" [value]="month.value">{{ month.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="filter">
         <mat-label>Año</mat-label>
         <mat-select [(value)]="selectedYear" (selectionChange)="onYearChange($event)">
           <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
         </mat-select>
       </mat-form-field>
-      <canvas id="barChart" class="fixed-size-chart"></canvas>
+            <!-- Mensaje de "No hay publicaciones" -->
+      <div *ngIf="noPublications" class="no-publications-message">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>No hay publicaciones para este mes</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>No se han encontrado publicaciones para el mes de {{ getMonthName(selectedMonth) }} de {{ selectedYear }}.</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <canvas *ngIf="!noPublications" id="barChart" class="fixed-size-chart"></canvas>
       <!-- Propósito del gráfico:
       El gráfico permite al administrador visualizar de manera rápida y clara la actividad mensual de
        publicaciones en un año específico. Proporciona una perspectiva general de los meses más activos 
@@ -63,3 +80,7 @@
   <!-- Tabla de Publicaciones -->
   <app-publicaciones-table></app-publicaciones-table>
 </div>
+
+<!-- 
+necesito agregar validaciones cuando no hay publicaciones en 
+el mes seleccionado y año seleccionado. Crea validaciones U/I y U/X -->

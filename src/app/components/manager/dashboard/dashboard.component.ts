@@ -46,22 +46,17 @@ import { PublicacionesTableComponent } from '../../../components/manager/publica
 export class DashboardComponent implements OnInit, AfterViewInit{
 
   
-  growthRate: number = 0;
+  // growthRate: number = 0;
   
-  averageChart: any;
-  declineChart: any;
+  // averageChart: any;
+  // declineChart: any;
 
-  monthlyAverage: number = 0;
-  showDetailsModal: boolean = false;
-  selectedDay: string = '';
-  selectedDayCount: number = 0;
-  analysisMessage: string = '';
+  // monthlyAverage: number = 0;
+  // showDetailsModal: boolean = false;
+  // selectedDay: string = '';
+  // selectedDayCount: number = 0;
+  // analysisMessage: string = '';
 
-
-  selectedYear: string = new Date().getFullYear().toString();
-  selectedMonth: string = '';
-  years: string[] = [];
-  barChart: any;
 
   constructor(
     private firebaseService: FirebaseService,
@@ -72,6 +67,12 @@ export class DashboardComponent implements OnInit, AfterViewInit{
 
   // Función para inicializar los datos del dashboard
   ngOnInit(): void {
+
+    // Inicializar el mes actual cuando se carga el componente
+    //Grafico publicaciones por dia
+    const currentDate = new Date();
+    this.selectedMonth = (currentDate.getMonth() + 1).toString(); // Mes actual (1-12)
+    
   
     // Seleccionar automáticamente el mes actual
     const currentMonth = new Date().getMonth() + 1; // Mes actual (1-12)
@@ -104,8 +105,8 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   
       // Gráfico de Barras por año Cantidad de Publicaciones
       this.firebaseService.getPublications().subscribe(publications => {
-        const barChartData = this.prepareBarChartData(publications, this.selectedYear);
-        this.createBarChart(barChartData);
+        const barChartData = this.prepareBarChartData(publications, this.selectedYear, this.selectedMonth);
+        this.createBarChart(barChartData, this.selectedYear, this.selectedMonth);
       });
     }
   } 
@@ -127,7 +128,28 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     }, 0); // Retrasa hasta el siguiente ciclo de eventos de Angular
   }
 
-  // Cargar los años disponibles de publicaciones
+  selectedYear: string = new Date().getFullYear().toString();
+  selectedMonth: string = ''; // 'all' para mostrar todos los meses por defecto
+  years: string[] = [];
+  barChart: any;
+  months: { value: string, name: string }[] = [
+    { value: '01', name: 'Enero' },
+    { value: '02', name: 'Febrero' },
+    { value: '03', name: 'Marzo' },
+    { value: '04', name: 'Abril' },
+    { value: '05', name: 'Mayo' },
+    { value: '06', name: 'Junio' },
+    { value: '07', name: 'Julio' },
+    { value: '08', name: 'Agosto' },
+    { value: '09', name: 'Septiembre' },
+    { value: '10', name: 'Octubre' },
+    { value: '11', name: 'Noviembre' },
+    { value: '12', name: 'Diciembre' }
+  ];
+  // Inicializar las variables de estado
+  public noPublications: boolean = false; // Para controlar si no hay publicaciones
+
+  // Función para cargar los años disponibles
   loadAvailableYears(): void {
     this.firebaseService.getPublications().subscribe(publications => {
       const yearsSet = new Set<string>();
@@ -138,34 +160,52 @@ export class DashboardComponent implements OnInit, AfterViewInit{
       this.years = Array.from(yearsSet).sort();
     });
   }
-  
-  // Actualizar gráfico de barras con base en el año seleccionado
-  updateBarChart(year: string): void {
+
+  // Función para obtener el número de días del mes seleccionado en un año dado
+  getDaysInMonth(year: string, month: string): number {
+    const date = new Date(Number(year), parseInt(month, 10), 0); // El día 0 del siguiente mes es el último día del mes actual
+    return date.getDate();
+  }
+
+  // Función para actualizar el gráfico de barras basado en el año y mes seleccionados
+  updateBarChart(year: string, month: string): void {
     this.firebaseService.getPublications().subscribe(publications => {
-      const chartData = this.prepareBarChartData(publications, year);
-      this.createBarChart(chartData);
+      // Restablecer noPublications a false antes de preparar los datos
+      this.noPublications = false;
+      
+      const chartData = this.prepareBarChartData(publications, year, month);
+  
+      // Verificar si hay publicaciones para el mes y año seleccionados
+      this.noPublications = chartData.data.length === 0;
+  
+      // Si no hay publicaciones, no se muestra el gráfico
+      if (!this.noPublications) {
+        this.createBarChart(chartData, this.selectedYear, this.selectedMonth);
+      }
     });
   }
 
-  // Preparar datos para el gráfico de barras
-  prepareBarChartData(publications: any[], year: string): any {
-    const monthlyCounts: { [month: string]: number } = {};
+  // Preparar los datos del gráfico para el mes y año seleccionados
+  prepareBarChartData(publications: any[], year: string, month: string): any {
+    const monthlyCounts: { [day: string]: number } = {};
 
+    // Filtrar publicaciones del mes y año seleccionados
     publications.forEach(pub => {
-      const [day, month, pubYear] = pub.fecha_ayudantia.split('-');
-      if (pubYear === year) {
-        monthlyCounts[month] = (monthlyCounts[month] || 0) + 1;
+      const [day, pubMonth, pubYear] = pub.fecha_ayudantia.split('-');
+      if (pubYear === year && pubMonth === month) {
+        monthlyCounts[day] = (monthlyCounts[day] || 0) + 1;
       }
     });
 
-    const labels = Object.keys(monthlyCounts).map(month => this.getMonthName(month));
+    // Obtener las etiquetas y los datos del gráfico
+    const labels = Object.keys(monthlyCounts);
     const data = Object.values(monthlyCounts);
 
     return { labels, data, monthlyCounts };
   }
 
-  // Crear gráfico de barras
-  createBarChart(chartData: any): void {
+  // Crear gráfico de barras mostrando solo días con publicaciones
+  createBarChart(chartData: any, selectedMonth: string, selectedYear: string): void {
     if (isPlatformBrowser(this.platformId)) {
       const ctx = document.getElementById('barChart') as HTMLCanvasElement;
 
@@ -176,13 +216,17 @@ export class DashboardComponent implements OnInit, AfterViewInit{
 
         const backgroundColors = chartData.data.map(() => this.getRandomColor());
 
+        // Crear el título dinámico
+        const chartTitle = `Publicaciones por Día en el Mes de ${this.getMonthName(selectedMonth)} de ${selectedYear}`;
+
+
         this.barChart = new Chart(ctx, {
           type: 'bar',
           data: {
-            labels: chartData.labels,
+            labels: chartData.labels, // Días del mes con publicaciones
             datasets: [
               {
-                label: 'Publicaciones por Mes',
+                label: chartTitle,  // Título del gráfico dinámico
                 data: chartData.data,
                 backgroundColor: backgroundColors,
                 borderColor: backgroundColors,
@@ -198,11 +242,10 @@ export class DashboardComponent implements OnInit, AfterViewInit{
               legend: { display: true, position: 'top' },
               tooltip: {
                 callbacks: {
-                  // Mostrar valores incluso si son bajos
                   label: (tooltipItem) => {
                     const value = tooltipItem.raw;
                     const label = tooltipItem.label;
-                    return `Mes: ${label}, Publicaciones: ${value}`;
+                    return `Día: ${label}, Publicaciones: ${value}`;
                   },
                 },
               },
@@ -226,20 +269,29 @@ export class DashboardComponent implements OnInit, AfterViewInit{
             },
             scales: {
               x: {
-                title: { display: true, text: 'Meses' },
+                title: { display: true, text: 'Días' },
               },
               y: {
                 beginAtZero: true,
                 title: { display: true, text: 'Cantidad de Publicaciones' },
+                ticks: {
+                  // Establecer los ticks para que sean enteros
+                  stepSize: 1, // Incremento de 1 para que solo se muestren enteros
+                  callback: function(value) {
+                    // Formatear solo valores enteros
+                    return Number.isInteger(value) ? value : '';
+                  },
+                },
               },
             },
             onClick: (event, elements) => {
               if (elements.length) {
                 const index = elements[0].index;
-                this.showMonthDetails(
-                  chartData.monthlyCounts,
-                  Object.keys(chartData.monthlyCounts)[index],
-                  this.selectedYear
+                this.showDayDetails(
+                  chartData.dailyCounts,
+                  chartData.labels[index],
+                  this.selectedYear,
+                  this.selectedMonth
                 );
               }
             },
@@ -250,18 +302,19 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     }
   }
 
-  // Mostrar detalles de los días de publicaciones en el mes seleccionado
-  showMonthDetails(monthlyCounts: { [month: string]: number }, month: string, year: string): void {
+  // Mostrar detalles de los días de publicaciones al hacer clic en un día
+  showDayDetails(dailyCounts: { [day: string]: number }, day: string, year: string, month: string): void {
     this.firebaseService.getPublications().subscribe(publications => {
+      // Filtrar publicaciones para el día seleccionado
       const filteredData = publications.filter(pub => {
-        const [day, pubMonth, pubYear] = pub.fecha_ayudantia.split('-');
-        return pubMonth === month && pubYear === year;
+        const [pubDay, pubMonth, pubYear] = pub.fecha_ayudantia.split('-');
+        return pubDay === day && pubMonth === month && pubYear === year;
       });
 
       // Preparar detalles por día con información adicional
       const dayDetails = filteredData.map(pub => {
-        const [day, pubMonth, pubYear] = pub.fecha_ayudantia.split('-');
-        const date = new Date(`${pubYear}-${pubMonth}-${day}`);
+        const [pubDay, pubMonth, pubYear] = pub.fecha_ayudantia.split('-');
+        const date = new Date(`${pubYear}-${pubMonth}-${pubDay}`);
         return {
           day: date.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }),
           format: pub.formato,
@@ -271,6 +324,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
 
       this.dialog.open(ModalDetallesDiaComponent, {
         data: { 
+          day, 
           month: this.getMonthName(month), 
           year, 
           dayDetails 
@@ -279,21 +333,27 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     });
   }
 
-  // Obtener el nombre del mes a partir de su número
+  // Cambiar año seleccionado
+  onYearChange(event: MatSelectChange): void {
+    this.selectedYear = event.value;
+    this.updateBarChart(this.selectedYear, this.selectedMonth || 'all');
+  }
+
+  // Cambiar mes seleccionado
+  onMonthChange(event: MatSelectChange): void {
+    this.selectedMonth = event.value;
+    this.updateBarChart(this.selectedYear, this.selectedMonth);
+  }
+  
+  // Obtener el nombre del mes desde su número
   getMonthName(month: string): string {
     const months = [
       'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
     ];
-    return months[parseInt(month, 10) - 1];
+    return months[parseInt(month, 10) - 1] || '';
   }
 
-  // Cambiar año seleccionado
-  onYearChange(event: MatSelectChange): void {
-    this.selectedYear = event.value;
-    this.updateBarChart(this.selectedYear);
-  }
-  
   // Función para obtener un color aleatorio
   getRandomColor(): string {
     const letters = '0123456789ABCDEF';
@@ -387,7 +447,6 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     });
   }
 
-
   openNoDataModal(): void {
     // Abre el modal y pasa el mensaje a mostrar
     this.dialog.open(ModalNoDataComponent, {
@@ -477,7 +536,6 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   }
 
   // Método para preparar los datos del gráfico por categorías
-// Método para preparar los datos del gráfico por categorías
   prepareCategoryData(publications: any[], selectedMonth: string): { labels: string[], data: number[] } {
     const categories = [
       'Idiomas y Comunicación',
