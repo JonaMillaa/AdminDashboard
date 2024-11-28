@@ -231,61 +231,15 @@ getRandomColor(): string {
   return color;
 }
 
-<<<<<<< HEAD
-createPieChart(chartId: string, data: { [key: string]: number }, label: string): void {
-  const ctx = document.getElementById(chartId) as HTMLCanvasElement;
-
-  if (ctx) {
-    new Chart(ctx, {
-      type: 'pie',
-      data: {
-        labels: Object.keys(data), // Etiquetas (PRESENCIAL y REMOTO)
-        datasets: [
-          {
-            data: Object.values(data), // Valores de las cantidades
-            backgroundColor: Object.keys(data).map(() => this.getRandomColor()), // Colores aleatorios
-            borderWidth: 1, // Borde de las secciones
-            borderColor: '#ffffff' // Color del borde
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top'
-          },
-          datalabels: {
-            color: '#000000', // Texto negro para mayor contraste
-            font: {
-              weight: 'bold',
-              size: 14 // Tamaño ajustado
-            },
-            formatter: (value: number, context: any) => {
-              // Mostrar porcentaje y valor
-              const total = context.dataset.data.reduce((acc: number, val: number) => acc + val, 0);
-              const percentage = ((value / total) * 100).toFixed(1); // Calcula el porcentaje
-              return `${value} (${percentage}%)`; // Muestra valor y porcentaje
-            }
-          }
-        }
-      },
-      plugins: [ChartDataLabels] // Plugin para etiquetas dentro del gráfico
-    });
-  } 
-}
-
-  
-=======
   // Función para obtener un color aleatorio
-  getRandomColor(): string {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-  }
+  // getRandomColor(): string {
+  //   const letters = '0123456789ABCDEF';
+  //   let color = '#';
+  //   for (let i = 0; i < 6; i++) {
+  //     color += letters[Math.floor(Math.random() * 16)];
+  //   }
+  //   return color;
+  // }
 
   createPieChart(chartId: string, data: { [key: string]: number }, label: string): void {
     const ctx = document.getElementById(chartId) as HTMLCanvasElement;
@@ -321,6 +275,5 @@ createPieChart(chartId: string, data: { [key: string]: number }, label: string):
       });
     }
   }
->>>>>>> 790cc8f (Se modifica componente publicaciones-table)
 }
 
