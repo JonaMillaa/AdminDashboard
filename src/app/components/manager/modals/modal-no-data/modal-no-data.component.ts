@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 
 
@@ -8,6 +8,7 @@ import { MatDividerModule } from '@angular/material/divider';
   standalone: true,
   imports: [
     MatDividerModule,
+    MatDialogModule,
   ],
   templateUrl: './modal-no-data.component.html',
   styleUrl: './modal-no-data.component.css'

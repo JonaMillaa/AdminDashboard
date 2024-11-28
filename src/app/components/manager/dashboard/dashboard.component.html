@@ -19,7 +19,23 @@
           <mat-option *ngFor="let month of growthMonths" [value]="month.value">{{ month.name }}</mat-option>
         </mat-select>
       </mat-form-field>
-      <canvas id="growthRateChart" class="fixed-size-chart"></canvas>
+
+      <!-- Contenedor de selección de año -->
+      <mat-form-field appearance="fill">
+        <mat-label>Seleccionar Año</mat-label>
+        <mat-select [(value)]="selectedYearCategory" (selectionChange)="onYearChangeCategory($event.value)">
+          <mat-option *ngFor="let year of growthYears" [value]="year">{{ year }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+            <!-- Imagen de "No Data" cuando no hay publicaciones -->
+      <div *ngIf="showNoDataImage" class="no-data-container">
+        <img src="assets/images/no-data.png" alt="No data found" class="no-data-image"/>
+        <p>{{ noDataMessage }}</p>
+      </div>
+
+      <!-- Gráfico de tasa de crecimiento -->
+      <canvas #growthRateChart *ngIf="showChart" id="growthRateChart" class="fixed-size-chart"></canvas>
+
       <!-- El gráfico permite al administrador visualizar de forma clara y rápida 
       la distribución y cantidad de publicaciones por categorías o meses, 
       ayudándolo a identificar áreas de mayor o menor actividad, 

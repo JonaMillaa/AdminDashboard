@@ -95,5 +95,21 @@ html, body {
 }
 
 
+.no-data-container {
+  text-align: center;
+  padding: 20px;
+}
 
+.no-data-container p {
+  font-size: 18px;
+  color: #575151;
+  margin-bottom: 30px;
+  margin-top: 50px;
+}
+
+.no-data-image {
+  width: 50%;
+  max-width: 300px;
+  margin-top: 20px;
+}
 

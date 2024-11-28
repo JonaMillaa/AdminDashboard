@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, query, where, orderBy, getDoc, doc} from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, query, where, orderBy, getDoc, doc, getDocs, DocumentSnapshot} from '@angular/fire/firestore';
 import { Observable, forkJoin, from} from 'rxjs';
 import { Usuario } from '../models/usuario.model';
 import { Ayudantia } from '../models/ayudantia.model';
@@ -411,5 +411,35 @@ export class FirebaseService {
     const ref = collection(this.firestore, 'Reportes');
     return collectionData(ref, { idField: 'id' }) as Observable<Reportes[]>;
   }
+
+  // Obtener los años disponibles desde Firebase
+  getYears(): Observable<string[]> {
+    const publicationsCollection = collection(this.firestore, 'Publicaciones'); // Acceder a la colección 'Publicaciones'
+    
+    // Crear una consulta para ordenar por 'fecha_ayudantia'
+    const publicationsQuery = query(publicationsCollection, orderBy('fecha_ayudantia'));
+
+    // Obtener los documentos de la colección y convertir la Promesa en un Observable
+    return from(getDocs(publicationsQuery)).pipe( // 'from' convierte la promesa a Observable
+      // Mapeo de la respuesta
+      map(snapshot => {
+        const years: string[] = [];
+        
+        // Recorrer los documentos obtenidos
+        snapshot.docs.forEach((doc: DocumentSnapshot) => {
+          const data = doc.data(); // Obtener los datos del documento
+          if (data && data['fecha_ayudantia']) { // Verificar si 'data' no es undefined
+            // Extraer el año de la fecha 'fecha_ayudantia' (suponiendo que la fecha está en formato 'DD-MM-YYYY')
+            const year = new Date(data['fecha_ayudantia']).getFullYear().toString();
+            years.push(year);
+          }
+        });
+
+        // Eliminar duplicados usando un Set y devolver el array con los años únicos
+        return [...new Set(years)];
+      })
+    );
+  }
+
 }
 
