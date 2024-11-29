@@ -13,6 +13,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import {DashboardComponent} from '../../manager/dashboard/dashboard.component';
 
 
 @Component({
@@ -29,7 +31,9 @@ import { MatTableModule } from '@angular/material/table';
     ReactiveFormsModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
+    MatToolbarModule,
+    DashboardComponent
   ],
   templateUrl: './publicaciones.component.html',
   styleUrl: './publicaciones.component.css'

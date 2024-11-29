@@ -10,17 +10,29 @@
   flex: 1; /* El gráfico ocupará el espacio disponible */
 }
 
-.header {
+.navbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: #3f51b5;
-  padding: 20px;
-  border-bottom: 1px solid #ddd;
-  /* margin-bottom: 20px; */
+  background-color: #3f51b5; /* Azul Material Design */
+  color: #fff;
+  /* padding: 16px; */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 6rem;
   margin: 0;
   width: 100%; /* Asegura que ocupe todo el ancho */
   box-sizing: border-box; /* Incluye el padding en el ancho total */
+}
+
+.dashboard-header h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.dashboard-header p {
+  font-size: 1rem;
+  margin: 4px 0 0;
+  color: #cfd8dc; /* Gris claro para contraste */
 }
 
 .logo {

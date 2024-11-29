@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FirebaseService } from '../../../firebase/firebase.service';
 import { Publicacion } from '../../../models/publicacion.interface';
 import { TutorRanking } from '../../../models/tutor-ranking.interface';
-import { CarouselComponent } from '../carousel/carousel.component'; 
+// import { CarouselComponent } from '../carousel/carousel.component'; 
 import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -12,7 +12,7 @@ import { isPlatformBrowser } from '@angular/common';
   standalone: true,
   imports: [
     CommonModule,
-    CarouselComponent,
+    // CarouselComponent,
     NgbCarouselModule
   ],
   templateUrl: './monitoreo.component.html',

@@ -6,15 +6,11 @@ import { AdminLayoutComponent } from './components/admin-layout/admin-layout.com
 import { ManagerLayoutComponent } from './components/manager-layout/manager-layout.component';
 import { AuthGuard } from './guards/auth.guard';
 import { DashboardComponent } from './components/manager/dashboard/dashboard.component';
-
 import { UsersComponent } from './components/manager/users/users.component';
-// import { SoporteComponent } from './components/manager/soporte/soporte.component';
-//import { SoporteComponent } from './components/manager/soporte/soporte.component';
 import { CalendarComponent } from './components/manager/calendar/calendar.component';
 import { PublicacionesComponent } from './components/manager/publicaciones/publicaciones.component';
 import { MonitoreoComponent } from './components/manager/monitoreo/monitoreo.component';
 import { ReportesComponent } from './components/manager/reportes/reportes.component';
-import { FacturacionComponent } from './components/manager/facturacion/facturacion.component';
 import { PublicacionesPorEstadoComponent } from './components/manager/publicaciones-por-estado/publicaciones-por-estado.component';
 import { DatosDelDiaComponent } from './components/admin/datos-del-dia/datos-del-dia.component';
 import { PruebasComponent } from './components/admin/pruebas/pruebas.component';
@@ -29,6 +25,11 @@ import { ModificarPublicacionComponent } from './components/admin/modificar-publ
 import { ReportesUsersComponent } from './components/manager/reportes-users/reportes-users.component';
 import { UsuariosAppComponent } from './components/manager/usuarios-app/usuarios-app.component';
 import { HomeComponent } from './components/home/home.component';
+import { IngresosComponent } from './components/manager/ingresos/ingresos.component';
+import { SoporteGestionComponent } from './components/manager/soporte-gestion/soporte-gestion.component';
+import { EstudiantesComponent } from './components/manager/estudiantes/estudiantes.component';
+import { TutoresComponent } from './components/manager/tutores/tutores.component';
+import { CalificacionesComponent } from './components/manager/calificaciones/calificaciones.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Ruta inicial para HomeComponent
@@ -73,13 +74,16 @@ export const routes: Routes = [
     canActivate: [AuthGuard], // Protegido con AuthGuard
     children: [
       { path: 'publicaciones', component: PublicacionesComponent },
-      { path: 'dashboard', component: DashboardComponent },
+      { path: 'ingresos', component: IngresosComponent },
+      { path: 'soporte-gestion', component: SoporteGestionComponent },
+      { path: 'estudiantes', component: EstudiantesComponent },
+      { path: 'tutores', component: TutoresComponent },
+      { path: 'calificaciones', component: CalificacionesComponent },
       { path: 'monitoreo', component: MonitoreoComponent },
       { path: 'reportes', component: ReportesComponent },
       { path: 'users', component: UsersComponent },
       { path: 'usuarios-app', component: UsuariosAppComponent },
       { path: 'publicacion-por-estado', component: PublicacionesPorEstadoComponent },
-      { path: 'facturacion', component: FacturacionComponent },
       { path: 'calendario', component: CalendarComponent },
       { path: 'reportes-users', component: ReportesUsersComponent },
       ]
