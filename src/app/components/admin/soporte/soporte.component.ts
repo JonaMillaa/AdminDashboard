@@ -11,6 +11,7 @@ import { SoporteRespuestaComponent } from '../soporte-respuesta/soporte-respuest
 import { SoporteService } from '../../../firebase/soporte.service';
 import { CommonModule } from '@angular/common';
 
+
 @Component({
   selector: 'app-soporte',
   standalone: true,
@@ -23,6 +24,7 @@ import { CommonModule } from '@angular/common';
     MatOptionModule,
     MatButtonModule,
     SoporteRespuestaComponent,
+
   ],
   templateUrl: './soporte.component.html',
   styleUrls: ['./soporte.component.css'],
@@ -36,17 +38,29 @@ export class SoporteComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private soporteService: SoporteService, private dialog: MatDialog) {}
+  reportesSinResolver : number = 0;
 
   ngOnInit(): void {
     this.obtenerReportes();
+    this.obtenerMetricas();
   }
 
   obtenerReportes(): void {
     this.soporteService.getReportes().subscribe((reportes) => {
+      console.log('soy reportes' , reportes)
       this.dataSource.data = reportes;
       this.dataSource.paginator = this.paginator;
     });
   }
+
+  obtenerMetricas(): void {
+
+    this.soporteService.getCollectionQuery<any>('Reportes', 'estado', 'en curso').subscribe( (res: any) => {
+      this.reportesSinResolver = res.length
+      console.log(this.reportesSinResolver)
+    })
+  }
+
 
   aplicarFiltro(filtro: string): void {
     this.dataSource.filter = filtro.trim().toLowerCase();
@@ -56,7 +70,7 @@ export class SoporteComponent implements OnInit {
     this.soporteService.getUsuarioPorID(reporte.id_usuario).subscribe((usuario) => {
       this.dialog.open(SoporteRespuestaComponent, {
         width: '650px',
-        height: '515px', 
+        height: '515px',
         data: { reporte, usuario },
       });
     });

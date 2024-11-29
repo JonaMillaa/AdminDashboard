@@ -10,7 +10,7 @@ import { Usuario } from '../models/usuario.model';
 })
 export class SoporteService {
 
-  constructor( private firestore: Firestore) { } 
+  constructor( private firestore: Firestore) { }
   // Obtener todos los reportes
   getReportes(): Observable<Reportes[]> {
     const ref = collection(this.firestore, 'Reportes');
@@ -32,6 +32,18 @@ export class SoporteService {
       console.log('Respuesta guardada correctamente');
     });
   }
+
+
+getCollectionQuery<tipo>(path: string, parametro: string, busqueda: any) {
+  const collectionRef = collection(this.firestore, path);
+
+  // Crear la consulta con where
+  const q = query(collectionRef, where(parametro, '==', busqueda));
+
+  // Usar collectionData para obtener datos en tiempo real
+  return collectionData(q, { idField: 'id' });  // 'idField' es opcional, pero útil para obtener el ID de cada documento
+}
+
 
 
 
