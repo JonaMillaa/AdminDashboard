@@ -7,7 +7,7 @@
         <p>Explora métricas clave para gestionar y optimizar las publicaciones por categoría y período.</p>
       </header>
     </mat-toolbar>
-  
+
   <!-- Contenedor superior para el gráfico de tendencia con filtro de formato -->
   <div class="top-container">
 
@@ -29,7 +29,10 @@
         <h3>{{ commonState }}</h3>
       </div>
     </div>
-    
+
+    <!-- componente del grafico-promedio-publicaciones -->
+    <app-grafico-promedio-publicaciones></app-grafico-promedio-publicaciones>
+
     <div class="trendChart">
       <h2 class="chart-title">Tendencia de Publicaciones por Formato <br> (Presencial vs Remoto)</h2>
       <div class="filter-container">
@@ -92,7 +95,7 @@
       </div>
 
       <canvas id="stateChart" class="fixed-size-chart"></canvas>
-      
+
       <div class="modal" *ngIf="showStateModal">
         <div class="modal-content">
           <p>{{ stateModalMessage }}</p>

@@ -14,7 +14,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {DashboardComponent} from '../../manager/dashboard/dashboard.component';
+import {DashboardComponent} from '../dashboard/dashboard.component';
+import { GraficoPromedioPublicacionesComponent } from '../grafico-promedio-publicaciones/grafico-promedio-publicaciones.component'
 
 
 @Component({
@@ -33,7 +34,8 @@ import {DashboardComponent} from '../../manager/dashboard/dashboard.component';
     MatSortModule,
     MatTableModule,
     MatToolbarModule,
-    DashboardComponent
+    DashboardComponent,
+    GraficoPromedioPublicacionesComponent
   ],
   templateUrl: './publicaciones.component.html',
   styleUrl: './publicaciones.component.css'
@@ -103,7 +105,7 @@ export class PublicacionesComponent implements OnInit{
     private firebaseService: FirebaseService,
     @Inject(PLATFORM_ID) private platformId: Object,
   ) {}
-  
+
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -559,7 +561,7 @@ export class PublicacionesComponent implements OnInit{
       this.createInfoTable(chartData); // Crear la tabla al cargar el gráfico
     });
   }
-  
+
   // Método para generar la tabla de información
   createInfoTable(chartData: any): void {
     const tableContainer = document.getElementById('infoTableContainer');
@@ -567,7 +569,7 @@ export class PublicacionesComponent implements OnInit{
 
     // Limpiar la tabla anterior
     this.dataSource.data = []; // Limpiar datos previos
-    
+
     // Llenar los datos de la tabla
     const tableData = chartData.labels.map((label: string, index: number) => ({
       fecha: label,
