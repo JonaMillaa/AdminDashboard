@@ -7,8 +7,6 @@
         <p>Explora métricas clave para gestionar y optimizar las publicaciones por categoría y período.</p>
       </header>
     </mat-toolbar>
-
-  <!-- Contenedor superior para el gráfico de tendencia con filtro de formato -->
   <div class="top-container">
 
     <div class="stats-summary">
@@ -29,45 +27,54 @@
         <h3>{{ commonState }}</h3>
       </div>
     </div>
+  </div>
 
     <!-- componente del grafico-promedio-publicaciones -->
     <app-grafico-promedio-publicaciones></app-grafico-promedio-publicaciones>
 
-    <div class="trendChart">
-      <h2 class="chart-title">Tendencia de Publicaciones por Formato <br> (Presencial vs Remoto)</h2>
-      <div class="filter-container">
-        <mat-form-field appearance="fill" class="filter">
-          <mat-label>Formato</mat-label>
-          <mat-select [(value)]="selectedFormat" (selectionChange)="onFormatChange($event)">
-            <mat-option value="PRESENCIAL">Presencial</mat-option>
-            <mat-option value="REMOTO">Remoto</mat-option>
-          </mat-select>
-        </mat-form-field>
+    <!-- Contenedor superior para el gráfico de tendencia con filtro de formato -->
+  <div class="ContainerGraficoTabla">
+    <h2 class="titleContainerGraficoTabla">
+      Evolución de las Publicaciones por Formato: Presencial vs Remoto
+    </h2>   
+    <div class="content-GT">
+      <div class="trendChart">
+        <h2 class="chart-title">Publicaciones por Formato <br> (Presencial vs Remoto)</h2>
+        <div class="filter-container">
+          <mat-form-field appearance="fill" class="filter">
+            <mat-label>Formato</mat-label>
+            <mat-select [(value)]="selectedFormat" (selectionChange)="onFormatChange($event)">
+              <mat-option value="PRESENCIAL">Presencial</mat-option>
+              <mat-option value="REMOTO">Remoto</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+          <canvas id="trendChart" class="fixed-size-chart"></canvas>
       </div>
-        <canvas id="trendChart" class="fixed-size-chart"></canvas>
+      <!-- Tabla Angular Material -->
+      <div id="infoTableContainer" class="table-container">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let row"> {{row.fecha}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidad">
+          <th mat-header-cell *matHeaderCellDef> Cantidad de Publicaciones </th>
+          <td mat-cell *matCellDef="let row"> {{row.cantidad}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="detalles">
+          <th mat-header-cell *matHeaderCellDef> Detalles </th>
+          <td mat-cell *matCellDef="let row"> {{row.detalles}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
     </div>
-    <!-- Tabla Angular Material -->
-    <div id="infoTableContainer" class="table-container">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <ng-container matColumnDef="fecha">
-      <th mat-header-cell *matHeaderCellDef> Fecha </th>
-      <td mat-cell *matCellDef="let row"> {{row.fecha}} </td>
-    </ng-container>
 
-    <ng-container matColumnDef="cantidad">
-      <th mat-header-cell *matHeaderCellDef> Cantidad de Publicaciones </th>
-      <td mat-cell *matCellDef="let row"> {{row.cantidad}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="detalles">
-      <th mat-header-cell *matHeaderCellDef> Detalles </th>
-      <td mat-cell *matCellDef="let row"> {{row.detalles}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    </div>
   </div>
 
   <!-- Contenedor inferior para gráficos de estados y publicaciones -->

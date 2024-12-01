@@ -4,6 +4,60 @@
   gap: 20px; /* Espacio entre la parte superior y los gráficos */
 }
 
+.ContainerGraficoTabla{
+  display: flex;
+  flex-direction: column;
+  
+  gap: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #e0dfdf;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 3rem;
+}
+
+.content-GT {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px; /* Espacio entre el gráfico y la tabla */
+}
+
+.titleContainerGraficoTabla {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px; /* Espacio debajo del título */
+  margin-top: 20px; /* Espacio encima del título */
+}
+
+/* Contenedor principal para el gráfico y la tabla */
+.trendChart{
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espacio entre el gráfico y el filtro */
+  min-width: 45%; 
+  max-width: 45%; 
+  height: 600px; 
+  position: relative;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f0ebeb;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para la tabla */
+.table-container {
+  min-width: 45%; 
+  max-width: 45%;
+}
+
+.chart-title {
+  text-align: center; /* Centra el título del gráfico */
+  margin-bottom: 0.5rem; /* Espaciado entre el título y el gráfico */
+  font-size: 1.1rem;
+}
+
 .fixed-size-chart {
   width: 90% !important; 
   height: 75% !important; 
@@ -80,50 +134,6 @@ margin-left: 2rem;
   margin-bottom: 2rem;
 }
 
-/* Contenedor principal para el gráfico y la tabla */
-.trendChart{
-  gap: 20px; /* Espacio entre el gráfico y la tabla */
-  min-width: 700px; 
-  max-width: 700px; 
-  height: 700px; 
-  position: relative;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f0ebeb;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-}
-
-/* Estilos para la tabla */
-.table-container {
-  min-width: 300px; /* Tamaño mínimo de la tabla */
-  max-width: 700px; 
-  overflow: auto; /* Permite desplazamiento si la tabla es muy grande */
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f0ebeb;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.mat-table {
-  width: 100%;
-}
-
-.mat-header-cell, .mat-cell {
-  padding: 16px;
-}
-
-.mat-header-row {
-  background-color: #007bff;
-  color: white;
-}
-
-.mat-row:hover {
-  background-color: #f1f1f1;
-}
-
-
 .modal {
   position: absolute;
   top: 50%;
@@ -164,14 +174,6 @@ margin-left: 2rem;
   background-color: #0056b3;
 }
 
-/* .stats-summary {
-  display: grid;
-  grid-template-rows: auto auto auto auto;
-  grid-template-columns: auto auto;
-  margin-right: 3rem;
-  margin-top: 1rem;
-} */
-
 /* Estilo para organizar las tarjetas */
 .stats-summary {
   display: flex; /* Organiza los elementos horizontalmente */
@@ -189,21 +191,6 @@ margin-left: 2rem;
   width: 250px;
   height: 130px;
 }
-
-.chart-title {
-  text-align: center; /* Centra el título del gráfico */
-  margin-bottom: 1rem; /* Espaciado entre el título y el gráfico */
-  font-size: 1.5rem;
-}
-/* .stat-card {
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  transition: transform 0.3s;
-  width: 250px;
-  height: 130px;
-  text-align: center;
-} */
 
 .stat-card p {
   margin: 0;

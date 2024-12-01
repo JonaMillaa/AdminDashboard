@@ -16,6 +16,12 @@ th, td {
 
 .grafico {
   width: 40%;
+  background-color: honeydew;
+}
+
+canvas {
+  height: 300px;
+  width: 100%;
 }
 
 .tabla {
