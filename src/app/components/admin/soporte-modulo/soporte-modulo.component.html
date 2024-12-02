@@ -1,0 +1,33 @@
+<div class="container" style="background-color: rgb(247, 247, 247); padding-bottom: 50px; padding-top: 50px;">
+
+<h2 mat-dialog-title>Listado de reportes {{data.estado}}</h2>
+
+
+
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="categoria">
+      <th mat-header-cell *matHeaderCellDef>Categoría</th>
+      <td mat-cell *matCellDef="let reporte">{{ reporte.categoria }}</td>
+    </ng-container>
+    <ng-container matColumnDef="subCategoria">
+      <th mat-header-cell *matHeaderCellDef>Sub Categoría</th>
+      <td mat-cell *matCellDef="let reporte">{{ reporte.sub_categoria }}</td>
+    </ng-container>
+    <ng-container matColumnDef="estado">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let reporte">{{ reporte.estado }}</td>
+    </ng-container>
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let reporte">
+        <button mat-button color="primary" class="btn" (click)="verDetalleReporte(reporte)">Ver Detalle</button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+</div>
+
+

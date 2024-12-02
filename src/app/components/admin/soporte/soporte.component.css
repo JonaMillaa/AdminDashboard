@@ -52,7 +52,7 @@ h2 {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
-} 
+}
 table.mat-elevation-z8 th{
   background-color: #37406e;
   color: white;
@@ -101,30 +101,11 @@ table.mat-elevation-z8 th{
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Card estilo */
-.card {
-  background: #f1f1f1;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
 
-.card-header {
-  background-color: #34495e;
-  color: white;
-  padding: 15px;
-  border-radius: 10px 10px 0 0;
-  font-size: 22px;
-  font-weight: 700;
-}
 
-.card-content {
-  padding: 20px;
-}
 
-.card-footer {
-  padding: 20px;
-  border-top: 1px solid #ddd;
-}
+
+
 
 /* Elementos de detalle */
 .detail-item {
@@ -166,6 +147,47 @@ button[color="primary"] {
   color: white;
 }
 
+.sinResolver {
+
+  font-size: 20px;
+
+  text-align: center;
+}
+
+.resueltas {
+
+  font-size: 20px;
+  border-left: 5px rgb(151, 4, 4);
+
+  text-align: center;
+}
+
+.pCard {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+.card-metricas {
+  width: 200px;
+
+}
+.title_card {
+  text-align: center;
+  font-size: 20px;
+
+}
+
+.modal-backdrop {
+  z-index: 1040 !important; /* Fondo del modal */
+}
+
+.modal {
+  z-index: 1055 !important; /* Modal encima del fondo */
+}
+
+.cdk-overlay-container {
+  z-index: 1030 !important; /* Angular Material detrás del modal */
+}
 
 
 
