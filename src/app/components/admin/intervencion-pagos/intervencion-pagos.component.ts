@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Para directivas *ngIf, *ngFor
-import { MatToolbarModule } from '@angular/material/toolbar'; // Para mat-toolbar
-import { MatIconModule } from '@angular/material/icon'; // Para mat-icon
-import { MatButtonModule } from '@angular/material/button'; // Para botones
-import { MatFormFieldModule } from '@angular/material/form-field'; // Para mat-form-field
-import { MatInputModule } from '@angular/material/input'; // Para matInput
-import { FormsModule } from '@angular/forms'; // Para [(ngModel)]
-
+import { CommonModule } from '@angular/common'; 
+import { MatToolbarModule } from '@angular/material/toolbar'; 
+import { MatIconModule } from '@angular/material/icon'; 
+import { MatButtonModule } from '@angular/material/button'; 
+import { MatFormFieldModule } from '@angular/material/form-field'; 
+import { MatInputModule } from '@angular/material/input'; 
+import { FormsModule } from '@angular/forms'; 
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChatService } from '../../../firebase/chat.service';
 import { PagosService } from '../../../firebase/pagos.service';
 import { Interface_chat, Mensaje } from '../../../models/chat-publicacion';
 import { Publicacion } from '../../../models/publicacion.interface';
-import { InterfacePostulacion } from '../../../models/interface-postulacion';
 import { Usuario } from '../../../models/usuario.model';
+import { PostulacionEstudiante } from '../../../models/postulacion-estudiante';
 
 @Component({
   selector: 'app-intervencion-pagos',
@@ -27,7 +26,7 @@ import { Usuario } from '../../../models/usuario.model';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule, // Para usar [(ngModel)]
+    FormsModule,
   ],
 })
 export class IntervencionPagosComponent implements OnInit {
@@ -35,16 +34,16 @@ export class IntervencionPagosComponent implements OnInit {
   infoPublicacion!: Publicacion;
   infoChat!: Interface_chat;
   nuevoMensaje = ''; 
-  participantes: Usuario[] = []; // Lista de participantes con información detallada
- arrayAsistencia: Array<{ id_usuario: string }> = []; // Lista temporal de IDs de participantes
- cargando = true; // Spinner visible inicialmente
+  participantes: Usuario[] = [];
+  estudiantes:  Usuario[] = []; // Arreglo para estudiantes
+  tutor: Usuario | null = null; // Tutor con toda la información
+  arrayAsistencia: Array<{ id_usuario: string }> = []; 
+  cargando = true;  
   constructor(
     private route: ActivatedRoute,
     private chatService: ChatService,
     private pagosService: PagosService,
-    private router: Router // Asegúrate de inyectar el servicio de Router
-
-
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -57,12 +56,14 @@ export class IntervencionPagosComponent implements OnInit {
     this.chatService.getChatByPublicacionId(this.idPublicacion).subscribe((chats) => {
       this.infoChat = chats[0];
     });
-  
-    // Llama al método para obtener participantes
+
+    // Llama al método para obtener el tutor dependiendo del estado de la postulación
+    this.obtenerTutorPorEstado();
+
     this.obtenerParticipantes(); 
-    
+    this.obtenerEstudiantes(); // Nuevo método para obtener los estudiantes añadidos
   }
-  
+
   obtenerParticipantes(): void {
     this.pagosService.getAsistenciaPorPublicacion(this.idPublicacion).subscribe(asistencia => {
       if (asistencia && asistencia.asistencia.length > 0) {
@@ -71,7 +72,7 @@ export class IntervencionPagosComponent implements OnInit {
         this.pagosService.getDetallesParticipantes(this.arrayAsistencia).subscribe(usuarios => {
           this.participantes = usuarios.map(usuario => ({
             ...usuario,
-            Foto: usuario.Foto ? usuario.Foto : '/assets/images/avatar_default.png', // Asignar imagen predeterminada si falta
+            Foto: usuario.Foto ? usuario.Foto : '/assets/images/avatar_default.png', 
           }));
   
           console.log('Participantes con foto predeterminada:', this.participantes);
@@ -79,30 +80,55 @@ export class IntervencionPagosComponent implements OnInit {
       }
     });
   }
-  
+
+  // Método para obtener el tutor aceptado para la publicación
+  obtenerTutorPorEstado(): void {
+    this.pagosService.getTutorPorPublicacion(this.idPublicacion).subscribe(tutor => {
+      if (tutor) {
+        this.tutor = tutor; // Asignamos el tutor completo
+        console.log('Tutor encontrado:', this.tutor); // Verifica si tiene los campos esperados
+      } else {
+        console.log('No hay tutor aceptado o la postulación no está en estado ACEPTADO');
+      }
+    });
+  }
+
+  // Método para obtener los estudiantes añadidos a la publicación
+obtenerEstudiantes(): void {
+  this.pagosService.getEstudiantesPorPublicacion(this.idPublicacion).subscribe({
+    next: (estudiantes) => {
+      this.estudiantes = estudiantes;
+      console.log('Estudiantes encontrados:', this.estudiantes);  // Verifica la respuesta
+    },
+    error: (err) => {
+      console.error('Error al obtener los estudiantes', err);
+    },
+  });
+}
+
 
   enviarMensaje(): void {
     if (!this.nuevoMensaje.trim()) {
-      return; // Evita enviar mensajes vacíos
+      return; 
     }
   
     const nuevoMensaje: Mensaje = {
       contenido: this.nuevoMensaje.trim(),
       fecha_envio: new Date().toISOString(),
       info_usuario: {
-        id_usuario: 'admin', // ID del administrador
+        id_usuario: 'admin', 
         nombre: 'Administrador',
         apellido: '',
-        foto: '/assets/images/logo.png', // Ruta correcta para la imagen
+        foto: '/assets/images/logo.png',
       },
     };
   
     this.chatService.enviarMensaje(this.infoChat.id_chat, nuevoMensaje).then(() => {
-      this.nuevoMensaje = ''; // Limpia el campo de entrada
+      this.nuevoMensaje = ''; 
     });
   } 
+  
   modificarPublicacion(): void {
     this.router.navigate(['/admin/modificar-publicacion', this.idPublicacion]);
   }
-  
 }

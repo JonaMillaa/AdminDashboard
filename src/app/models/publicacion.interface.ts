@@ -1,6 +1,7 @@
 
 
 export interface InfoAyudantia {
+    precio: InfoAyudantia;
     categoria: string;
     descripcion_ayudantia: string;
     estado_ayudantia: string;
@@ -15,6 +16,7 @@ export interface InfoAyudantia {
 }
 
 export interface Publicacion {
+    info_usuario: any;
     id_publicacion: string;
     detalle_ubicacion: string;
     duracion: string;

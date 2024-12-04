@@ -49,7 +49,16 @@ export class FirebaseService {
   getCollection<T>(nombre_coleccion: string): Observable<T[]> {
     const ref = collection(this.firestore, nombre_coleccion);
     return collectionData(ref, { idField: 'id' }) as Observable<T[]>;
+  } 
+  
+  
+  getCollectionQuery<T>(path: string, parametro: string, condicion: any, busqueda: string): Observable<T[]> {
+    const ref = collection(this.firestore, path);
+    const queryRef = query(ref, where(parametro, condicion, busqueda));  // Usar 'query' para añadir condiciones
+    return collectionData(queryRef, { idField: 'id' }) as Observable<T[]>;
   }
+  
+
 
   // Método para obtener los usuarios usando la función genérica
   getUsuarios(): Observable<Usuario[]> {
