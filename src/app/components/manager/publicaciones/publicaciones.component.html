@@ -1,20 +1,13 @@
 <div class="dashboard-container">
 
+  <!-- Cabecera con título y logo -->
+  <div class="header">
+    <h1 class="title">Panel Analítico de Publicaciones y Usuarios por Formato y Estado</h1>
+    <img src=".../../assets/images/logo.png" alt="Logo" class="logo" /> 
+  </div>
+  
   <!-- Contenedor superior para el gráfico de tendencia con filtro de formato -->
   <div class="top-container">
-    <!-- Gráfico de tendencia -->
-    <div class="chart-item">
-      <div class="filter-container">
-        <mat-form-field appearance="fill" class="filter">
-          <mat-label>Formato</mat-label>
-          <mat-select [(value)]="selectedFormat" (selectionChange)="onFormatChange($event)">
-            <mat-option value="PRESENCIAL">Presencial</mat-option>
-            <mat-option value="REMOTO">Remoto</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <canvas id="trendChart"></canvas>
-    </div>
 
     <div class="stats-summary">
       <div class="stat-card" style="background-color: #81bbf8c5;">
@@ -33,6 +26,42 @@
         <p>Estado más común</p>
         <h3>{{ commonState }}</h3>
       </div>
+    </div>
+    
+    <div class="trendChart">
+      <h2 class="chart-title">Tendencia de Publicaciones por Formato <br> (Presencial vs Remoto)</h2>
+      <div class="filter-container">
+        <mat-form-field appearance="fill" class="filter">
+          <mat-label>Formato</mat-label>
+          <mat-select [(value)]="selectedFormat" (selectionChange)="onFormatChange($event)">
+            <mat-option value="PRESENCIAL">Presencial</mat-option>
+            <mat-option value="REMOTO">Remoto</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+        <canvas id="trendChart" class="fixed-size-chart"></canvas>
+    </div>
+    <!-- Tabla Angular Material -->
+    <div id="infoTableContainer" class="table-container">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef> Fecha </th>
+      <td mat-cell *matCellDef="let row"> {{row.fecha}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cantidad">
+      <th mat-header-cell *matHeaderCellDef> Cantidad de Publicaciones </th>
+      <td mat-cell *matCellDef="let row"> {{row.cantidad}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="detalles">
+      <th mat-header-cell *matHeaderCellDef> Detalles </th>
+      <td mat-cell *matCellDef="let row"> {{row.detalles}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
     </div>
   </div>
 
@@ -59,7 +88,9 @@
           </mat-select>
         </mat-form-field>
       </div>
+
       <canvas id="stateChart" class="fixed-size-chart"></canvas>
+      
       <div class="modal" *ngIf="showStateModal">
         <div class="modal-content">
           <p>{{ stateModalMessage }}</p>
@@ -85,7 +116,9 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <canvas id="publicationChart" class="fixed-size-chart"></canvas>
+
+      <canvas id="publicationChart"  class="fixed-size-chart"></canvas>
+
       <div class="modal" *ngIf="showPublicationModal">
         <div class="modal-content">
           <p>{{ publicationModalMessage }}</p>

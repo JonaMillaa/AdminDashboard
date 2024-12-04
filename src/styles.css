@@ -2,6 +2,12 @@
 
 @import "@angular/material/prebuilt-themes/deeppurple-amber.css";
 
+
+@import "primeng/resources/themes/saga-blue/theme.css";
+@import "primeng/resources/primeng.min.css";
+@import "primeicons/primeicons.css";
+
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 

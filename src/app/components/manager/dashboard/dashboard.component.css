@@ -4,7 +4,6 @@
   gap: 20px;
 }
 
-
 .fixed-size-chart {
   width: 90% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
   height: 85% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
@@ -17,6 +16,7 @@
   gap: 15px;
   margin-top: 20px;
   margin-left: 30px;
+  margin-right: 30px;
 }
 
 .indicator {
@@ -38,151 +38,62 @@ h3{
   font-size: 1.4rem;
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+
 .navbar {
-    display: grid;
-    grid-template-columns: 1fr;
-    width: 100%;
-    background-color: #3f51b5;
-    color: white;
-    padding: 10px;
-    height: 100px;
-  }
-
-  .navbar-row {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    /* align-items: stretch;  */
-    flex-wrap: wrap;
-    padding: 0 16px;
-  }
-
-  .navbar-title {
-    font-size: 1.4rem;
-    margin-right: 1rem;
-    font-weight: bold;
-  }
-
-
-/* Estilos específicos para cada nav-item */
-.nav-item.usuarios {
-    background-color: #a400f0;
-    width: 15rem;
-    padding: 5px;
-    margin-top: 5px;
-    border-radius: 7px;
-  }
-
-  .nav-item.tutores {
-    background-color: #007acc;
-    width: 15rem;
-    padding: 5px;
-    margin-top: 5px;
-    border-radius: 7px;
-  }
-
-  .nav-item.estudiantes {
-    background-color: #28a745;
-    width: 15rem;
-    padding: 5px;
-    margin-top: 5px;
-    border-radius: 7px;
-  }
-
-  .nav-item.publicaciones {
-    background-color: #6c757d;
-    width: 17rem;
-    padding: 5px;
-    margin-top: 5px;
-    border-radius: 7px;
-  }
-
-  .navbar-links {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: auto auto auto auto auto;
-    margin-left: 10%;
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    height: 100%; /* Asegura que ocupe toda la altura del navbar */
-  }
-
-  .nav-item mat-icon {
-    margin-right: 2px;
-    color: aliceblue;
-  }
-
-  .nav-icon {
-    font-size: 1.4rem; /* Aumenta el tamaño del ícono */
-    margin-right: 5px;
-  }
-
-  .nav-link {
-    text-decoration: none;
-    color: white;
-    transition: color 0.3s ease;
-    font-weight: bold;
-    font-size: 1.2rem;
-  }
-
-  .nav-icon:hover {
-    color: #ffcc00;
-  }
-
-  .nav-link:hover {
-    color: #ffcc00; /* Cambia el color al pasar el cursor */
-  }
-
-/* Media Query para laptops */
-@media (min-width: 1024px) and (max-width: 1440px) {
-
-  /* Estilos específicos para cada nav-item */
-.nav-item.usuarios {
-    width: 13rem;
-  }
-
-  .nav-item.tutores {
-    width: 11rem;
-  }
-
-  .nav-item.estudiantes {
-    width: 11rem;
-  }
-
-  .nav-item.publicaciones {
-    width: 16rem;
-  }
-
-  .nav-link {
-    font-size: 1rem;
-  }
-
-  .navbar-links{
-
-    margin-left: 5px;
-
-    /* display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px; */
-  }
-
-  .dashboard-indicators {
-    margin-right: 30px;
-  }
-
-  .indicator {
-    height: 600px;
-    margin-right: none;
-  }
-
-  .fixed-size-chart {
-    width: 100% !important;
-  }
-
+  display: flex;
+  align-items: center;
+  background-color: #3f51b5; /* Azul Material Design */
+  color: #fff;
+  /* padding: 16px; */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 6rem;
+  margin: 0;
+  width: 100%; /* Asegura que ocupe todo el ancho */
+  box-sizing: border-box; /* Incluye el padding en el ancho total */
 }
+
+/* Reinicia el margen y el padding del body y del html */
+html, body {
+  margin: 0; /* Elimina márgenes del body y html */
+  padding: 0; /* Elimina paddings del body y html */
+  box-sizing: border-box; /* Asegura un buen cálculo del tamaño */
+  width: 100%; /* Ajusta al ancho completo */
+}
+
+.dashboard-header {
+  flex: 1;
+  text-align: left;
+  margin: 0; /* Elimina cualquier margen interno del encabezado */
+  padding: 16px; /* Opcional: define un padding interno uniforme */
+}
+
+.navbar-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  margin-right: 16px;
+}
+
+.logo-img {
+  height: 50px;
+  width: auto;
+}
+
+.dashboard-header h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.dashboard-header p {
+  font-size: 1rem;
+  margin: 4px 0 0;
+  color: #cfd8dc; /* Gris claro para contraste */
+}
+
 
 
 

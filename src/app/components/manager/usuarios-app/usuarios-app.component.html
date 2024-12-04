@@ -1,0 +1,83 @@
+<div class="content">
+      <!-- Cabecera con título y logo -->
+  <div class="header">
+    <h1 class="title">Lista de Usuarios</h1>
+    <img src="/assets/images/logo.png" alt="Logo" class="logo" /> 
+  </div>
+
+    <mat-tab-group>
+        <mat-tab label="Todos">
+        <div class="user-list">
+            <mat-card
+            *ngFor="let usuario of usuarios$ | async"
+            class="user-card">
+            <mat-card-header>
+                <div mat-card-avatar class="avatar">
+                <img [src]="usuario.Foto || '../../assets/images/user.png'" alt=""/>
+                </div>
+                <mat-card-title
+                >{{ usuario.Nombre }} {{ usuario.Apellido }}</mat-card-title>
+                <mat-card-subtitle
+                >{{ usuario.Rol }} - {{ usuario.Carrera }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p><strong>Email:</strong> {{ usuario.Email }}</p>
+                <p><strong>Teléfono:</strong> {{ usuario.Telefono }}</p>
+                <p><strong>Estado:</strong> {{ usuario.Estado }}</p>
+                <p>
+                <strong>Año de carrera:</strong> {{ usuario.Anio_carrera }}
+                </p>
+                <p>
+                <strong>Fecha de ingreso:</strong> {{ usuario.Fecha_ingreso }}
+                </p>
+                <p><strong>Comuna:</strong> {{ usuario.Direccion.Comuna }}</p>
+                <p><strong>Región:</strong> {{ usuario.Direccion.Region }}</p>
+            </mat-card-content>
+            </mat-card>
+        </div>
+        </mat-tab>
+
+        <mat-tab label="Tutores">
+        <div class="user-list">
+            <mat-card *ngFor="let tutor of tutores$ | async" class="user-card">
+            <mat-card-header>
+                <mat-card-title
+                >{{ tutor.Nombre }} {{ tutor.Apellido }}</mat-card-title>
+                <mat-card-subtitle
+                >Tutor - {{ tutor.Carrera }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p><strong>Email:</strong> {{ tutor.Email }}</p>
+                <p><strong>Teléfono:</strong> {{ tutor.Telefono }}</p>
+                <p><strong>Comuna:</strong> {{ tutor.Direccion.Comuna }}</p>
+            </mat-card-content>
+            </mat-card>
+        </div>
+        </mat-tab>
+
+        <mat-tab label="Estudiantes">
+        <div class="user-list">
+            <mat-card
+            *ngFor="let estudiante of estudiantes$ | async"
+            class="user-card">
+            <mat-card-header>
+                <mat-card-title
+                >{{ estudiante.Nombre }}
+                {{ estudiante.Apellido }}</mat-card-title>
+                <mat-card-subtitle
+                >Estudiante - {{ estudiante.Carrera }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p><strong>Email:</strong> {{ estudiante.Email }}</p>
+                <p>
+                <strong>Año de carrera:</strong> {{ estudiante.Anio_carrera }}
+                </p>
+                <p>
+                <strong>Comuna:</strong> {{ estudiante.Direccion.Comuna }}
+                </p>
+            </mat-card-content>
+            </mat-card>
+        </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>
