@@ -11,6 +11,7 @@ import { SoporteRespuestaComponent } from '../soporte-respuesta/soporte-respuest
 import { SoporteService } from '../../../firebase/soporte.service';
 import { CommonModule } from '@angular/common';
 
+import {SoporteModuloComponent} from '../soporte-modulo/soporte-modulo.component'
 
 @Component({
   selector: 'app-soporte',
@@ -24,6 +25,7 @@ import { CommonModule } from '@angular/common';
     MatOptionModule,
     MatButtonModule,
     SoporteRespuestaComponent,
+    SoporteModuloComponent
 
   ],
   templateUrl: './soporte.component.html',
@@ -37,12 +39,16 @@ export class SoporteComponent implements OnInit {
   dataSource = new MatTableDataSource<Reportes>([]);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private soporteService: SoporteService, private dialog: MatDialog) {}
+  constructor(private soporteService: SoporteService, private dialog: MatDialog, ) {}
   reportesSinResolver : number = 0;
+  reportesResueltos : number = 0;
+  reportesPorResolver : number = 0;
 
   ngOnInit(): void {
     this.obtenerReportes();
     this.obtenerMetricas();
+    this.obtenerMetricasPorResolver();
+    this.obtenerMetricasResueltas()
   }
 
   obtenerReportes(): void {
@@ -52,11 +58,32 @@ export class SoporteComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     });
   }
+  abrirDialogo(estado : string) {
+    this.dialog.open(SoporteModuloComponent, {
+      width: '800px', // Ancho del diálogo
+      data : {estado}
+    });
+  }
 
   obtenerMetricas(): void {
 
     this.soporteService.getCollectionQuery<any>('Reportes', 'estado', 'en curso').subscribe( (res: any) => {
       this.reportesSinResolver = res.length
+      console.log(this.reportesSinResolver)
+    })
+  }
+
+  obtenerMetricasResueltas(): void {
+
+    this.soporteService.getCollectionQuery<any>('Reportes', 'estado', 'resuelto').subscribe( (res: any) => {
+      this.reportesResueltos = res.length
+      console.log(this.reportesSinResolver)
+    })
+  }
+  obtenerMetricasPorResolver(): void {
+
+    this.soporteService.getCollectionQuery<any>('Reportes', 'estado', 'por resolver').subscribe( (res: any) => {
+      this.reportesPorResolver = res.length
       console.log(this.reportesSinResolver)
     })
   }

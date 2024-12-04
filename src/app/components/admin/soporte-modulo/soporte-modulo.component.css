@@ -1,0 +1,57 @@
+/* Tabla */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+table.mat-elevation-z8 th{
+  background-color: #37406e;
+  color: white;
+}
+
+.table th,
+.table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #37406e;
+  color: white;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Botones */
+.btn {
+  padding: 10px 15px;
+  background-color: #2980b9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #1c6691;
+}
+
+button[color="primary"] {
+  background-color:#155a9a;
+  color: white;
+}
+
+/* Título principal */
+h2 {
+  text-align: center;
+  font-size: 1.8em;
+  margin-bottom: 20px;
+  color: #333;
+}
