@@ -1,31 +1,28 @@
-<div class="dashboard-container">
-
-  <!-- Barra de navegación (navbar) -->
-  <mat-toolbar class="navbar">
-    <header class="dashboard-header">
-      <h1>Cantidad de Publicaciones por Mes y por Categoría en el Año Seleccionado</h1>
-    </header>
-  </mat-toolbar>
-
+<div class="ContainerGraficoTabla">
+  <h2 class="titleContainerGraficoTabla">
+    Evolución de las Publicaciones por Formato: Presencial vs Remoto
+  </h2> 
   <!-- Indicadores del dashboard -->
-  <div class="dashboard-indicators">
+  <div class="content-GT">
     <!-- Publicaciones por Categoría -->
-    <div class="indicator">
+    <div class="chart-estados">
       <h3>Publicaciones por Categoría</h3>
-      <mat-form-field appearance="fill">
-        <mat-label>Seleccionar Mes</mat-label>
-        <mat-select [(value)]="selectedGrowthMonth" (selectionChange)="onGrowthMonthChange($event.value)">
-          <mat-option *ngFor="let month of growthMonths" [value]="month.value">{{ month.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="filtros">
+        <mat-form-field appearance="fill">
+          <mat-label>Seleccionar Mes</mat-label>
+          <mat-select [(value)]="selectedGrowthMonth" (selectionChange)="onGrowthMonthChange($event.value)">
+            <mat-option *ngFor="let month of growthMonths" [value]="month.value">{{ month.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
 
-      <!-- Contenedor de selección de año -->
-      <mat-form-field appearance="fill">
-        <mat-label>Seleccionar Año</mat-label>
-        <mat-select [(value)]="selectedYearCategory" (selectionChange)="onYearChangeCategory($event.value)">
-          <mat-option *ngFor="let year of growthYears" [value]="year">{{ year }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+        <!-- Contenedor de selección de año -->
+        <mat-form-field appearance="fill">
+          <mat-label>Seleccionar Año</mat-label>
+          <mat-select [(value)]="selectedYearCategory" (selectionChange)="onYearChangeCategory($event.value)">
+            <mat-option *ngFor="let year of growthYears" [value]="year">{{ year }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
             <!-- Imagen de "No Data" cuando no hay publicaciones -->
       <div *ngIf="showNoDataImage" class="no-data-container">
         <img src="assets/images/no-data.png" alt="No data found" class="no-data-image"/>
@@ -43,20 +40,23 @@
     </div>
 
     <!-- Publicaciones por Mes -->
-    <div class="indicator">
+    <div class="chart-estados">
       <h3>Cantidad de Publicaciones por Mes en el Año Seleccionado</h3>
-      <mat-form-field appearance="fill" class="filter">
-        <mat-label>Mes</mat-label>
-        <mat-select [(value)]="selectedMonth" (selectionChange)="onMonthChange($event)">
-          <mat-option *ngFor="let month of months" [value]="month.value">{{ month.name }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="fill" class="filter">
-        <mat-label>Año</mat-label>
-        <mat-select [(value)]="selectedYear" (selectionChange)="onYearChange($event)">
-          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="filtros">
+        <mat-form-field appearance="fill" class="filter">
+          <mat-label>Mes</mat-label>
+          <mat-select [(value)]="selectedMonth" (selectionChange)="onMonthChange($event)">
+            <mat-option *ngFor="let month of months" [value]="month.value">{{ month.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="filter">
+          <mat-label>Año</mat-label>
+          <mat-select [(value)]="selectedYear" (selectionChange)="onYearChange($event)">
+            <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
             <!-- Mensaje de "No hay publicaciones" -->
       <div *ngIf="noPublications" class="no-publications-message">
         <mat-card>
@@ -77,5 +77,5 @@
   </div>
 
   <!-- Tabla de Publicaciones -->
-  <!-- <app-publicaciones-table></app-publicaciones-table> -->
+  <app-publicaciones-table></app-publicaciones-table>
 </div>

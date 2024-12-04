@@ -7,13 +7,9 @@
 .ContainerGraficoTabla{
   display: flex;
   flex-direction: column;
-  
   gap: 20px;
-  border: 1px solid #ddd;
   border-radius: 8px;
   background-color: #e0dfdf;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: 3rem;
 }
 
 .content-GT {
@@ -21,47 +17,74 @@
   flex-direction: row;
   justify-content: center;
   gap: 30px; /* Espacio entre el gráfico y la tabla */
+  margin: 1rem;
+}
+
+.chart-estados {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: rgb(248, 248, 248);
+  height: 50%;
 }
 
 .titleContainerGraficoTabla {
   text-align: center;
   font-size: 24px;
-  margin-bottom: 20px; /* Espacio debajo del título */
-  margin-top: 20px; /* Espacio encima del título */
+  padding: 1rem;
+  background-color: #596bd3; 
+  color: #fff;
+  height: 5rem;
 }
 
-/* Contenedor principal para el gráfico y la tabla */
-.trendChart{
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* Espacio entre el gráfico y el filtro */
-  min-width: 45%; 
-  max-width: 45%; 
-  height: 600px; 
-  position: relative;
-  padding: 15px;
+.fixed-size-chart {
+  width: 90% !important; 
+  height: 50% !important; 
+  flex: 1; /* El gráfico ocupará el espacio disponible */
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #f0ebeb;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+canvas{
+  max-height: 90%;
 }
 
 /* Estilos para la tabla */
-.table-container {
-  min-width: 45%; 
-  max-width: 45%;
+.tabla {
+  width: 45%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #4CAF50; /* Color de fondo para el encabezado */
+  color: rgb(8, 8, 8); /* Color del texto del encabezado */
+}
+
+td {
+  background-color: #f2f2f2; /* Color de fondo para las celdas */
+  color: #333; /* Color del texto de las celdas */
+}
+
+tr:nth-child(even) td {
+  background-color: #e6f7e6; /* Color de fondo alterno para las filas pares */
+}
+
+tr:nth-child(odd) td {
+  background-color: #f9f9f9; /* Color de fondo alterno para las filas impares */
 }
 
 .chart-title {
   text-align: center; /* Centra el título del gráfico */
   margin-bottom: 0.5rem; /* Espaciado entre el título y el gráfico */
   font-size: 1.1rem;
-}
-
-.fixed-size-chart {
-  width: 90% !important; 
-  height: 75% !important; 
-  flex: 1; /* El gráfico ocupará el espacio disponible */
 }
 
 .navbar {
@@ -106,22 +129,11 @@
   grid-template-columns: auto;
 }
 
-
-.charts-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 20px;
-  margin: 0 auto;
-  flex-wrap: nowrap;
-}
-
 .chart-item.trendChart{
 margin-left: 2rem;
 }
 
 .chart-item {
-  flex: 1;
   min-width: 400px; /* Ancho mínimo para los gráficos */
   max-width: 700px; /* Ancho máximo para los gráficos */
   height: 700px; /* Altura fija para los gráficos */

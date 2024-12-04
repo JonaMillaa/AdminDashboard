@@ -1,98 +1,61 @@
-.dashboard-container {
+.ContainerGraficoTabla{
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-.fixed-size-chart {
-  width: 90% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
-  height: 85% !important; /* Asegura que el canvas ocupe el 100% del contenedor */
-}
-
-/* Indicadores del dashboard */
-.dashboard-indicators {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 15px;
-  margin-top: 20px;
-  margin-left: 30px;
-  margin-right: 30px;
-}
-
-.indicator {
-  flex: 1;
-  min-width: 400px; /* Ancho mínimo para los gráficos */
-  max-width: 700px; /* Ancho máximo para los gráficos */
-  height: 800px; /* Altura fija para los gráficos */
-  position: relative;
-  padding: 15px;
-  border: 1px solid #ddd;
   border-radius: 8px;
-  background: #f5f5f5;
+  background-color: #e0dfdf;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
-h3{
+.content-GT {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px; /* Espacio entre el gráfico y la tabla */
+  margin: 1rem;
+}
+
+.chart-estados {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: rgb(248, 248, 248);
+  height: 50%;
+}
+
+.titleContainerGraficoTabla {
   text-align: center;
-  font-size: 1.4rem;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-}
-
-.navbar {
-  display: flex;
-  align-items: center;
-  background-color: #3f51b5; /* Azul Material Design */
+  font-size: 24px;
+  padding: 1rem;
+  background-color: #596bd3; 
   color: #fff;
-  /* padding: 16px; */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  height: 6rem;
-  margin: 0;
-  width: 100%; /* Asegura que ocupe todo el ancho */
-  box-sizing: border-box; /* Incluye el padding en el ancho total */
+  height: 5rem;
 }
 
-/* Reinicia el margen y el padding del body y del html */
-html, body {
-  margin: 0; /* Elimina márgenes del body y html */
-  padding: 0; /* Elimina paddings del body y html */
-  box-sizing: border-box; /* Asegura un buen cálculo del tamaño */
-  width: 100%; /* Ajusta al ancho completo */
+.fixed-size-chart {
+  width: 90% !important; 
+  height: 50% !important; 
+  flex: 1; /* El gráfico ocupará el espacio disponible */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.dashboard-header {
-  flex: 1;
-  text-align: left;
-  margin: 0; /* Elimina cualquier margen interno del encabezado */
-  padding: 16px; /* Opcional: define un padding interno uniforme */
-}
-
-.navbar-content {
+.filtros {
   display: flex;
-  align-items: center;
-  width: 100%;
+  flex-direction: row;
+  align-items: baseline;
 }
 
-.logo {
-  margin-right: 16px;
+canvas{
+  max-height: 90%;
 }
 
-.logo-img {
-  height: 50px;
-  width: auto;
-}
 
-.dashboard-header h1 {
-  font-size: 1.8rem;
-  font-weight: bold;
-  margin: 0;
-}
-
-.dashboard-header p {
-  font-size: 1rem;
-  margin: 4px 0 0;
-  color: #cfd8dc; /* Gris claro para contraste */
-}
 
 
 .no-data-container {
