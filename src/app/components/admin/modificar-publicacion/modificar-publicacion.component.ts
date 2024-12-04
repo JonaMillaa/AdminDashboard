@@ -73,8 +73,8 @@ export class ModificarPublicacionComponent implements OnInit {
         formato: this.publicacionForm.value.formato,
         info_ayudantia: {
           ...this.publicacionActual.info_ayudantia,
-          titulo_ayudantia: this.publicacionForm.value.titulo,
-          descripcion_ayudantia: this.publicacionForm.value.descripcion,
+          titulo_ayudantia: this.publicacionForm.value.titulo_ayudantia,
+          descripcion_ayudantia: this.publicacionForm.value.descripcion_ayudantia,
           categoria: this.publicacionForm.value.categoria,
           subcategoria: this.publicacionForm.value.subcategoria,
         },

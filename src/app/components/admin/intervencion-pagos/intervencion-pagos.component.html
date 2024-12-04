@@ -1,97 +1,129 @@
 <div class="intervencion-container">
-    <!-- Chat -->
-    <div class="chat-container">
-      <mat-toolbar color="primary" class="chat-header">
-        <button mat-icon-button routerLink="/admin/pagos-pendientes">
-          <mat-icon>arrow_back</mat-icon>
-        </button>
-        <span class="chat-title">Chat Grupal</span>
-      </mat-toolbar>
-  
-      <div class="messages-container" *ngIf="infoChat?.mensajes?.length; else noMessages">
-        <div
-          *ngFor="let mensaje of infoChat.mensajes"
-          [ngClass]="{ sent: mensaje.info_usuario.id_usuario === 'admin', received: mensaje.info_usuario.id_usuario !== 'admin' }"
-          class="message-item"
-        >
-          <div class="message-avatar">
-            <img [src]="mensaje.info_usuario.foto || '/assets/images/avatar_default.png'" />
-          </div>
-          <div class="message-content">
-            <div class="message-info">
-              <strong>{{ mensaje.info_usuario.nombre || 'Usuario' }}</strong>
-              <span>{{ mensaje.fecha_envio | date: 'shortTime' }}</span>
-            </div>
-            <p class="message-text">{{ mensaje.contenido }}</p>
-          </div>
-        </div>
-      </div>
-      <ng-template #noMessages>
-        <div class="no-messages">No hay mensajes aún.</div>
-      </ng-template>
-  
-      <mat-toolbar class="message-input">
-        <mat-form-field appearance="outline" class="message-input-field">
-          <input
-            matInput
-            placeholder="Escribe un mensaje..."
-            [(ngModel)]="nuevoMensaje"
-            (keydown.enter)="enviarMensaje()"
-          />
-        </mat-form-field>
-        <button
-          mat-icon-button
-          color="secundaria"
-          (click)="enviarMensaje()"
-          [disabled]="!nuevoMensaje.trim()"
-        >
-          <mat-icon>send</mat-icon>
-        </button>
-      </mat-toolbar>
-    </div>
-  
-    <!-- Contenedor de Detalles y Participantes -->
-    <div class="details-participants-container">
+  <!-- Chat -->
+  <div class="chat-container">
+    <mat-toolbar color="primary" class="chat-header">
+      <button mat-icon-button routerLink="/admin/pagos-pendientes">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span class="chat-title">Chat Grupal</span>
+    </mat-toolbar>
 
-  
-      <!-- Participantes -->
-      <div class="participants-container">
-        <h3>Participantes</h3>
-        <div *ngIf="participantes.length > 0; else noParticipants">
-          <ul>
-            <li *ngFor="let participante of participantes">
-              <div class="participant-info">
-                <img [src]="participante.Foto" alt="Foto del participante" />
-                <div>  
-                
-                  <strong>{{ participante.Nombre }} {{ participante.Apellido }}</strong>
-                </div>
-              </div>
-            </li>
-          </ul>
+    <div class="messages-container" *ngIf="infoChat?.mensajes?.length; else noMessages">
+      <div
+        *ngFor="let mensaje of infoChat.mensajes"
+        [ngClass]="{ sent: mensaje.info_usuario.id_usuario === 'admin', received: mensaje.info_usuario.id_usuario !== 'admin' }"
+        class="message-item"
+      >
+        <div class="message-avatar">
+          <img [src]="mensaje.info_usuario.foto || '/assets/images/avatar_default.png'" />
         </div>
-        <ng-template #noParticipants>
-          <p>No hay participantes registrados.</p>
-        </ng-template>
-      </div>
-      <div class="details-container">
-        <h2>Detalles de la Ayudantía</h2>
-        <p><strong>Título:</strong> {{ infoPublicacion.info_ayudantia.titulo_ayudantia }}</p> 
-        <p><strong>Categoría:</strong> {{ infoPublicacion.info_ayudantia.categoria }}</p>
-        <p><strong>Subcategoría:</strong> {{ infoPublicacion.info_ayudantia.subcategoria }}</p> 
-        <p><strong>Fecha:</strong> {{ infoPublicacion.fecha_ayudantia }}</p>
-        <p><strong>Hora:</strong> {{ infoPublicacion.hora }}</p>
-        <p><strong>Duración:</strong> {{ infoPublicacion.duracion }} horas</p>
-        <p><strong>Formato:</strong> {{ infoPublicacion.formato }}</p>
-        <p><strong>Ubicación:</strong> {{ infoPublicacion.detalle_ubicacion }}</p>
-        <p><strong>Participantes:</strong> {{ infoPublicacion.participantes }}</p>
-        <p><strong>Descripción:</strong> {{ infoPublicacion.info_ayudantia.descripcion_ayudantia }}</p>
-        
-        <!-- Botón al final -->
-        <div class="details-footer">
-          <button mat-raised-button color="primary" (click)="modificarPublicacion()">Modificar</button>
+        <div class="message-content">
+          <div class="message-info">
+            <strong>{{ mensaje.info_usuario.nombre || 'Usuario' }}</strong>
+            <span>{{ mensaje.fecha_envio | date: 'shortTime' }}</span>
+          </div>
+          <p class="message-text">{{ mensaje.contenido }}</p>
         </div>
       </div>
-  
+    </div>
+    <ng-template #noMessages>
+      <div class="no-messages">No hay mensajes aún.</div>
+    </ng-template>
+
+    <mat-toolbar class="message-input">
+      <mat-form-field appearance="outline" class="message-input-field">
+        <input
+          matInput
+          placeholder="Escribe un mensaje..."
+          [(ngModel)]="nuevoMensaje"
+          (keydown.enter)="enviarMensaje()"
+        />
+      </mat-form-field>
+      <button
+        mat-icon-button
+        color="secundaria"
+        (click)="enviarMensaje()"
+        [disabled]="!nuevoMensaje.trim()"
+      >
+        <mat-icon>send</mat-icon>
+      </button>
+    </mat-toolbar>
   </div>
-  
+
+  <!-- Contenedor de Detalles y Participantes -->
+  <div class="details-participants-container"> 
+    
+    <!-- Tutor -->
+    <div class="tutor-container"> 
+      <h3>Dueño de la Publicación </h3> 
+        
+      
+      <h3>Tutor</h3>
+      <div *ngIf="tutor; else noTutor">
+        <div class="tutor-info">
+          <img [src]="tutor.Foto || '/assets/images/avatar_default.png'" alt="Foto del tutor" />
+          <div>
+            <strong>{{ tutor.Nombre }} {{ tutor.Apellido }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noTutor>
+        <p>No se ha asignado un tutor para esta publicación.</p>
+      </ng-template>   
+      
+      <!-- Estudiantes Añadidos -->
+
+ <h3>Estudiantes Añadidos</h3>
+<div *ngFor="let estudiante of estudiantes" class="estudiante">
+  <img [src]="estudiante.Foto || '/assets/images/avatar_default.png'" alt="Foto del Estudiante" class="estudiante-photo"/>
+  <div>
+    <p><strong>{{ estudiante.Nombre }} {{ estudiante.Apellido }}</strong></p>
+  </div>
+</div>
+
+    </div>
+
+    <!-- Línea divisoria -->
+    <hr class="divider" />
+
+    <!-- Participantes -->
+    <div class="participants-container">
+      <h3>Participantes</h3>
+      <div *ngIf="participantes.length > 0; else noParticipants">
+        <ul>
+          <li *ngFor="let participante of participantes">
+            <div class="participant-info">
+              <img [src]="participante.Foto" alt="Foto del participante" />
+              <div>  
+                <strong>{{ participante.Nombre }} {{ participante.Apellido }}</strong>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <ng-template #noParticipants>
+        <p>No hay participantes registrados.</p>
+      </ng-template>
+    </div> 
+
+    <div class="details-container">
+      <h2>Detalles de la Ayudantía</h2>
+      <p><strong>Título:</strong> {{ infoPublicacion.info_ayudantia.titulo_ayudantia }}</p> 
+      <p><strong>Categoría:</strong> {{ infoPublicacion.info_ayudantia.categoria }}</p>
+      <p><strong>Subcategoría:</strong> {{ infoPublicacion.info_ayudantia.subcategoria }}</p> 
+      <p><strong>Fecha:</strong> {{ infoPublicacion.fecha_ayudantia }}</p>
+      <p><strong>Hora:</strong> {{ infoPublicacion.hora }}</p>
+      <p><strong>Duración:</strong> {{ infoPublicacion.duracion }} horas</p>
+      <p><strong>Formato:</strong> {{ infoPublicacion.formato }}</p>
+      <p><strong>Ubicación:</strong> {{ infoPublicacion.detalle_ubicacion }}</p>
+      <p><strong>Participantes:</strong> {{ infoPublicacion.participantes }}</p>
+      <p><strong>Descripción:</strong> {{ infoPublicacion.info_ayudantia.descripcion_ayudantia }}</p>
+      <!-- Botón al final -->
+      <div class="details-footer">
+        <button mat-raised-button color="primary" (click)="modificarPublicacion()">Modificar</button>
+      </div>
+    </div>
+
+  </div>
+</div>  
