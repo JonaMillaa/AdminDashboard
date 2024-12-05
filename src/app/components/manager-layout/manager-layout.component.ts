@@ -27,10 +27,37 @@ import { FirebaseService } from '../../firebase/firebase.service';
   styleUrl: './manager-layout.component.css'
 })
 export class ManagerLayoutComponent {
+  public activeItem: string = ''; // Variable para almacenar el ítem activo
+
   constructor(private authService: FirebaseService) {}
+
   opened = true;
   logout() {
     this.authService.logout();
+  }
+    ngOnInit(): void {
+    // Establecer el elemento activo según la ruta actual
+    const currentRoute = window.location.pathname;
+    this.activeItem = this.getActiveItemFromRoute(currentRoute);
+  }
+
+  setActiveItem(item: string): void {
+    this.activeItem = item; // Actualizar el elemento activo
+  }
+
+  private getActiveItemFromRoute(route: string): string {
+    // Mapear rutas a nombres de elementos activos
+    if (route.includes('dashboard')) return 'dashboard';
+    if (route.includes('publicaciones')) return 'publicaciones';
+    if (route.includes('monitoreo')) return 'monitoreo';
+    if (route.includes('reportes')) return 'reportes';
+    if (route.includes('users')) return 'users';
+    if (route.includes('usuarios-app')) return 'usuarios-app';
+    if (route.includes('facturacion')) return 'facturacion';
+    if (route.includes('publicacion-por-estado')) return 'publicacion-por-estado';
+    if (route.includes('calendario')) return 'calendario';
+    if (route.includes('reportes-users')) return 'reportes-users';
+    return ''; // Ruta desconocida
   }
 
 }

@@ -60,13 +60,13 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 export class UsuariosComponent implements OnInit {
   displayedColumns: string[] = ['nombre', 'apellido', 'rut', 'telefono', 'estado', 'acciones'];
   usuariosDataSource = new MatTableDataSource<Usuario>([]);
-  cargando: boolean = false; 
+  cargando: boolean = false;
     // Variables para métricas de usuario
     contadorIniciosSesionHoy: number = 0;
     numeroUsuariosActivosHoy: number = 0;
     nuevosUsuariosHoy: number = 0;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;  
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
    // Referencias a los elementos de los gráficos
    @ViewChild('myChart', { static: true }) usuarioChartCanvas!: ElementRef<HTMLCanvasElement>;
 
@@ -75,14 +75,14 @@ export class UsuariosComponent implements OnInit {
   constructor(private firebaseService: UsuariosService,
      public dialog: MatDialog,
      private reportesService: ReportesService,
-  
 
-  ) { 
+
+  ) {
     Chart.register(...registerables, ChartDataLabels);
   }
 
   ngOnInit(): void {
-    this.cargarUsuarios(); 
+    this.cargarUsuarios();
     this.obtenerDatosDeUsuario();
     this.inicializarGraficos();
   }
@@ -96,15 +96,15 @@ export class UsuariosComponent implements OnInit {
       this.numeroUsuariosActivosHoy = numero;
       this.actualizarUsuarioChart();
     });
- 
-  } 
+
+  }
   actualizarUsuarioChart(): void {
     this.usuarioChart.data.datasets[0].data = [
       this.contadorIniciosSesionHoy,
       this.numeroUsuariosActivosHoy,
     ];
     this.usuarioChart.update();
-  } 
+  }
   inicializarGraficos(): void {
     // Configuración del gráfico de usuarios con porcentaje
     const usuarioConfig: ChartConfiguration<'doughnut'> = {
@@ -129,34 +129,14 @@ export class UsuariosComponent implements OnInit {
             },
             font: { weight: 'bold' }
           }
-        },
-        scales: {
-          x: { 
-            grid: {
-              display: true,
-              color: '#ddd', // Color de la cuadrícula
-              borderColor: '#ddd', // Color del borde
-              borderWidth: 1, // Grosor del borde
-            },
-          },
-          y: {
-            ticks: {
-              display: false, // Desactivar los números en el eje y
-            },
-            grid: {
-              display: true,
-              color: '#ddd', // Color de la cuadrícula
-              borderColor: '#ddd', // Color del borde
-              borderWidth: 1, // Grosor del borde
-            },
-          },
-        },
+        }
       }
     };
-  
+
     this.usuarioChart = new Chart(this.usuarioChartCanvas.nativeElement, usuarioConfig);
   }
-  
+
+
 
   cargarUsuarios(): void {
     this.cargando = true;

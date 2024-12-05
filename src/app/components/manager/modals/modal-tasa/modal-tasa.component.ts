@@ -1,8 +1,9 @@
-import { Component, Inject} from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule  } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+
 
 @Component({
   selector: 'app-modal-tasa',
@@ -11,12 +12,13 @@ import { MatDividerModule } from '@angular/material/divider';
     MatIconModule,
     MatDividerModule,
     CommonModule,
+    MatDialogModule,
+
   ],
   templateUrl: './modal-tasa.component.html',
-  styleUrl: './modal-tasa.component.css'
+  styleUrls: ['./modal-tasa.component.css']
 })
 export class ModalTasaComponent {
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<ModalTasaComponent>
@@ -26,35 +28,24 @@ export class ModalTasaComponent {
     this.dialogRef.close();
   }
 
-  formatMonth(month: string): string {
-    const [monthPart, yearPart] = month.split('-');
-    return `${monthPart.padStart(2, '0')}-${yearPart}`;
-  }
-
   calculateDifference(): string {
     return (this.data.currentCount - this.data.prevCount).toString();
   }
 
-  // Generar el texto de análisis y determinar el color basado en la tasa de crecimiento
-  getGrowthExplanation(): { text: string, color: string } {
-    const growthRate = this.data.growthRate;
+  // Cambiar texto según la categoría seleccionada
+  getCategoryExplanation(): { text: string, color: string } {
+    const count = this.data.count;
 
-    if (growthRate > 0) {
+    if (count > 0) {
       return {
-        text: `Valor positivo: Indica crecimiento (más publicaciones en el mes actual comparado con el anterior). La tasa de crecimiento es ${growthRate}%.`,
+        text: `La categoría "${this.data.category}" tiene un total de ${count} publicaciones.`,
         color: 'green'
-      };
-    } else if (growthRate < 0) {
-      return {
-        text: `Valor negativo: Indica decrecimiento (menos publicaciones en el mes actual comparado con el anterior). La tasa de decrecimiento es ${Math.abs(growthRate)}%.`,
-        color: 'red'
       };
     } else {
       return {
-        text: `Valor de 0%: Indica que la cantidad de publicaciones se mantuvo igual en ambos meses.`,
-        color: 'orange'
+        text: `La categoría "${this.data.category}" no tiene publicaciones.`,
+        color: 'red'
       };
     }
   }
-
 }

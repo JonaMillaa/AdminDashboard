@@ -3,13 +3,16 @@ import { FirebaseService } from '../../../firebase/firebase.service';
 import { Chart } from 'chart.js/auto';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectChange } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 
 
 @Component({
@@ -24,12 +27,18 @@ import { ReactiveFormsModule, FormGroup, FormBuilder, FormControl } from '@angul
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule
   ],
   templateUrl: './publicaciones.component.html',
   styleUrl: './publicaciones.component.css'
 })
 export class PublicacionesComponent implements OnInit{
+
+  displayedColumns: string[] = ['fecha', 'cantidad', 'detalles'];  // Las columnas que deseas mostrar en la tabla
+  dataSource = new MatTableDataSource<any>();  // Inicializa MatTableDataSource con datos vacíos
+
 
   chart: any;
   stateChart: any;
@@ -543,7 +552,26 @@ export class PublicacionesComponent implements OnInit{
     this.firebaseService.getPublicationsByFormat(format).subscribe(publications => {
       const chartData = this.prepareChartDataByDate(publications);
       this.createTrendChart(chartData);
+      this.createInfoTable(chartData); // Crear la tabla al cargar el gráfico
     });
+  }
+  
+  // Método para generar la tabla de información
+  createInfoTable(chartData: any): void {
+    const tableContainer = document.getElementById('infoTableContainer');
+    if (!tableContainer) return;
+
+    // Limpiar la tabla anterior
+    this.dataSource.data = []; // Limpiar datos previos
+    
+    // Llenar los datos de la tabla
+    const tableData = chartData.labels.map((label: string, index: number) => ({
+      fecha: label,
+      cantidad: chartData.data[index],
+      detalles: chartData.titles ? chartData.titles[index].join(', ') : 'N/A'
+    }));
+
+    this.dataSource.data = tableData; // Asignar los datos a la tabla
   }
 
   createTrendChart(chartData: any): void {
@@ -601,6 +629,12 @@ export class PublicacionesComponent implements OnInit{
                 },
                 grid: {
                   color: 'rgba(200, 200, 200, 0.2)'
+                },
+                ticks: {
+                  stepSize: 1, // Incremento de 1 para asegurar solo enteros
+                  callback: function(value) {
+                    return Number.isInteger(value) ? value : null; // Muestra solo enteros
+                  }
                 }
               }
             },
