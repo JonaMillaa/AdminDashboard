@@ -215,7 +215,7 @@ export class FirebaseService {
   getPublicationsByState(state: string): Observable<any[]> {
     const ref = collection(this.firestore, 'Publicaciones');
     const q = query(ref, where('estado', '==', state));
-    return collectionData(q, { idField: 'id' }) as Observable<any[]>;
+    return collectionData(q, { idField: 'id' }) as Observable<any[  ]>;
   }
 
   // Nuevo método para obtener todas las publicaciones

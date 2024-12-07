@@ -15,6 +15,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 import { GraficoPromedioPublicacionesComponent } from '../grafico-promedio-publicaciones/grafico-promedio-publicaciones.component'
+import { KpiPublicacionesComponent } from '../kpi-publicaciones/kpi-publicaciones.component'
 import { Chart} from 'chart.js';
 // Definimos el tipo para los datos del gráfico (dataset)
 interface ChartDataset {
@@ -43,7 +44,8 @@ interface ChartDataset {
     MatTableModule,
     MatToolbarModule,
     DashboardComponent,
-    GraficoPromedioPublicacionesComponent
+    GraficoPromedioPublicacionesComponent,
+    KpiPublicacionesComponent
   ],
   templateUrl: './publicaciones.component.html',
   styleUrl: './publicaciones.component.css'

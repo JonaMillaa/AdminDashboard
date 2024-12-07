@@ -1,0 +1,65 @@
+.ContainerGraficoTabla{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* border-radius: 8px; */
+    background-color: #e0dfdf;
+    height: 50rem;
+  }
+
+.titleContainerGraficoTabla {
+    text-align: center;
+    font-size: 24px;
+    padding: 1rem;
+    background-color: #596bd3; 
+    color: #fff;
+    height: 5rem;
+}
+
+.termometro{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* padding: 20px; */
+    background-color: rgb(248, 248, 248);
+    /* height: 90%; */
+}
+
+.chart-estados {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* padding: 20px; */
+    background-color: rgb(248, 248, 248);
+    /* height: 90%; */
+  }
+
+.content-GT {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px; /* Espacio entre el gráfico y la tabla */
+    margin: 1rem;
+  }
+  
+.fixed-size-chart {
+    width: 30rem !important; 
+    height: 30rem !important; 
+    /* flex: 1; */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  
+  /* canvas{
+    height: 45rem;
+  }
+   */
+
+/* kpi-publicaciones.component.css */
+  
+/* kpi-publicaciones.component.css */
+#termometroCanvas {
+    border: 1px solid black;
+  }
+  
