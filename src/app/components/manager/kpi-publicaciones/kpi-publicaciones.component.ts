@@ -32,7 +32,7 @@ export class KpiPublicacionesComponent implements OnInit {
         this.chart.destroy();
       }
       this.generarGrafico(publicaciones);
-      this.generarTermometro(publicaciones); // Crear el termómetro
+      this.generarGraficoBarras(publicaciones); // Crear el termómetro
     });
   }
 
@@ -141,148 +141,109 @@ export class KpiPublicacionesComponent implements OnInit {
     }
   }
 
-// Función para generar el termómetro
-dibujarTermometro(porcentaje: number): void {
-  const canvas = document.getElementById('termometroCanvas') as HTMLCanvasElement;
-  if (!canvas) {
-    console.error("Canvas no encontrado.");
+// Función para generar el gráfico de barras
+generarGraficoBarras(publicaciones: any[]): void {
+  let finalizadas = 0;
+
+  // Contamos las publicaciones finalizadas
+  publicaciones.forEach(pub => {
+    if (pub.estado && pub.estado.trim().toUpperCase() === 'FINALIZADA') {
+      finalizadas++;
+    }
+  });
+
+  // Meta total de ayudantías
+  const totalMeta = 100;
+
+  // Validación de datos
+  if (publicaciones.length === 0) {
+    console.warn('No hay publicaciones disponibles.');
     return;
   }
 
-  const ctx = canvas.getContext('2d');
-  if (!ctx) {
-    console.error("No se pudo obtener el contexto 2D del canvas.");
-    return;
+  // Determinar el color dinámico según el número de finalizadas
+  let colorBarra = '#ff0000'; // Rojo por defecto
+  if (finalizadas >= 60) {
+    colorBarra = '#00ff00'; // Verde si alcanzó 60 o más
+  } else if (finalizadas >= 30) {
+    colorBarra = '#ffff00'; // Amarillo si está entre 30 y 59
   }
 
-  // Dimensiones y configuración del termómetro
-  const x0 = 250; // Centro del círculo
-  const y0 = 250; // Línea base del termómetro
-  const radius = 200; // Radio del termómetro
-  const degrees = (porcentaje / 100) * Math.PI; // Convertimos porcentaje a radianes
-
-  // Limpiar el canvas antes de redibujar
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Dibujar el marco del termómetro
-  ctx.beginPath();
-  ctx.arc(x0, y0, radius, Math.PI, 2 * Math.PI);
-  ctx.lineWidth = 5;
-  ctx.strokeStyle = '#000';
-  ctx.stroke();
-  ctx.closePath();
-
-  // Dibujar el nivel actual del termómetro según el porcentaje
-  ctx.beginPath();
-  ctx.moveTo(x0, y0);
-  ctx.arc(x0, y0, radius - 10, Math.PI, Math.PI + degrees);
-  ctx.fillStyle = 'rgba(0, 100, 255, 0.8)'; // Azul para el nivel actual
-  ctx.fill();
-  ctx.closePath();
-
-  // Añadir texto del porcentaje
-  ctx.font = '20px Arial';
-  ctx.fillStyle = '#000';
-  ctx.fillText(`${Math.round(porcentaje)}%`, x0 - 20, y0 - radius - 20);
-}
-
-dibujarPrueba(): void {
-  const canvas = document.getElementById('termometroCanvas1') as HTMLCanvasElement;
-  if (!canvas) {
-    console.error("Canvas no encontrado.");
-    return;
-  }
-
-  const ctx = canvas.getContext('2d');
-  if (!ctx) {
-    console.error("No se pudo obtener el contexto 2D del canvas.");
-    return;
-  }
-
-  // Dibujar un rectángulo básico como prueba
-  ctx.fillStyle = 'blue';
-  ctx.fillRect(50, 50, 100, 100);
-}
-
-
-// Calcular porcentaje de publicaciones "FINALIZADAS"
-calcularPorcentaje(publicaciones: any[]): number {
-  const total = publicaciones.length;
-  const finalizadas = publicaciones.filter(pub => pub.estado && pub.estado.trim().toUpperCase() === 'FINALIZADA').length;
-  return total > 0 ? (finalizadas / total) * 100 : 0;
-}
-
-
-
-
-
-
-
-
-  // Función para generar el termómetro
-  generarTermometro(publicaciones: any[]): void {
-    let finalizadas = 0;
-
-    // Contamos las publicaciones finalizadas
-    publicaciones.forEach(pub => {
-      if (pub.estado && pub.estado.trim().toUpperCase() === 'FINALIZADA') {
-        finalizadas++;
-      }
-    });
-
-    // Calcular el porcentaje de finalizadas
-    const porcentajeFinalizadas = (finalizadas / publicaciones.length) * 100;
-
-    // Crear el gráfico de termómetro con Chart.js
-    const ctx = document.getElementById('termometro') as HTMLCanvasElement;
-    if (ctx) {
-      new Chart(ctx, {
-        type: 'doughnut',  // Tipo de gráfico
-        data: {
-          labels: ['Finalizado', 'Pendiente'],
-          datasets: [{
-            data: [porcentajeFinalizadas, 100 - porcentajeFinalizadas],
-            backgroundColor: ['#36A2EB', '#FF6384'],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          cutout: '80%',  // Corte para hacer el termómetro
-          rotation: -Math.PI / 2,  // Rotación para hacer el gráfico vertical
-          circumference: Math.PI,  // Solo dibuja la mitad para simular un termómetro
-          plugins: {
-            title: {
-              display: true,
-              text: `${Math.round(porcentajeFinalizadas)}% Finalizadas`,  // Título que muestra el porcentaje
-              font: {
-                size: 18
-              }
-            },
-            tooltip: {
-              enabled: false  // Desactivar tooltips
-            },
-            datalabels: {
-              color: '#fff',
-              font: {
-                size: 16,
-                weight: 'bold'
-              },
-              formatter: (value: number) => {
-                return `${Math.round(value)}%`;  // Mostrar porcentaje dentro del gráfico
+  // Crear el gráfico de barras con Chart.js
+  const ctx = document.getElementById('termometro') as HTMLCanvasElement;
+  if (ctx) {
+    new Chart(ctx, {
+      type: 'bar',  // Tipo de gráfico
+      data: {
+        labels: [`Finalizadas (${finalizadas} de ${totalMeta})`], // Etiqueta de la barra
+        datasets: [{
+          label: `Meta: ${totalMeta}`,
+          data: [finalizadas], // Número absoluto de ayudantías finalizadas
+          backgroundColor: colorBarra, // Color dinámico de la barra
+          borderColor: ['#000000'], // Borde de la barra
+          borderWidth: 1, // Grosor del borde
+          maxBarThickness: 50 // Grosor máximo de la barra
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: `Ayudantías Finalizadas: ${finalizadas} de ${totalMeta}`, // Título que muestra el total
+            font: {
+              size: 18
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: (context) => {
+                const value = context.raw as number;
+                return `Total: ${value} ayudantías`; // Mostrar número absoluto en el tooltip
               }
             }
+          },
+          datalabels: {
+            color: '#000', // Número en negro para mayor visibilidad
+            font: {
+              size: 16,
+              weight: 'bold'
+            },
+            formatter: (value) => `${value}` // Muestra el número dentro de la barra
           }
+        },
+        scales: {
+          y: {
+            beginAtZero: true, // El eje Y comienza desde 0
+            max: totalMeta, // Máximo del eje Y es igual a la meta total
+            ticks: {
+              stepSize: 10 // Incremento de las marcas en el eje Y
+            },
+            title: {
+              display: true,
+              text: 'Número de Ayudantías' // Etiqueta del eje Y
+            }
+          },
+          x: {
+            ticks: {
+              font: {
+                size: 14
+              }
+            },
+            title: {
+              display: true,
+              text: 'Estado de las Ayudantías' // Etiqueta del eje X
+            }
+          }
+        },
+        animation: {
+          duration: 2000, // Duración de la animación en milisegundos
+          easing: 'easeOutBounce' // Efecto de animación
         }
-      });
-
-      // Actualizar el porcentaje en el div
-      const porcentajeDiv = document.getElementById('porcentaje');
-      if (porcentajeDiv) {
-        porcentajeDiv.textContent = `${Math.round(porcentajeFinalizadas)}%`;
       }
-    }
+    });
   }
-  
+}
+
 }
