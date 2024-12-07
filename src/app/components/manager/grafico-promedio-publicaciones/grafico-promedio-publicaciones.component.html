@@ -1,0 +1,60 @@
+<div class="ContainerGraficoTabla">
+  <h2 class="titleContainerGraficoTabla">
+    Promedio de Duración por Categoría y Fecha
+  </h2>
+  <div class="content-GT">
+    <div class="chart-estados">
+      <div class="filtros">
+        <!-- Filtro de Categoría -->
+        <mat-form-field class="filtro-categoria" *ngIf="categorias.length > 0">
+          <mat-label>Seleccionar Categoría</mat-label>
+          <mat-select [(value)]="selectedCategory" (selectionChange)="onCategoryChange()">
+            <mat-option *ngFor="let categoria of categorias" [value]="categoria">
+              {{ categoria }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    
+        <!-- Botón para Mostrar Todas las Categorías -->
+        <button mat-raised-button 
+                class="boton-todas-categorias"
+                (click)="mostrarTodasCategorias()">
+          <mat-icon>refresh</mat-icon> refresh
+        </button>
+    
+        <!-- Mensaje si no hay categorías -->
+        <p *ngIf="categorias.length === 0" class="mensaje-no-categorias">No hay nombres de categorías disponibles</p>
+      </div>
+    
+        <canvas #graficoPromedio class="fixed-size-chart"></canvas>
+    </div>
+    
+    <div class="tabla">
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
+          <!-- Categoría Column -->
+          <ng-container matColumnDef="categoria">
+            <th mat-header-cell *matHeaderCellDef> Categoría </th>
+            <td mat-cell *matCellDef="let element"> {{element.categoria}} </td>
+          </ng-container>
+
+          <!-- Promedio de Duración Column -->
+          <ng-container matColumnDef="promedioDuracion">
+            <th mat-header-cell *matHeaderCellDef> Promedio de Duración (minutos) </th>
+            <td mat-cell *matCellDef="let element"> {{element.promedioDuracion}} </td>
+          </ng-container>
+
+          <!-- Fecha Column -->
+          <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef> Fecha </th>
+            <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
