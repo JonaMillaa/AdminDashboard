@@ -12,7 +12,7 @@ import { isPlatformBrowser } from '@angular/common';
   standalone: true,
   imports: [
     CommonModule,
-    CarouselComponent,
+    // CarouselComponent,
     NgbCarouselModule
   ],
   templateUrl: './monitoreo.component.html',
