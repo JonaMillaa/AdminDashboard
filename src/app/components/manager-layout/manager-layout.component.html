@@ -131,6 +131,24 @@
         <span *ngIf="opened">Reportes usuarios</span>
       </a>
 
+      <!-- Cerrar Sesión -->
+      <!-- <a mat-list-item 
+         class="menu-item logout" 
+         (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+
+      </a> -->
+    
+      <!-- <a mat-list-item routerLink="/manager/publicaciones-table" class="menu-item">
+        <mat-icon>table_chart</mat-icon>
+        <span *ngIf="opened">Tabla</span>
+      </a> -->
+            <!-- Cerrar Sesión -->
+
+      <a mat-list-item class="menu-item logout" (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span *ngIf="opened">Cerrar Sesión</span>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
 
