@@ -56,7 +56,18 @@
     <!-- Tutor -->
     <div class="tutor-container"> 
       <h3>Dueño de la Publicación </h3> 
-        
+      <div *ngIf="duenio; else noDuenio">
+        <div class="tutor-info">
+          <img [src]="duenio.Foto || '/assets/images/avatar_default.png'" alt="Foto del tutor" />
+          <div>
+            <strong>{{ duenio.Nombre }} {{ duenio.Apellido }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noDuenio>
+        <p>No se ha asignado un Dueño para esta publicación.</p> 
+      </ng-template>   
       
       <h3>Tutor</h3>
       <div *ngIf="tutor; else noTutor">
@@ -74,13 +85,21 @@
       
       <!-- Estudiantes Añadidos -->
 
- <h3>Estudiantes Añadidos</h3>
-<div *ngFor="let estudiante of estudiantes" class="estudiante">
-  <img [src]="estudiante.Foto || '/assets/images/avatar_default.png'" alt="Foto del Estudiante" class="estudiante-photo"/>
-  <div>
-    <p><strong>{{ estudiante.Nombre }} {{ estudiante.Apellido }}</strong></p>
-  </div>
+<!-- Estudiantes Añadidos -->
+<h3>Estudiantes Añadidos</h3>
+<div *ngIf="estudiantes; else noEstudiantes">
+  <div class="tutor-info">
+    <img [src]="estudiantes.Foto || '/assets/images/avatar_default.png'" alt="Foto del Estudiante" class="estudiante-photo"/>
+    <div>
+      <p><strong>{{ estudiantes.Nombre }} {{ estudiantes.Apellido }}</strong></p>
+    </div>
+  </div> 
 </div>
+
+<ng-template #noEstudiantes>
+  <p>No hay estudiantes añadidos a esta publicación.</p>
+</ng-template>
+
 
     </div>
 

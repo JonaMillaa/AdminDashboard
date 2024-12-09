@@ -259,20 +259,27 @@ export class FirebaseService {
     return collectionData(q, { idField: 'id' });
   }
 
-  // Obtener publicaciones finalizadas
-  getFinalizedPublicaciones(): Observable<any[]> {
+   // Obtener publicaciones finalizadas
+   getFinalizedPublicaciones(): Observable<any[]> {
     const publicacionesRef = collection(this.firestore, 'Publicaciones');
     const q = query(publicacionesRef, where('estado', '==', 'FINALIZADA'));
     return collectionData(q, { idField: 'ID' });
   }
 
-  // Obtener información de usuarios filtrando por RUT
-  getUserByRUT(rut: string): Observable<any[]> {
-    const usersRef = collection(this.firestore, 'Usuarios');
-    const q = query(usersRef, where('Rut', '==', rut), where('Rol', '==', 'TUTOR'));
+  // Obtener postulaciones realizadas
+  getPostulacionesRealizadas(): Observable<any[]> {
+    const postulacionesRef = collection(this.firestore, 'Postulaciones');
+    const q = query(postulacionesRef, where('estado_postulacion', '==', 'REALIZADA'));
     return collectionData(q, { idField: 'ID' });
   }
 
+  // Obtener información de usuario filtrando por RUT
+  getUserByRUT(rut: string): Observable<any[]> {
+    const usersRef = collection(this.firestore, 'Usuarios');
+    const q = query(usersRef, where('Rut', '==', rut));
+    return collectionData(q, { idField: 'ID' });
+  }
+  
   getPublicationsByMonthAndYear(month: string, year: number): Observable<any[]> {
     const publicationsCollection = collection(this.firestore, 'Publicaciones');
     const startDate = `${year}-${month}-01`;
