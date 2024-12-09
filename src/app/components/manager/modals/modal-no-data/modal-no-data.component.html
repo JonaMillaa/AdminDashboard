@@ -1,13 +1,14 @@
 <div class="modal-container">
-    <div class="modal-header">
-      <h2>Sin Datos</h2>
-    </div>
-    <mat-divider></mat-divider>
-    <div class="modal-content">
-      <p>No hay datos disponibles para el mes seleccionado.</p>
-    </div>
-    <div class="modal-actions">
-        <button class="btn" (click)="closeModal()">Aceptar</button>
-    </div>
+  <div class="modal-header">
+    <h2>Sin Datos</h2>
   </div>
-  
+  <mat-divider></mat-divider>
+  <div class="modal-content">
+    <!-- Mostrar mensaje y la imagen de "No encontrado" -->
+    <p>{{ data.message }}</p>  <!-- Mostrar el mensaje pasado desde el componente -->
+    <img src="assets/images/user.png" alt="No data found" class="no-data-image" />
+  </div>
+  <div class="modal-actions">
+    <button class="btn" (click)="closeModal()">Aceptar</button>
+  </div>
+</div>

@@ -5,22 +5,68 @@
       <mat-divider></mat-divider>
 
       <a mat-list-item 
-         routerLink="/manager/dashboard" 
-         class="menu-item" 
-         [ngClass]="{'active': activeItem === 'dashboard'}" 
-         (click)="setActiveItem('dashboard')">
-        <mat-icon>dashboard</mat-icon>
-        <span *ngIf="opened">Dashboard</span>
-      </a>
-
-      <a mat-list-item 
          routerLink="/manager/publicaciones" 
          class="menu-item" 
          [ngClass]="{'active': activeItem === 'publicaciones'}" 
          (click)="setActiveItem('publicaciones')">
-        <mat-icon>person_add_alt</mat-icon>
+        <mat-icon>library_books</mat-icon>
         <span *ngIf="opened">Publicaciones</span>
       </a>
+
+      <a mat-list-item 
+        routerLink="/manager/estudiantes" 
+        class="menu-item" 
+        [ngClass]="{'active': activeItem === 'estudiantes'}" 
+        (click)="setActiveItem('estudiantes')">
+        <mat-icon>school</mat-icon>
+        <span *ngIf="opened">Estudiantes</span>
+      </a>
+
+      <a mat-list-item 
+        routerLink="/manager/tutores" 
+        class="menu-item" 
+        [ngClass]="{'active': activeItem === 'tutores'}" 
+        (click)="setActiveItem('tutores')">
+        <mat-icon>supervisor_account</mat-icon>
+        <span *ngIf="opened">Tutores</span>
+      </a>
+
+      <a mat-list-item 
+        routerLink="/manager/calificaciones" 
+        class="menu-item" 
+        [ngClass]="{'active': activeItem === 'calificaciones'}" 
+        (click)="setActiveItem('calificaciones')">
+        <mat-icon>grade</mat-icon>
+        <span *ngIf="opened">Calificaciones</span>
+      </a>
+
+      <a mat-list-item 
+         routerLink="/manager/ingresos" 
+         class="menu-item" 
+         [ngClass]="{'active': activeItem === 'ingresos'}" 
+         (click)="setActiveItem('ingresos')">
+        <mat-icon>attach_money</mat-icon>
+        <span *ngIf="opened">Ingresos</span>
+      </a>
+
+      <a mat-list-item 
+         routerLink="/manager/soporte-gestion" 
+         class="menu-item" 
+         [ngClass]="{'active': activeItem === 'soporte-gestion'}" 
+         (click)="setActiveItem('soporte-gestion')">
+        <mat-icon>help_outline</mat-icon>
+        <span *ngIf="opened">Soporte</span>
+      </a>
+
+        <!-- Cerrar Sesión -->
+      <a mat-list-item 
+        class="menu-item logout" 
+        (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span *ngIf="opened">Cerrar Sesión</span>
+      </a>
+
+      <mat-divider></mat-divider>
 
       <a mat-list-item 
         routerLink="/manager/users" 
@@ -58,15 +104,6 @@
         <span *ngIf="opened">Total Usuarios</span>
       </a>
 
-      <!-- <a mat-list-item 
-         routerLink="/manager/facturacion" 
-         class="menu-item" 
-         [ngClass]="{'active': activeItem === 'facturacion'}" 
-         (click)="setActiveItem('facturacion')">
-        <mat-icon>receipt</mat-icon>
-        <span *ngIf="opened">Facturación</span>
-      </a> -->
-
       <a mat-list-item 
          routerLink="/manager/publicacion-por-estado" 
          class="menu-item" 
@@ -76,14 +113,14 @@
         <span *ngIf="opened">Estados</span>
       </a>
 
-      <!-- <a mat-list-item 
+      <a mat-list-item 
          routerLink="/manager/calendario" 
          class="menu-item" 
          [ngClass]="{'active': activeItem === 'calendario'}" 
          (click)="setActiveItem('calendario')">
         <mat-icon>event</mat-icon>
         <span *ngIf="opened">Eventos</span>
-      </a> -->
+      </a>
 
       <a mat-list-item 
          routerLink="/manager/reportes-users" 
@@ -95,9 +132,20 @@
       </a>
 
       <!-- Cerrar Sesión -->
-      <a mat-list-item 
+      <!-- <a mat-list-item 
          class="menu-item logout" 
          (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+
+      </a> -->
+    
+      <!-- <a mat-list-item routerLink="/manager/publicaciones-table" class="menu-item">
+        <mat-icon>table_chart</mat-icon>
+        <span *ngIf="opened">Tabla</span>
+      </a> -->
+            <!-- Cerrar Sesión -->
+
+      <a mat-list-item class="menu-item logout" (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
         <span *ngIf="opened">Cerrar Sesión</span>
       </a>

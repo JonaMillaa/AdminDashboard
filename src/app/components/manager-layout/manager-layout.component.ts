@@ -1,4 +1,4 @@
-import { Component, ViewChild  } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSidenav } from '@angular/material/sidenav'; 
 import { FirebaseService } from '../../firebase/firebase.service';
 
 @Component({
@@ -47,7 +46,6 @@ export class ManagerLayoutComponent {
 
   private getActiveItemFromRoute(route: string): string {
     // Mapear rutas a nombres de elementos activos
-    if (route.includes('dashboard')) return 'dashboard';
     if (route.includes('publicaciones')) return 'publicaciones';
     if (route.includes('monitoreo')) return 'monitoreo';
     if (route.includes('reportes')) return 'reportes';
@@ -57,6 +55,11 @@ export class ManagerLayoutComponent {
     if (route.includes('publicacion-por-estado')) return 'publicacion-por-estado';
     if (route.includes('calendario')) return 'calendario';
     if (route.includes('reportes-users')) return 'reportes-users';
+    if (route.includes('calificaciones')) return 'calificaciones';
+    if (route.includes('estudiantes')) return 'reportes-users';
+    if (route.includes('tutores')) return 'estudiantes';
+    if (route.includes('ingresos')) return 'ingresos';
+    if (route.includes('soporte-gestion')) return 'soporte-gestion';
     return ''; // Ruta desconocida
   }
 

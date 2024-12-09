@@ -36,7 +36,7 @@ export class LoginComponent {
       this.router.navigateByUrl('/admin/reportes-dia');
     } else if (this.email === 'manager@gmail.com' && this.password === '123456') {
       this.authService.login('manager');
-      this.router.navigateByUrl('/manager/dashboard');
+      this.router.navigateByUrl('/manager/publicaciones');
     } else {
       alert('Usuario o contraseña no autorizados');
     }

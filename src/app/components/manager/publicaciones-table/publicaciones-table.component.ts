@@ -231,6 +231,17 @@ export class PublicacionesTableComponent implements OnInit {
     return color;
   }
 
+
+  // Función para obtener un color aleatorio
+  // getRandomColor(): string {
+  //   const letters = '0123456789ABCDEF';
+  //   let color = '#';
+  //   for (let i = 0; i < 6; i++) {
+  //     color += letters[Math.floor(Math.random() * 16)];
+  //   }
+  //   return color;
+  // }
+
   createPieChart(chartId: string, data: { [key: string]: number }, label: string): void {
     const ctx = document.getElementById(chartId) as HTMLCanvasElement;
     if (ctx) {

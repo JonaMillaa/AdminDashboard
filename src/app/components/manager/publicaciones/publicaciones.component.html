@@ -1,12 +1,12 @@
 <div class="dashboard-container">
 
-  <!-- Cabecera con título y logo -->
-  <div class="header">
-    <h1 class="title">Panel Analítico de Publicaciones y Usuarios por Formato y Estado</h1>
-    <img src=".../../assets/images/logo.png" alt="Logo" class="logo" /> 
-  </div>
-  
-  <!-- Contenedor superior para el gráfico de tendencia con filtro de formato -->
+    <!-- Barra de navegación (navbar) -->
+    <mat-toolbar class="navbar">
+      <header class="dashboard-header">
+        <h1>Panel de Control: Análisis de Publicaciones y Actividad</h1>
+        <p>Explora métricas clave para gestionar y optimizar las publicaciones por categoría y período.</p>
+      </header>
+    </mat-toolbar>
   <div class="top-container">
 
     <div class="stats-summary">
@@ -27,104 +27,192 @@
         <h3>{{ commonState }}</h3>
       </div>
     </div>
+  </div>
+
+    <!-- Contenedor superior para el gráfico de KPI -->
+    <app-kpi-publicaciones></app-kpi-publicaciones>
     
-    <div class="trendChart">
-      <h2 class="chart-title">Tendencia de Publicaciones por Formato <br> (Presencial vs Remoto)</h2>
-      <div class="filter-container">
-        <mat-form-field appearance="fill" class="filter">
-          <mat-label>Formato</mat-label>
-          <mat-select [(value)]="selectedFormat" (selectionChange)="onFormatChange($event)">
-            <mat-option value="PRESENCIAL">Presencial</mat-option>
-            <mat-option value="REMOTO">Remoto</mat-option>
-          </mat-select>
-        </mat-form-field>
+    <!-- componente del grafico-promedio-publicaciones -->
+    <app-grafico-promedio-publicaciones></app-grafico-promedio-publicaciones>
+
+    <!-- Contenedor superior para el gráfico de tendencia con filtro de formato -->
+  <div class="ContainerGraficoTabla">
+    <h2 class="titleContainerGraficoTabla">
+      Evolución de las Publicaciones por Formato: Presencial vs Remoto
+    </h2> 
+    <div class="content-GT">
+      <div class="chart-estados">
+        <!-- <h2 class="chart-title">Publicaciones por Formato <br> (Presencial vs Remoto)</h2> -->
+        <div class="filter-container">
+          <mat-form-field appearance="fill" class="filter">
+            <mat-label>Formato</mat-label>
+            <mat-select [(value)]="selectedFormat" (selectionChange)="onFormatChange($event)">
+              <mat-option value="PRESENCIAL">Presencial</mat-option>
+              <mat-option value="REMOTO">Remoto</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+          <canvas id="trendChart" class="fixed-size-chart"></canvas>
       </div>
-        <canvas id="trendChart" class="fixed-size-chart"></canvas>
+      <!-- Tabla Angular Material -->
+      <div id="infoTableContainer" class="tabla">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let row"> {{row.fecha}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidad">
+          <th mat-header-cell *matHeaderCellDef> Cantidad de Publicaciones </th>
+          <td mat-cell *matCellDef="let row"> {{row.cantidad}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="detalles">
+          <th mat-header-cell *matHeaderCellDef> Detalles </th>
+          <td mat-cell *matCellDef="let row"> {{row.detalles}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
     </div>
-    <!-- Tabla Angular Material -->
-    <div id="infoTableContainer" class="table-container">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <ng-container matColumnDef="fecha">
-      <th mat-header-cell *matHeaderCellDef> Fecha </th>
-      <td mat-cell *matCellDef="let row"> {{row.fecha}} </td>
-    </ng-container>
 
-    <ng-container matColumnDef="cantidad">
-      <th mat-header-cell *matHeaderCellDef> Cantidad de Publicaciones </th>
-      <td mat-cell *matCellDef="let row"> {{row.cantidad}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="detalles">
-      <th mat-header-cell *matHeaderCellDef> Detalles </th>
-      <td mat-cell *matCellDef="let row"> {{row.detalles}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    </div>
   </div>
 
   <!-- Contenedor inferior para gráficos de estados y publicaciones -->
-  <div class="charts-container">
+  <div class="ContainerGraficoTabla">
+    <h2 class="titleContainerGraficoTabla">
+      Gráfico y Tabla de Resumen de Estados de Publicaciones por Fecha
+    </h2>
+    <div class="content-GT">
+      <!-- Gráfico de estados -->
+      <div class="chart-estados">
+        <div class="filter-container-estados">
+          <mat-form-field appearance="fill" class="filter">
+            <mat-label>Estado</mat-label>
+            <mat-select [(value)]="selectedState" (selectionChange)="onStateChange($event)">
+              <mat-option *ngFor="let state of states" [value]="state">{{ state }}</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-    <!-- Gráfico de estados -->
-    <div class="chart-item">
-      <div class="filter-container">
-        <mat-form-field appearance="fill" class="filter">
-          <mat-label>Estado</mat-label>
-          <mat-select [(value)]="selectedState" (selectionChange)="onStateChange($event)">
-            <mat-option *ngFor="let state of states" [value]="state">{{ state }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+          <mat-form-field appearance="fill" class="filter">
+            <mat-label>Rango de Tiempo</mat-label>
+            <mat-select [(value)]="selectedTimeRange" (selectionChange)="onTimeRangeChange($event)">
+              <mat-option value="year">Año</mat-option>
+              <mat-option value="month">Mes</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="fill" class="filter">
-          <mat-label>Rango de Tiempo</mat-label>
-          <mat-select [(value)]="selectedTimeRange" (selectionChange)="onTimeRangeChange($event)">
-            <mat-option value="year">Año</mat-option>
-            <mat-option value="month">Mes</mat-option>
-            <mat-option value="week">Semana</mat-option>
-            <mat-option value="day">Día</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <canvas id="stateChart" class="fixed-size-chart"></canvas>
+        <canvas id="stateChart" class="fixed-size-chart"></canvas>
       
-      <div class="modal" *ngIf="showStateModal">
-        <div class="modal-content">
-          <p>{{ stateModalMessage }}</p>
-          <button (click)="closeStateModal()">Aceptar</button>
+                <!-- Modal para mostrar mensaje de error -->
+        <div class="modal" *ngIf="showStateModal">
+          <div class="modal-content">
+            <p>{{ stateModalMessage }}</p>
+            <button (click)="closeStateModal()">Aceptar</button>
+          </div>
         </div>
+
       </div>
-    </div>
+      <!-- Contenedor de la tabla -->
+      <div class="tabla">
+              <!-- Tabla de datos -->
+      <table mat-table [dataSource]="dataSourceStates">
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let element"> {{ element.fecha }} </td>
+        </ng-container>
 
-    <!-- Gráfico de publicaciones -->
-    <div class="chart-item">
-      <div class="filter-container">
-        <mat-form-field appearance="fill" class="filter">
-          <mat-label>Categoría</mat-label>
-          <mat-select [(value)]="selectedCategory" (selectionChange)="onCategoryChange($event)">
-            <mat-option *ngFor="let category of categories" [value]="category.nombre">{{ category.nombre }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <ng-container matColumnDef="cantidad">
+          <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+          <td mat-cell *matCellDef="let element"> {{ element.cantidad }} </td>
+        </ng-container>
 
-        <mat-form-field appearance="fill" class="filter">
-          <mat-label>Subcategoría</mat-label>
-          <mat-select [(value)]="selectedSubcategory" (selectionChange)="onSubcategoryChange($event)">
-            <mat-option *ngFor="let subcategory of getSubcategories()" [value]="subcategory">{{ subcategory }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+        <ng-container matColumnDef="estado">
+          <th mat-header-cell *matHeaderCellDef> Estado </th>
+          <td mat-cell *matCellDef="let element"> {{ element.estado }} </td>
+        </ng-container>
 
-      <canvas id="publicationChart"  class="fixed-size-chart"></canvas>
+        <ng-container matColumnDef="categoria">
+          <th mat-header-cell *matHeaderCellDef> Categoría </th>
+          <td mat-cell *matCellDef="let element"> {{ element.categoria }} </td>
+        </ng-container>
 
-      <div class="modal" *ngIf="showPublicationModal">
-        <div class="modal-content">
-          <p>{{ publicationModalMessage }}</p>
-          <button (click)="closePublicationModal()">Aceptar</button>
-        </div>
+        <!-- Encabezados de la tabla -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsStates"></tr>
+        <!-- Filas de la tabla -->
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsStates;"></tr>
+      </table>
+
       </div>
     </div>
   </div>
+
+  <div class="ContainerGraficoTabla">
+    <h2 class="titleContainerGraficoTabla">
+      Cantidad de Publicaciones por Categoría y Subcategoría
+    </h2>
+    <div class="content-GT">
+      <!-- Gráfico de publicaciones por categoria-->
+      <div class="chart-estados">
+        <div class="filter-container-estados">
+          <mat-form-field appearance="fill" class="filter">
+            <mat-label>Categoría</mat-label>
+            <mat-select [(value)]="selectedCategory" (selectionChange)="onCategoryChange($event)">
+              <mat-option *ngFor="let category of categories" [value]="category.nombre">{{ category.nombre }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="filter">
+            <mat-label>Subcategoría</mat-label>
+            <mat-select [(value)]="selectedSubcategory" (selectionChange)="onSubcategoryChange($event)">
+              <mat-option *ngFor="let subcategory of getSubcategories()" [value]="subcategory">{{ subcategory }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <canvas id="publicationChart"  class="fixed-size-chart"></canvas>
+
+        <div class="modal" *ngIf="showPublicationModal">
+          <div class="modal-content">
+            <p>{{ publicationModalMessage }}</p>
+            <button (click)="closePublicationModal()">Aceptar</button>
+          </div>
+        </div>
+      </div>
+      <!-- Contenedor de la tabla -->
+      <div class="tabla">
+              <!-- Tabla de publicaciones -->
+        <table mat-table [dataSource]="dataSourceCategories">
+          <ng-container matColumnDef="fecha_ayudantia">
+            <th mat-header-cell *matHeaderCellDef> Fecha de Ayudantía </th>
+            <td mat-cell *matCellDef="let element"> {{ element.fecha_ayudantia }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="categoria">
+            <th mat-header-cell *matHeaderCellDef> Categoría </th>
+            <td mat-cell *matCellDef="let element"> {{ element.categoria }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="subcategoria">
+            <th mat-header-cell *matHeaderCellDef> Subcategoría </th>
+            <td mat-cell *matCellDef="let element"> {{ element.subcategoria }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="cantidad">
+            <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+            <td mat-cell *matCellDef="let element"> {{ element.categoria ? 1 : 0 }} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsCategories"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsCategories;"></tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
 </div>
+<app-dashboard></app-dashboard>
