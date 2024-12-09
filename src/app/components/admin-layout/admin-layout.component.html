@@ -53,7 +53,16 @@
          (click)="setActiveItem('soporte')">
         <mat-icon>contact_support</mat-icon>
         <span *ngIf="opened">Soporte</span>
-      </a>
+      </a>  
+
+      <a mat-list-item 
+      routerLink="/admin/reportes" 
+      class="menu-item" 
+      [ngClass]="{'active': activeItem === 'reportes'}" 
+      (click)="setActiveItem('reportes')">
+     <mat-icon>insert_chart</mat-icon>
+     <span *ngIf="opened">Reportes</span>
+   </a>
     
       <!-- Cerrar Sesión -->
       <a mat-list-item 

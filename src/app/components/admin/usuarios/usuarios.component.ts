@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UsuariosService } from '../../../firebase/usuarios.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Usuario } from '../../../models/usuario.model';
@@ -13,7 +13,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginator, MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
 import { UsuarioDetalleComponent } from '../usuario-detalle/usuario-detalle.component';
-
+import { ReportesService } from '../../../firebase/reportes.service';
+import { Chart, ChartConfiguration, registerables } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 @Component({
   selector: 'app-usuarios',
   standalone: true,
@@ -59,14 +61,82 @@ export class UsuariosComponent implements OnInit {
   displayedColumns: string[] = ['nombre', 'apellido', 'rut', 'telefono', 'estado', 'acciones'];
   usuariosDataSource = new MatTableDataSource<Usuario>([]);
   cargando: boolean = false;
+    // Variables para métricas de usuario
+    contadorIniciosSesionHoy: number = 0;
+    numeroUsuariosActivosHoy: number = 0;
+    nuevosUsuariosHoy: number = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+   // Referencias a los elementos de los gráficos
+   @ViewChild('myChart', { static: true }) usuarioChartCanvas!: ElementRef<HTMLCanvasElement>;
 
-  constructor(private firebaseService: UsuariosService, public dialog: MatDialog) {}
+  usuarioChart!: Chart<'doughnut'>;
+
+  constructor(private firebaseService: UsuariosService,
+     public dialog: MatDialog,
+     private reportesService: ReportesService,
+
+
+  ) {
+    Chart.register(...registerables, ChartDataLabels);
+  }
 
   ngOnInit(): void {
     this.cargarUsuarios();
+    this.obtenerDatosDeUsuario();
+    this.inicializarGraficos();
   }
+
+  obtenerDatosDeUsuario(): void {
+    this.reportesService.obtenerContadorHoy().subscribe(contador => {
+      this.contadorIniciosSesionHoy = contador;
+      this.actualizarUsuarioChart();
+    });
+    this.reportesService.obtenerUsuariosActivosHoy().subscribe(numero => {
+      this.numeroUsuariosActivosHoy = numero;
+      this.actualizarUsuarioChart();
+    });
+
+  }
+  actualizarUsuarioChart(): void {
+    this.usuarioChart.data.datasets[0].data = [
+      this.contadorIniciosSesionHoy,
+      this.numeroUsuariosActivosHoy,
+    ];
+    this.usuarioChart.update();
+  }
+  inicializarGraficos(): void {
+    // Configuración del gráfico de usuarios con porcentaje
+    const usuarioConfig: ChartConfiguration<'doughnut'> = {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: [this.contadorIniciosSesionHoy, this.numeroUsuariosActivosHoy],
+          backgroundColor: ['#4caf50', '#2196f3'],
+          hoverBackgroundColor: ['#4caf50', '#2196f3']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'top' },
+          datalabels: {
+            color: '#fff',
+            formatter: (value, context) => {
+              const dataArray = context.dataset.data as number[];
+              const total = dataArray.reduce((acc, val) => acc + (typeof val === 'number' ? val : 0), 0);
+              return total > 0 ? ((value / total) * 100).toFixed(2) + '%' : '0%';
+            },
+            font: { weight: 'bold' }
+          }
+        }
+      }
+    };
+
+    this.usuarioChart = new Chart(this.usuarioChartCanvas.nativeElement, usuarioConfig);
+  }
+
+
 
   cargarUsuarios(): void {
     this.cargando = true;

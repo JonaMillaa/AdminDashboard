@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSelectModule, MatSelectChange } from '@angular/material/select';
+import { MatSelectModule, MatSelectChange, MatSelect } from '@angular/material/select';  // Cambié aquí
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { Publicacion } from '../../../models/publicacion.interface';
 import { PublicacionesDiaService } from '../../../firebase/publicaciones-dia.service';
 import { Router } from '@angular/router';
+import { Chart } from 'chart.js';
+import { getSpanishPaginatorIntl } from '../pagos-pendientes/pagos-pendientes.component';
 
 @Component({
   selector: 'app-reportes-publicaciones-dia',
@@ -29,7 +31,7 @@ import { Router } from '@angular/router';
   ],
 })
 export class ReportesPublicacionesDiaComponent implements OnInit {
-  estados: string[] = ['Todos', 'AGENDADA', 'EN_CURSO', 'FINALIZADA', 'NO REALIZADA'];
+  estados: string[] = ['Todos', 'AGENDADA', 'EN_CURSO', 'FINALIZADA', 'NO_REALIZADA'];
   displayedColumns: string[] = [
     'titulo',
     'nombreUsuario',
@@ -42,8 +44,19 @@ export class ReportesPublicacionesDiaComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource<Publicacion>([]);
   publicacionesPorEstado: { [key: string]: Publicacion[] } = {};
+  estadoSeleccionado: string = 'Todos'; // Estado seleccionado por defecto
+
+  // Variables para métricas de publicaciones
+  publicacionesAgendadasCount: number = 0;
+  publicacionesEnCursoCount: number = 0;
+  publicacionesFinalizadasCount: number = 0;
+  publicacionesNoRealizadasCount: number = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('publicacionChart', { static: true }) publicacionChartCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('estadoSelect', { static: true }) estadoSelect!: MatSelect;  // Cambié aquí
+
+  publicacionChart!: Chart<'pie'>;
 
   constructor(
     private publicacionesService: PublicacionesDiaService,
@@ -52,6 +65,27 @@ export class ReportesPublicacionesDiaComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarPublicaciones();
+    this.obtenerDatosDePublicaciones();
+  }
+
+  obtenerDatosDePublicaciones(): void {
+    this.publicacionesService.getPublicacionesPorEstadoDelDia().subscribe(data => {
+      this.publicacionesAgendadasCount = data.agendadas.length;
+      this.publicacionesEnCursoCount = data.enCurso.length;
+      this.publicacionesFinalizadasCount = data.finalizadas.length;
+      this.publicacionesNoRealizadasCount = data.noRealizadas.length;
+      this.actualizarPublicacionChart();
+    });
+  }
+
+  actualizarPublicacionChart(): void {
+    this.publicacionChart.data.datasets[0].data = [
+      this.publicacionesAgendadasCount,
+      this.publicacionesEnCursoCount,
+      this.publicacionesFinalizadasCount,
+      this.publicacionesNoRealizadasCount,
+    ];
+    this.publicacionChart.update();
   }
 
   cargarPublicaciones(): void {
@@ -72,32 +106,30 @@ export class ReportesPublicacionesDiaComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     });
   }
+ 
+  verTodasPublicaciones(): void {
+    this.estadoSeleccionado = 'Todos';
+    this.dataSource.data = this.publicacionesPorEstado['Todos'];
+    this.paginator.firstPage(); // Reinicia a la primera página al ver todas
+  }
 
   filtrarPorEstado(event: MatSelectChange): void {
     const estado = event.value;
+    this.estadoSeleccionado = estado; // Guardar el estado seleccionado
     this.dataSource.data = this.publicacionesPorEstado[estado] || [];
     this.paginator.firstPage(); // Reinicia a la primera página al filtrar
+  }
+
+  filtrarPorEstadoDirecto(estado: string): void {
+    this.estadoSeleccionado = estado; // Guardar el estado directamente desde las tarjetas
+    this.dataSource.data = this.publicacionesPorEstado[estado] || [];
+    this.paginator.firstPage(); // Reinicia a la primera página al filtrar
+
+    // Cambiar el valor del mat-select para que refleje el filtro
+    this.estadoSelect.value = estado;  // Ahora accedemos correctamente a la propiedad value
   }
 
   intervenir(idPublicacion: string): void {
     this.router.navigate(['/admin/intervencion-pagos', idPublicacion]);
   }
-}
-
-export function getSpanishPaginatorIntl(): MatPaginatorIntl {
-  const paginatorIntl = new MatPaginatorIntl();
-  paginatorIntl.itemsPerPageLabel = 'Elementos por página';
-  paginatorIntl.nextPageLabel = 'Siguiente página';
-  paginatorIntl.previousPageLabel = 'Página anterior';
-  paginatorIntl.firstPageLabel = 'Primera página';
-  paginatorIntl.lastPageLabel = 'Última página';
-  paginatorIntl.getRangeLabel = (page, pageSize, length) => {
-    if (length === 0 || pageSize === 0) {
-      return `0 de ${length}`;
-    }
-    const startIndex = page * pageSize;
-    const endIndex = Math.min(startIndex + pageSize, length);
-    return `${startIndex + 1} - ${endIndex} de ${length}`;
-  };
-  return paginatorIntl;
 }

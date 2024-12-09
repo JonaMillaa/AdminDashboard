@@ -9,6 +9,12 @@ import { Firestore, doc, updateDoc } from '@angular/fire/firestore';
   providedIn: 'root',
 })
 export class UsuariosService {
+  obtenerUsuariosActivosHoy() {
+    throw new Error('Method not implemented.');
+  }
+  obtenerContadorHoy() {
+    throw new Error('Method not implemented.');
+  }
   constructor(private firebaseService: FirebaseService, private firestore: Firestore) {}
 
   // Método para obtener todos los usuarios

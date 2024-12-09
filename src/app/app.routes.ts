@@ -10,7 +10,10 @@ import { UsersComponent } from './components/manager/users/users.component';
 import { CalendarComponent } from './components/manager/calendar/calendar.component';
 import { PublicacionesComponent } from './components/manager/publicaciones/publicaciones.component';
 import { MonitoreoComponent } from './components/manager/monitoreo/monitoreo.component';
-import { ReportesComponent } from './components/manager/reportes/reportes.component';
+
+import { ReportesComponent } from './components/admin/reportes/reportes.component';
+import { FacturacionComponent } from './components/manager/facturacion/facturacion.component';
+
 import { PublicacionesPorEstadoComponent } from './components/manager/publicaciones-por-estado/publicaciones-por-estado.component';
 import { DatosDelDiaComponent } from './components/admin/datos-del-dia/datos-del-dia.component';
 import { PruebasComponent } from './components/admin/pruebas/pruebas.component';
@@ -65,7 +68,8 @@ export const routes: Routes = [
       },
 
       {path: 'pagos-pendientes', component: PagosPendientesComponent},
-      {path: 'reportes-publicaciones-dia' , component: ReportesPublicacionesDiaComponent}
+      {path: 'reportes-publicaciones-dia' , component: ReportesPublicacionesDiaComponent},
+      { path: 'reportes', component: ReportesComponent }
 
     ]
   },
@@ -81,7 +85,7 @@ export const routes: Routes = [
       { path: 'tutores', component: TutoresComponent },
       { path: 'calificaciones', component: CalificacionesComponent },
       { path: 'monitoreo', component: MonitoreoComponent },
-      { path: 'reportes', component: ReportesComponent },
+    
       { path: 'users', component: UsersComponent },
       { path: 'usuarios-app', component: UsuariosAppComponent },
       { path: 'publicacion-por-estado', component: PublicacionesPorEstadoComponent },

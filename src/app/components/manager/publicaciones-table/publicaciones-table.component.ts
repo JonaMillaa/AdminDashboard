@@ -181,8 +181,7 @@ export class PublicacionesTableComponent implements OnInit {
 
       // Datos para gráficas
       this.pendingPublicationData = this.calculateStateData(publications, ['PUBLICADO', 'FINALIZADA']);
-      // this.mostUsedFormatData = this.calculateFormatData(publications, 'EN_CURSO');
-      this.mostUsedFormatData = this.calculateFormatData(publications, 'FINALIZADA');
+      this.mostUsedFormatData = this.calculateFormatData(publications, 'EN_CURSO');
 
       // Crear gráficos
       this.createPieChart('pendingPublicationPieChart', this.pendingPublicationData, 'Estado de Ayudantías');
@@ -208,10 +207,11 @@ export class PublicacionesTableComponent implements OnInit {
     return data;
   }
   
+
   calculateFormatData(publications: any[], estado: string): { PRESENCIAL: number; REMOTO: number } {
     const data: { PRESENCIAL: number; REMOTO: number } = { PRESENCIAL: 0, REMOTO: 0 };
     publications.forEach((pub: any) => {
-      if (pub.estado === estado) { // Verifica si el estado coincide
+      if (pub.estado === estado) {
         const formato: 'PRESENCIAL' | 'REMOTO' = pub.formato;
         if (data[formato] !== undefined) {
           data[formato]++;
@@ -220,16 +220,17 @@ export class PublicacionesTableComponent implements OnInit {
     });
     return data;
   }
-  
-// Función para obtener un color aleatorio
-getRandomColor(): string {
-  const letters = '0123456789ABCDEF';
-  let color = '#';
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
+
+  // Función para obtener un color aleatorio
+  getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
-  return color;
-}
+
 
   // Función para obtener un color aleatorio
   // getRandomColor(): string {

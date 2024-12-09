@@ -2,7 +2,7 @@
       <!-- Cabecera con título y logo -->
   <div class="header">
     <h1 class="title">Lista de Usuarios</h1>
-    <img src="/assets/images/logo.png" alt="Logo" class="logo" /> 
+    <img src=".../../assets/images/logo.png" alt="Logo" class="logo" /> 
   </div>
 
     <mat-tab-group>
@@ -25,13 +25,8 @@
                 <p><strong>Teléfono:</strong> {{ usuario.Telefono }}</p>
                 <p><strong>Estado:</strong> {{ usuario.Estado }}</p>
                 <p>
-                <strong>Año de carrera:</strong> {{ usuario.Anio_carrera }}
-                </p>
-                <p>
-                <strong>Fecha de ingreso:</strong> {{ usuario.Fecha_ingreso }}
-                </p>
-                <p><strong>Comuna:</strong> {{ usuario.Direccion.Comuna }}</p>
-                <p><strong>Región:</strong> {{ usuario.Direccion.Region }}</p>
+
+
             </mat-card-content>
             </mat-card>
         </div>
@@ -49,7 +44,6 @@
             <mat-card-content>
                 <p><strong>Email:</strong> {{ tutor.Email }}</p>
                 <p><strong>Teléfono:</strong> {{ tutor.Telefono }}</p>
-                <p><strong>Comuna:</strong> {{ tutor.Direccion.Comuna }}</p>
             </mat-card-content>
             </mat-card>
         </div>
@@ -70,10 +64,10 @@
             <mat-card-content>
                 <p><strong>Email:</strong> {{ estudiante.Email }}</p>
                 <p>
-                <strong>Año de carrera:</strong> {{ estudiante.Anio_carrera }}
+
                 </p>
                 <p>
-                <strong>Comuna:</strong> {{ estudiante.Direccion.Comuna }}
+
                 </p>
             </mat-card-content>
             </mat-card>

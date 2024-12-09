@@ -1,20 +1,19 @@
 export interface Usuario {
-    ID: string;
-    Anio_carrera: string;
+  ID: string;
     Apellido: string;
-    Calificacion: string;
-    Cantidad_ayudantia: string;
+    Nombre: string;
     Carrera: string;
-    Direccion: Direccion;
+    Calificacion: string;
+    Password: string;
     Email: string;
     Estado: string;
-    Fecha_ingreso: string;
     Foto: string;
-    Nombre: string;
-    Password: string;
-    Rol: 'TUTOR' | 'ESTUDIANTE';
-    Rut: string;
+    Rol: string;
     Telefono: string;
+    Cantidad_ayudantia: number;
+    token: string; 
+    Rut: string;
+
   }
 
   export interface Direccion {
