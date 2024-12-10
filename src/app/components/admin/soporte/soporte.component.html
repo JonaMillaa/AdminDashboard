@@ -1,5 +1,39 @@
 <div class="container">
   <h2>Administrar Reportes</h2>
+  <div class="row" style="padding-bottom: 20px;">
+    <div  class="col-4 d-flex justify-content-center">
+
+      <div class="card card-metricas" style="border-left: 4px solid  rgb(151, 4, 4);" >
+        <div class="card-body">
+          <p class="title_card">Por resolver</p>
+          <p class="card-text pCard">{{reportesPorResolver}}</p>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <div  class="col-4 d-flex justify-content-center">
+      <div class="card card-metricas" style="border-left: 4px solid  rgb(211, 176, 18);" >
+        <div class="card-body">
+          <p class="title_card">En curso</p>
+          <p class="card-text pCard">{{reportesSinResolver}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4 d-flex justify-content-center">
+      <div class="card card-metricas"   style="border-left: 4px solid  rgb(2, 114, 26);" >
+        <div class="card-body ">
+            <p class="title_card">Resueltas</p>
+
+          <p class="card-text pCard">{{reportesResueltos}}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
 
 
 

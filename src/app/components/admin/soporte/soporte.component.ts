@@ -34,16 +34,22 @@ import { CommonModule } from '@angular/common';
 })
 export class SoporteComponent implements OnInit {
   displayedColumns: string[] = ['categoria', 'subCategoria', 'estado', 'acciones'];
-  dataSource = new MatTableDataSource<Reportes>([]);
+  dataSource = new MatTableDataSource<Reportes>([]); 
+  reportesSinResolver : number = 0;
+  reportesResueltos : number = 0;
+  reportesPorResolver : number = 0;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private soporteService: SoporteService, private dialog: MatDialog) {}
-  reportesSinResolver : number = 0;
+
 
   ngOnInit(): void {
     this.obtenerReportes();
-    this.obtenerMetricas();
-  }
+    this.obtenerMetricas(); 
+    this.obtenerMetricasPorResolver();
+    this.obtenerMetricasResueltas()
+  } 
 
   obtenerReportes(): void {
     this.soporteService.getReportes().subscribe((reportes) => {
@@ -57,6 +63,21 @@ export class SoporteComponent implements OnInit {
 
     this.soporteService.getCollectionQuery<any>('Reportes', 'estado', 'en curso').subscribe( (res: any) => {
       this.reportesSinResolver = res.length
+      console.log(this.reportesSinResolver)
+    })
+  } 
+
+  obtenerMetricasResueltas(): void {
+
+    this.soporteService.getCollectionQuery<any>('Reportes', 'estado', 'resuelto').subscribe( (res: any) => {
+      this.reportesResueltos = res.length
+      console.log(this.reportesSinResolver)
+    })
+  }
+  obtenerMetricasPorResolver(): void {
+
+    this.soporteService.getCollectionQuery<any>('Reportes', 'estado', 'por resolver').subscribe( (res: any) => {
+      this.reportesPorResolver = res.length
       console.log(this.reportesSinResolver)
     })
   }

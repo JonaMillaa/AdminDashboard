@@ -58,10 +58,47 @@ export class SoporteRespuestaComponent implements OnInit {
     });
   }
 
+  // Función para formatear la fecha como dd-mm-yyyy
+  formatFecha(fecha: Date): string {
+    const dia = String(fecha.getDate()).padStart(2, '0');
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+    const año = fecha.getFullYear();
+    return `${dia}-${mes}-${año}`;
+  }
+
   enviarRespuesta(): void {
-    this.dialogRef.close({
+    // Verificar si la respuesta no está vacía
+    if (!this.respuesta.trim()) {
+      console.log('No se ha ingresado una respuesta');
+      return; // Evitar enviar si la respuesta está vacía.
+    }
+
+    // Crear un objeto de tipo RespuestaReporte
+    const respuestaReporte: RespuestaReporte = {
+      reporte_id: this.data.reporte.id,
       respuesta: this.respuesta,
-      nuevoEstado: this.nuevoEstado,
+      estado_actualizado: this.nuevoEstado,
+      fecha_respuesta: this.formatFecha(new Date()), // Usamos la función formatFecha
+    };
+
+    // Llamar a la función para guardar la respuesta en Firebase
+    this.soporteService.guardarRespuesta(respuestaReporte).then(() => {
+      console.log('Respuesta guardada correctamente');
+      
+      // También podemos actualizar el estado del reporte en la base de datos
+      this.soporteService.actualizarEstadoReporte(this.data.reporte.id, this.nuevoEstado).then(() => {
+        console.log('Estado actualizado correctamente');
+      }).catch((error) => {
+        console.error('Error al actualizar el estado:', error);
+      });
+      
+      // Cerrar el dialog con los datos
+      this.dialogRef.close({
+        respuesta: this.respuesta,
+        nuevoEstado: this.nuevoEstado,
+      });
+    }).catch((error) => {
+      console.error('Error al guardar respuesta:', error);
     });
   }
 

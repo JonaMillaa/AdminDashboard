@@ -165,7 +165,50 @@ button[color="primary"] {
   background-color:#155a9a;
   color: white;
 }
+ 
 
+
+.sinResolver {
+
+  font-size: 20px;
+
+  text-align: center;
+}
+
+.resueltas {
+
+  font-size: 20px;
+  border-left: 5px rgb(151, 4, 4);
+
+  text-align: center;
+}
+
+.pCard {
+  font-size: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+.card-metricas {
+  width: 200px;
+
+}
+.title_card {
+  text-align: center;
+  font-size: 20px;
+
+}
+
+.modal-backdrop {
+  z-index: 1040 !important; /* Fondo del modal */
+}
+
+.modal {
+  z-index: 1055 !important; /* Modal encima del fondo */
+}
+
+.cdk-overlay-container {
+  z-index: 1030 !important; /* Angular Material detrás del modal */
+}
 
 
 

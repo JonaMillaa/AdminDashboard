@@ -1,45 +1,44 @@
 <div class="modal-content">
-    <h2>Detalle del Reporte</h2>
-    <div class="detail-container">
-      <div class="detail-item">
-        <strong>Categoría:</strong> {{ data.reporte.categoria }}
-      </div>
-      <div class="detail-item">
-        <strong>Sub Categoría:</strong> {{ data.reporte.sub_categoria }}
-      </div>
-     
-      <div class="detail-item" *ngIf="data.usuario">
-        <strong>Nombre del Usuario:</strong>
-        {{ data.usuario.Nombre }} {{ data.usuario.Apellido }}
-      </div>
-      <div class="detail-item">
-        <strong>ID Usuario:</strong> {{ data.usuario?.ID }}
-      </div>
-      <div class="detail-item">
-        <strong>Rol:</strong> {{ data.usuario?.Rol }}
-      </div> 
-      <div class="detail-item">
-        <strong>Descripción:</strong> {{ data.reporte.descripcion }}
-      </div>
+  <h2>Detalle del Reporte</h2>
+  <div class="detail-container">
+    <div class="detail-item">
+      <strong>Categoría:</strong> {{ data.reporte.categoria }}
     </div>
-  
-    <h3>Responder y Actualizar Estado</h3>
-    <!-- Mostrar respuesta existente dentro del textarea -->
-    <textarea
-      [(ngModel)]="respuesta"
-      [placeholder]="respuesta ? '' : 'Escriba su respuesta...'"
-    >
-    </textarea>
-  
-    <label for="estado">Actualizar Estado</label>
-    <select [(ngModel)]="nuevoEstado">
-      <option value="en curso">En curso</option>
-      <option value="resuelto">Resuelto</option>
-      <option value="no resuelto">No resuelto</option>
-    </select>
-    <div class="modal-actions">
-      <button mat-button color="warn" (click)="cancelar()">Cancelar</button>
-      <button mat-button color="primary" (click)="enviarRespuesta()">Enviar</button>
+    <div class="detail-item">
+      <strong>Sub Categoría:</strong> {{ data.reporte.sub_categoria }}
+    </div>
+   
+    <div class="detail-item" *ngIf="data.usuario">
+      <strong>Nombre del Usuario:</strong>
+      {{ data.usuario.Nombre }} {{ data.usuario.Apellido }}
+    </div>
+    <div class="detail-item">
+      <strong>ID Usuario:</strong> {{ data.usuario?.ID }}
+    </div>
+    <div class="detail-item">
+      <strong>Rol:</strong> {{ data.usuario?.Rol }}
+    </div> 
+    <div class="detail-item">
+      <strong>Descripción:</strong> {{ data.reporte.descripcion }}
     </div>
   </div>
-  
+
+  <h3>Responder y Actualizar Estado</h3>
+  <!-- Mostrar respuesta existente dentro del textarea -->
+  <textarea
+    [(ngModel)]="respuesta"
+    [placeholder]="respuesta ? '' : 'Escriba su respuesta...'"
+  ></textarea>
+
+  <label for="estado">Actualizar Estado</label>
+  <select [(ngModel)]="nuevoEstado">
+    <option value="en curso">En curso</option>
+    <option value="resuelto">Resuelto</option>
+    <option value="no resuelto">No resuelto</option>
+  </select>
+
+  <div class="modal-actions">
+    <button mat-button color="warn" (click)="cancelar()">Cancelar</button>
+    <button mat-button color="primary" (click)="enviarRespuesta()" [disabled]="!respuesta.trim()">Enviar</button>
+  </div>
+</div>
