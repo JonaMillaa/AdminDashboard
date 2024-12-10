@@ -1,0 +1,97 @@
+<div class="container">
+  <!-- Formulario de Búsqueda (con marca de agua) -->
+  <mat-card class="search-card">
+    <h2 class="form-title">Buscar Tutor por RUT</h2>
+    <form [formGroup]="tutorForm" (ngSubmit)="buscarTutor()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>RUT del Tutor</mat-label>
+        <input matInput formControlName="rut" placeholder="Ej: 17590709-2">
+      </mat-form-field>
+      <button class="search" type="submit">Buscar</button>
+    </form>
+  </mat-card>
+
+  <div class="container-form">
+    <!-- Loader para indicar que el PDF se está descargando -->
+    <div *ngIf="isDownloading" class="loader-container">
+      <div class="loader"></div>
+      <p>Descargando PDF...</p>
+    </div>
+
+    <!-- Boleta de Honorarios (contenido a capturar para el PDF) -->
+    <div *ngIf="tutorData" #pdfContent class="boleta-container">
+      <!-- Información de la Empresa en la parte superior derecha -->
+      <div class="empresa-info">
+        <img src="../../assets/images/logo.png" alt="Logo" class="empresa-logo" />
+        <div class="empresa-texto">
+          <p><strong>Nombre:</strong> Yo te Ayudo</p>
+          <p><strong>RUT Empresa:</strong> 12345678-9</p>
+          <p><strong>Dirección:</strong> Calle Ficticia 123, Santiago, Chile</p>
+          <p><strong>Teléfono:</strong> +56 9 1234 5678</p>
+          <p><strong>Email:</strong> contacto&#64;yoteayudo.cl</p>
+        </div>
+      </div>
+
+      <h3 class="boleta-title">Factura</h3>
+
+<!-- Tabla con la Información del Tutor -->
+<table class="boleta-table">
+  <tr>
+    <td><strong>RUT:</strong> {{ tutorData.Rut }}</td>
+    <td><strong>Nombre:</strong> {{ tutorData.Nombre }} {{ tutorData.Apellido }} </td>
+    <td><strong>Email:</strong> {{ tutorData.Email }}</td>
+  </tr>
+</table>
+
+<!-- Tabla de Sesiones Finalizadas -->
+<h4>Sesiones Finalizadas</h4>
+<table class="boleta-table" *ngIf="sesiones && sesiones.length > 0">
+  <tr>
+    <th>Sesión</th>
+    <th>Título Ayudantía</th>
+    <th>Duración (hrs)</th>
+    <th>Ganancia (CLP)</th>
+  </tr>
+  <tr *ngFor="let sesion of sesiones; let i = index">
+    <td>Sesión {{ i + 1 }}</td>
+    <td>{{ sesion.info_ayudantia?.titulo_ayudantia || 'Título no disponible' }}</td>
+    <td>{{ sesion.duracion }}</td>
+    <td>{{ sesion.duracion * sesion.precio | currency: 'CLP' }}</td>
+  </tr>
+</table>
+<p *ngIf="!sesiones || sesiones.length === 0">No se encontraron sesiones finalizadas para este tutor.</p>
+
+
+      
+      
+      <!-- Totales en la Tabla -->
+      <h4>Resumen de Ganancias</h4>
+      <table class="boleta-table">
+        <tr>
+          <td><strong>Total Ganancias:</strong></td>
+          <td>{{ totalGanancias | currency: 'CLP' }}</td>
+        </tr>
+        <tr>
+          <td><strong>Comisión (15%):</strong></td>
+          <td>{{ comision | currency: 'CLP' }}</td>
+        </tr>
+        <tr>
+          <td><strong>Pago Neto:</strong></td>
+          <td>{{ pagoNeto | currency: 'CLP' }}</td>
+        </tr>
+      </table>
+
+      <button id="exportButton" (click)="generatePDF()" class="export-button">
+        <div class="svg-wrapper-1">
+          <div class="svg-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path fill="none" d="M0 0h24v24H0z"></path>
+              <path fill="currentColor" d="M1.946 9.315c-.522-.174-.527-.455.01-.634l19.087-6.362c.529-.176.832.12.684.638l-5.454 19.086c-.15.529-.455.547-.679.045L12 14l6-8-8 6-8.054-2.685z"></path>
+            </svg>
+          </div>
+        </div>
+        <span>Exportar a PDF</span>
+      </button>
+    </div>
+  </div>
+</div>

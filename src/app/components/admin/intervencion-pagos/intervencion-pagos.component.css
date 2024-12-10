@@ -1,44 +1,53 @@
+/* Contenedor principal para el chat y los detalles */
 .intervencion-container {
   display: flex;
-  gap: 20px; /* Separación entre columnas */
+  gap: 10px; /* Separación entre columnas */
   height: 100vh;
-  padding: 10px; /* Espaciado interno */
-}
+  padding: 10px; /* Espaciado interno */ 
+  
+} 
 
+/* Estilos para el contenedor del chat */
 .chat-container {
-  flex: 1.5; /* Reduce el tamaño del chat */
+  flex: 2.5; /* Reduce el tamaño del chat */
   display: flex;
   flex-direction: column;
   border-right: 1px solid #ccc;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-  overflow: hidden; /* Esconde contenido desbordado */
+  overflow: hidden; /* Esconde contenido desbordado  */ 
+  height: 650px;
 }
 
+/* Estilos para el contenedor de detalles y participantes */
 .details-participants-container {
   flex: 1; /* La columna derecha ocupa menos espacio */
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Separación entre los bloques arriba y abajo */
+  gap: 10px; /* Separación entre los bloques arriba y abajo */ 
+  height: 650px;
 }
 
+/* Detalles - Estilos */
 .details-container {
-  flex: 2; /* Haz que los detalles ocupen más espacio */
+  flex: 1.5; /* Haz que los detalles ocupen más espacio */
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
   overflow-y: auto;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  
+  height: 580px;
 }
 
+/* Participantes - Estilos */
 .participants-container {
   flex: 1; /* Haz que los participantes ocupen menos espacio */
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
-  overflow-y: auto;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  height: 10px; 
 }
 
 /* Encabezado del chat */
@@ -52,6 +61,7 @@
   overflow: hidden; /* Esconde contenido desbordado */
 }
 
+/* Títulos y detalles */
 .chat-title {
   flex: 1;
   text-align: center;
@@ -65,7 +75,8 @@
   overflow-y: auto;
   background-color: #f7f7f7;
 }
-/* Mensajes individuales */
+
+/* Estilo para los mensajes individuales */
 .message-item {
   display: flex;
   margin-bottom: 10px;
@@ -75,7 +86,6 @@
   flex-direction: row-reverse; /* Mensajes enviados alineados a la derecha */
   text-align: right;
 }
-
 
 .received {
   text-align: left; /* Mensajes recibidos alineados a la izquierda */
@@ -116,6 +126,7 @@
 .message-text {
   margin: 0;
 }
+
 /* Mensajes vacíos */
 .no-messages {
   text-align: center;
@@ -128,21 +139,18 @@
   display: flex;
   align-items: center;
   padding: 10px;
-
 }
 
 .message-input-field {
   flex: 1; /* El input ocupa el espacio disponible */
   padding: 10px;
-
-
   margin-right: 1px;
 }
+
 .send-button {
   padding: 30px 40px;
   background-color: #1976d2;
   color: white;
-
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -151,6 +159,7 @@
   background-color: #155a9a;
 }
 
+/* Estilos para los participantes */
 .participants-container ul {
   list-style-type: none;
   padding: 0;
@@ -173,6 +182,7 @@
   font-size: 1em;
 }
 
+/* Detalles - Estilos adicionales */
 .details-container {
   display: flex;
   flex-direction: column;
@@ -184,13 +194,15 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Footer con el botón de modificar */
 .details-footer {
   margin-top: 20px;
   display: flex;
   justify-content: center; /* Centra el botón horizontalmente */
 } 
+
 button[color="primary"] {
-  background-color:#155a9a;
+  background-color: #155a9a;
   color: white;
 }
 
@@ -205,6 +217,13 @@ button[color="primary"] {
 
 /* Título del tutor */
 .tutor-container h3 {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #37406e;
+} 
+
+.participants-container h3{
   font-size: 1.2em;
   margin-bottom: 15px;
   font-weight: bold;
@@ -224,7 +243,6 @@ button[color="primary"] {
   border-radius: 50%;
   margin-right: 10px;
 }
-
 
 .tutor-info div {
   font-size: 1em;

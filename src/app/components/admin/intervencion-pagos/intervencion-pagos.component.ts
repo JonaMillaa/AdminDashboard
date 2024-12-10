@@ -35,10 +35,12 @@ export class IntervencionPagosComponent implements OnInit {
   infoChat!: Interface_chat;
   nuevoMensaje = ''; 
   participantes: Usuario[] = [];
-  estudiantes:  Usuario[] = []; // Arreglo para estudiantes
+  estudiantes:  Usuario | null = null; // Arreglo para estudiantes 
+  duenio: Usuario | null = null; 
   tutor: Usuario | null = null; // Tutor con toda la información
   arrayAsistencia: Array<{ id_usuario: string }> = []; 
   cargando = true;  
+
   constructor(
     private route: ActivatedRoute,
     private chatService: ChatService,
@@ -48,7 +50,8 @@ export class IntervencionPagosComponent implements OnInit {
 
   ngOnInit(): void {
     this.idPublicacion = this.route.snapshot.paramMap.get('id')!;
-    
+
+    // Llamada para obtener la publicación y el chat
     this.pagosService.getPublicacionById(this.idPublicacion).subscribe((data) => {
       this.infoPublicacion = data;
     });
@@ -61,7 +64,8 @@ export class IntervencionPagosComponent implements OnInit {
     this.obtenerTutorPorEstado();
 
     this.obtenerParticipantes(); 
-    this.obtenerEstudiantes(); // Nuevo método para obtener los estudiantes añadidos
+    this.obtenerEstudiantes(); // Método para obtener los estudiantes añadidos 
+    this.obtenerDuenio();
   }
 
   obtenerParticipantes(): void {
@@ -94,19 +98,32 @@ export class IntervencionPagosComponent implements OnInit {
   }
 
   // Método para obtener los estudiantes añadidos a la publicación
-obtenerEstudiantes(): void {
-  this.pagosService.getEstudiantesPorPublicacion(this.idPublicacion).subscribe({
-    next: (estudiantes) => {
-      this.estudiantes = estudiantes;
-      console.log('Estudiantes encontrados:', this.estudiantes);  // Verifica la respuesta
-    },
-    error: (err) => {
-      console.error('Error al obtener los estudiantes', err);
-    },
-  });
-}
+  obtenerEstudiantes(): void {
+    this.pagosService.getEstudiantesPorPublicacion(this.idPublicacion).subscribe(tutor => {
+      if (tutor) {
+        this.estudiantes = tutor; // Asignamos el tutor completo
+        console.log('Tutor encontrado:', this.estudiantes); // Verifica si tiene los campos esperados
+      } else {
+        console.log('No hay tutor aceptado o la postulación no está en estado ACEPTADO');
+      }
+    });
+  } 
+  obtenerDuenio(): void {
+    this.pagosService.getEstudiantesDuenioPublicacion(this.idPublicacion).subscribe(duenio => {
+      if (duenio) {
+        this.duenio = duenio;  // Asignamos el usuario completo
+        console.log('Usuario encontrado:', this.duenio);  // Verifica si tiene los campos esperados
+      } else {
+        console.log('No se encontró el usuario dueño de la publicación');
+      }
+    }, error => {
+      console.error('Error al obtener el usuario:', error);  // Manejo de errores
+    });
+  }
+  
+  
 
-
+  
   enviarMensaje(): void {
     if (!this.nuevoMensaje.trim()) {
       return; 
@@ -127,7 +144,7 @@ obtenerEstudiantes(): void {
       this.nuevoMensaje = ''; 
     });
   } 
-  
+
   modificarPublicacion(): void {
     this.router.navigate(['/admin/modificar-publicacion', this.idPublicacion]);
   }

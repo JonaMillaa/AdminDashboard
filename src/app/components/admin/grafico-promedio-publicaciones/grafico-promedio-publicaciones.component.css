@@ -1,0 +1,113 @@
+.ContainerGraficoTabla{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 8px;
+  background-color: #e0dfdf;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.titleContainerGraficoTabla {
+  text-align: center;
+  font-size: 24px;
+  padding: 1rem;
+  background-color: #596bd3; 
+  color: #fff;
+  height: 5rem;
+}
+
+.content-GT {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px; /* Espacio entre el gráfico y la tabla */
+  margin: 1rem;
+}
+
+.chart-estados {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: rgb(248, 248, 248);
+  height: 50%;
+}
+
+.fixed-size-chart {
+  width: 90% !important; 
+  height: 70% !important; 
+  flex: 1; /* El gráfico ocupará el espacio disponible */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+canvas{
+  max-height: 90%;
+}
+
+
+.tabla {
+  width: 45%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #4CAF50; /* Color de fondo para el encabezado */
+  color: rgb(8, 8, 8); /* Color del texto del encabezado */
+}
+
+td {
+  background-color: #f2f2f2; /* Color de fondo para las celdas */
+  color: #333; /* Color del texto de las celdas */
+}
+
+tr:nth-child(even) td {
+  background-color: #e6f7e6; /* Color de fondo alterno para las filas pares */
+}
+
+tr:nth-child(odd) td {
+  background-color: #f9f9f9; /* Color de fondo alterno para las filas impares */
+}
+
+.mensaje-no-categorias {
+  font-size: 14px;
+  color: #f44336;
+}
+
+mat-form-field {
+  width: 250px;
+}
+
+.filtros {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.boton-todas-categorias {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 14px;
+  padding: 10px 15px;
+  margin-left: 2rem;
+}
+
+.boton-todas-categorias mat-icon {
+  margin-right: 8px;
+}
+
+.boton-todas-categorias:hover {
+  background-color: #45a049;
+  cursor: pointer;
+}
+
+.filtro-categoria {
+  margin-bottom: 15px;
+  width: 250px;
+}

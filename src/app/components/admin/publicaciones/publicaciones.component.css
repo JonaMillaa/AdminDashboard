@@ -1,0 +1,225 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column; /* Organiza las secciones en una columna */
+  gap: 20px; /* Espacio entre la parte superior y los gráficos */
+}
+
+.ContainerGraficoTabla{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 8px;
+  background-color: #e0dfdf;
+}
+
+.content-GT {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px; /* Espacio entre el gráfico y la tabla */
+  margin: 1rem;
+}
+
+.chart-estados {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: rgb(248, 248, 248);
+  height: 50%;
+}
+
+.titleContainerGraficoTabla {
+  text-align: center;
+  font-size: 24px;
+  padding: 1rem;
+  background-color: #596bd3; 
+  color: #fff;
+  height: 5rem;
+}
+
+.fixed-size-chart {
+  width: 90% !important; 
+  height: 50% !important; 
+  flex: 1; /* El gráfico ocupará el espacio disponible */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+canvas{
+  max-height: 90%;
+}
+
+/* Estilos para la tabla */
+.tabla {
+  width: 45%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #4CAF50; /* Color de fondo para el encabezado */
+  color: rgb(8, 8, 8); /* Color del texto del encabezado */
+}
+
+td {
+  background-color: #f2f2f2; /* Color de fondo para las celdas */
+  color: #333; /* Color del texto de las celdas */
+}
+
+tr:nth-child(even) td {
+  background-color: #e6f7e6; /* Color de fondo alterno para las filas pares */
+}
+
+tr:nth-child(odd) td {
+  background-color: #f9f9f9; /* Color de fondo alterno para las filas impares */
+}
+
+.chart-title {
+  text-align: center; /* Centra el título del gráfico */
+  margin-bottom: 0.5rem; /* Espaciado entre el título y el gráfico */
+  font-size: 1.1rem;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: #3f51b5; /* Azul Material Design */
+  color: #fff;
+  /* padding: 16px; */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 6rem;
+  margin: 0;
+  width: 100%; /* Asegura que ocupe todo el ancho */
+  box-sizing: border-box; /* Incluye el padding en el ancho total */
+}
+
+.dashboard-header h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.dashboard-header p {
+  font-size: 1rem;
+  margin: 4px 0 0;
+  color: #cfd8dc; /* Gris claro para contraste */
+}
+
+.logo {
+  height: 50px;
+  width: auto;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #dfdbdb;
+  margin: 0;
+}
+
+.top-container {
+  display: grid;
+  grid-template-columns: auto;
+}
+
+.chart-item.trendChart{
+margin-left: 2rem;
+}
+
+.chart-item {
+  min-width: 400px; /* Ancho mínimo para los gráficos */
+  max-width: 700px; /* Ancho máximo para los gráficos */
+  height: 700px; /* Altura fija para los gráficos */
+  position: relative;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centra el modal en el contenedor */
+  width: 80%;
+  max-width: 300px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  padding: 20px;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-content p {
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #333;
+}
+
+.modal-content button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo para organizar las tarjetas */
+.stats-summary {
+  display: flex; /* Organiza los elementos horizontalmente */
+  gap: 1rem; /* Espaciado entre tarjetas */
+  justify-content: space-around; /* Espacia uniformemente las tarjetas */
+  margin-bottom: 1rem; /* Espaciado debajo de las tarjetas */
+}
+
+.stat-card {
+  flex: 1; /* Hace que las tarjetas tengan el mismo ancho */
+  text-align: center; /* Centra el contenido de las tarjetas */
+  padding: 1rem; /* Añade relleno interno */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Añade sombra para estilo */
+  width: 250px;
+  height: 130px;
+}
+
+.stat-card p {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #000000;
+  font-weight: bold;
+}
+
+.stat-card h3 {
+  margin: 0.5rem 0 0;
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: bold;
+  margin-top: 3rem;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px); /* Efecto hover para resaltar la tarjeta */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

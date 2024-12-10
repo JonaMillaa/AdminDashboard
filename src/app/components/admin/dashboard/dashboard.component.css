@@ -1,0 +1,104 @@
+.ContainerGraficoTabla{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 8px;
+  background-color: #e0dfdf;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.content-GT {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px; /* Espacio entre el gráfico y la tabla */
+  margin: 1rem;
+}
+
+.chart-estados {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: rgb(248, 248, 248);
+  height: 50%;
+}
+
+.titleContainerGraficoTabla {
+  text-align: center;
+  font-size: 24px;
+  padding: 1rem;
+  background-color: #596bd3; 
+  color: #fff;
+  height: 5rem;
+}
+
+.fixed-size-chart {
+  width: 90% !important; 
+  height: 50% !important; 
+  flex: 1; /* El gráfico ocupará el espacio disponible */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filtros {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+canvas{
+  max-height: 90%;
+}
+
+
+
+
+.no-data-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.no-data-container p {
+  font-size: 18px;
+  color: #575151;
+  margin-bottom: 30px;
+  margin-top: 50px;
+}
+
+.no-data-image {
+  width: 50%;
+  max-width: 300px;
+  margin-top: 20px;
+}
+
+/* Estilo para el mensaje cuando no hay publicaciones */
+.no-publications-message {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.no-publications-message mat-card {
+  display: inline-block;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+}
+
+.no-publications-message mat-card-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.no-publications-message mat-card-content p {
+  font-size: 16px;
+  color: #555;
+}

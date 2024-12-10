@@ -1,0 +1,111 @@
+
+/* Estilo para el contenedor del gráfico */
+.chart-container {
+    width: 100%; /* Asegura que el gráfico ocupe el 100% del ancho disponible */
+    max-width: 900px; /* Ajusta el tamaño máximo del gráfico */
+    height: 450px; /* Ajusta la altura del gráfico */
+    margin: 0 auto; /* Centra el gráfico horizontalmente */
+    border: 2px solid #009688; /* Borde más visible y profesional */
+    border-radius: 12px; /* Bordes redondeados más suaves */
+    background: linear-gradient(145deg, #f2f2f2, #e0e0e0); /* Fondo con gradiente sutil */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada para profundidad */
+    padding: 20px; /* Espaciado interno para el gráfico */
+    transition: all 0.3s ease; /* Transición suave para efectos */
+  }
+  
+  /* Hover para resaltar el gráfico */
+  .chart-container:hover {
+    transform: scale(1.02); /* Un ligero zoom en hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al pasar el mouse */
+  }
+  
+  /* Agregar un borde sutil y sombra al gráfico para darle un efecto elevado */
+  .chart-container canvas {
+    border: 1px solid #4CAF50; /* Color de borde más notorio */
+    border-radius: 8px; /* Bordes ligeramente redondeados */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Efecto de sombra para dar profundidad */
+  }
+  
+  /* Estilo general del contenedor de la página */
+  .app-costos-ingresos {
+    padding: 30px;
+    background-color: #f4f6f9; /* Fondo más suave */
+    border-radius: 10px;
+  }
+  
+  /* Estilo del Header */
+  .header {
+    background-color: #1a73e8; /* Color de fondo profesional */
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px; /* Espacio debajo del header */
+    text-align: center;
+    color: white;
+  }
+  
+  /* Título Principal */
+  .header-title {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.2;
+  }
+  
+  /* Subtítulo */
+  .header-subtitle {
+    font-size: 1.2em;
+    margin-top: 10px;
+    font-weight: 300;
+    color: #f1f1f1;
+  }
+  
+  /* Estilo para el contenedor del gráfico */
+  .chart-container {
+    width: 100%; /* Asegura que el gráfico ocupe el 100% del ancho disponible */
+    max-width: 800px; /* Tamaño máximo ajustable */
+    height: 400px; /* Ajusta la altura del gráfico */
+    margin: 0 auto; /* Centra el gráfico */
+    border: 1px solid #ddd; /* Borde sutil alrededor del gráfico */
+    border-radius: 10px; /* Bordes redondeados */
+    background-color: #f9f9f9; /* Fondo sutil */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para un efecto de profundidad */
+  }
+  
+  /* Agregar borde y sombra al canvas del gráfico */
+  .chart-container canvas {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Efecto de sombra */
+  }
+  
+  /* Estilo del filtro */
+  .filtro-container {
+    text-align: right;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilo del selector */
+  .filtro-container .filtro {
+    width: 200px;
+    display: inline-block;
+  }
+  
+  /* Estilo de las etiquetas y el texto */
+  .chart-container canvas {
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .chart-container .chartjs-size-monitor {
+    display: none; /* Ocultar el tamaño monitor de chart.js */
+  }
+  
+  /* Estilo para el mensaje de no hay datos */
+  .no-data-message {
+    text-align: center;
+    font-size: 1.2em;
+    color: #ff6347; /* Color rojo claro para llamar la atención */
+    margin-top: 30px;
+  }
+  
+  
+  

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Firestore, collection, collectionData, doc, docData, query, updateDoc, where } from '@angular/fire/firestore';
 import { forkJoin, Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { catchError, map, switchMap, take } from 'rxjs/operators';
 import { Publicacion } from '../models/publicacion.interface';
 import { InterfacePostulacion } from '../models/interface-postulacion';
 import { InterfaceAsistencia } from '../models/interface-asistencia';
@@ -79,12 +79,7 @@ getPostulacionesPorPublicacion(idPublicacion: string): Observable<InterfacePostu
   return collectionData(q) as Observable<InterfacePostulacion[]>;
 }
 
-// Obtener estudiantes añadidos
-getEstudiantesAñadidos(idPublicacion: string): Observable<PostulacionEstudiante[]> {
-  const ref = collection(this.firestore, 'Postulacion_estudiante');
-  const q = query(ref, where('id_publicacion', '==', idPublicacion));
-  return collectionData(q) as Observable<PostulacionEstudiante[]>;
-} 
+
 
 // Modificado para obtener la información completa del tutor
 getTutorPorPublicacion(idPublicacion: string): Observable<Usuario | null> {
@@ -107,28 +102,46 @@ getTutorPorPublicacion(idPublicacion: string): Observable<Usuario | null> {
   );
 }
  // Método para obtener estudiantes añadidos a la publicación
- getEstudiantesPorPublicacion(idPublicacion: string): Observable<Usuario[]> {
+
+getEstudiantesPorPublicacion(idPublicacion: string): Observable<Usuario | null> {
   const ref = collection(this.firestore, 'Postulacion_estudiante');
+  const q = query(ref, where('id_publicacion', '==', idPublicacion));
+  return collectionData(q, { idField: 'id' }).pipe(
+    map((postulaciones: PostulacionEstudiante[]) => {
+      if (postulaciones.length > 0) {
+        const idTutor = postulaciones[0]. id_usuario; // solo hay un tutor aceptado o realizado por publicación
+        return this.getUsuarioById(idTutor); // Obtenemos los detalles del tutor
+      }
+      return null; // Si no hay tutor aceptado o realizado
+    }),
+    switchMap((tutorObservable: any) => tutorObservable ? tutorObservable : of(null)) // Asegurar que se maneje el caso cuando no hay tutor
+  );
+}  
+getEstudiantesDuenioPublicacion(idPublicacion: string): Observable<Usuario | null> {
+  const ref = collection(this.firestore, 'Publicaciones');
   const q = query(ref, where('id_publicacion', '==', idPublicacion));
 
   return collectionData(q, { idField: 'id' }).pipe(
-    switchMap((postulacionesEstudi: PostulacionEstudiante[]) => {
-      if (postulacionesEstudi.length > 0) {
-        // Obtenemos todos los id_usuario de los estudiantes
-        const estudiantesIds = postulacionesEstudi.map(est => est.id_usuario);
+    map((publicaciones: Publicacion[]) => {
+      if (publicaciones.length > 0) {
+        const infoAyudantia = publicaciones[0]?.info_ayudantia;
 
-        // Usamos forkJoin para hacer peticiones paralelas y obtener todos los detalles de los estudiantes
-        const detallesEstudiantes$ = estudiantesIds.map(idUsuario =>
-          this.getUsuarioById(idUsuario) // Método que obtiene los detalles del usuario por id
-        );
-
-        // Devolver un Observable con los detalles de todos los estudiantes
-        return forkJoin(detallesEstudiantes$); // Esperamos que todos los detalles estén listos
+        // Verificamos si info_ayudantia y info_usuario existen
+        if (infoAyudantia && infoAyudantia.info_usuario && typeof infoAyudantia.info_usuario.id_usuario === 'string') {
+          const idUsuarioDuenio = infoAyudantia.info_usuario.id_usuario; // Obtenemos el ID del usuario dueño de la publicación
+          return this.getUsuarioById(idUsuarioDuenio);  // Usamos el ID para obtener los detalles del usuario
+        } else {
+          console.error('No se pudo encontrar id_usuario válido en la publicación');
+          return of(null);  // Si no hay id_usuario válido, devolvemos null
+        }
       }
-      return of([]); // Si no hay estudiantes, devolvemos un array vacío
-    })
+      console.error('No se encontró la publicación con el id proporcionado');
+      return of(null);  // Si no hay publicaciones, devolvemos null
+    }),
+    switchMap((usuarioObservable: Observable<Usuario>) => usuarioObservable)  // Aseguramos que devolvamos el observable correcto
   );
 }
+
 
   // Obtener detalles del usuario (tutor) por su ID
   private getUsuarioById(idUsuario: string): Observable<Usuario> {
