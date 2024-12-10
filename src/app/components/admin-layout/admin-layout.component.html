@@ -56,13 +56,22 @@
       </a>  
 
       <a mat-list-item 
-      routerLink="/admin/reportes" 
-      class="menu-item" 
-      [ngClass]="{'active': activeItem === 'reportes'}" 
-      (click)="setActiveItem('reportes')">
-     <mat-icon>insert_chart</mat-icon>
-     <span *ngIf="opened">Reportes</span>
-   </a>
+          routerLink="/admin/reportes" 
+          class="menu-item" 
+          [ngClass]="{'active': activeItem === 'reportes'}" 
+          (click)="setActiveItem('reportes')">
+        <mat-icon>insert_chart</mat-icon>
+        <span *ngIf="opened">Reportes</span>
+      </a>
+
+      <a mat-list-item 
+         routerLink="/admin/publicaciones" 
+         class="menu-item" 
+         [ngClass]="{'active': activeItem === 'publicaciones'}" 
+         (click)="setActiveItem('publicaciones')">
+        <mat-icon>library_books</mat-icon>
+        <span *ngIf="opened">Publicaciones</span>
+      </a>
     
       <!-- Cerrar Sesión -->
       <a mat-list-item 
