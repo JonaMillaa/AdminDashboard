@@ -1,23 +1,24 @@
 <div class="app-costos-ingresos">
-  <!-- Header con Título y Descripción -->
-  <header class="header">
-    <h1 class="header-title">Análisis de Ingresos por Ayudantías</h1>
-    <p class="header-subtitle">Visualiza y evalúa los ingresos mensuales generados por las ayudantías para mejorar la rentabilidad del negocio.</p>
-  </header>
-
-  <!-- Filtro por Tipo de Visualización (Mes o Año) -->
-  <div class="filtro-container">
-    <mat-form-field appearance="outline" class="filtro">
-      <mat-label>Ver por</mat-label>
-      <mat-select [(ngModel)]="filtroTipo" (selectionChange)="loadCostosIngresos()">
-        <mat-option value="Mes">Mes</mat-option>
-        <mat-option value="Año">Año</mat-option>
-      </mat-select>
-    </mat-form-field>
+    <!-- Header con Título y Descripción -->
+    <header class="header">
+      <h1 class="header-title">Análisis de Ingresos por Ayudantías</h1>
+      <p class="header-subtitle">Visualiza y evalúa los ingresos mensuales generados por las ayudantías para mejorar la rentabilidad del negocio.</p>
+    </header>
+  
+    <!-- Filtro por Tipo de Visualización (Mes o Año) -->
+    <div class="filtro-container">
+      <mat-form-field appearance="outline" class="filtro">
+        <mat-label>Ver por</mat-label>
+        <mat-select [(ngModel)]="filtroTipo" (selectionChange)="loadCostosIngresos()">
+          <mat-option value="Mes">Mes</mat-option>
+          <mat-option value="Año">Año</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  
+    <!-- Contenedor del gráfico -->
+    <div class="chart-container">
+      <canvas id="costosIngresosChart" width="400" height="200"></canvas>
+    </div>
   </div>
-
-  <!-- Contenedor del gráfico -->
-  <div class="chart-container">
-    <canvas id="costosIngresosChart" width="400" height="200"></canvas>
-  </div>
-</div>
+  

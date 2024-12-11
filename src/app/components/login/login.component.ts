@@ -33,7 +33,7 @@ export class LoginComponent {
   login() {
     if (this.email === 'admin@gmail.com' && this.password === '123456') {
       this.authService.login('admin');
-      this.router.navigateByUrl('/admin/reportes-dia');
+      this.router.navigateByUrl('/admin/usuarios');
     // } else if (this.email === 'manager@gmail.com' && this.password === '123456') {
     //   this.authService.login('manager');
     //   this.router.navigateByUrl('/manager/publicaciones');

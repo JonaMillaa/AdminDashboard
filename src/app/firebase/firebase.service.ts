@@ -230,8 +230,10 @@ export class FirebaseService {
   // Nuevo método para obtener todas las publicaciones
   getAllPublications(): Observable<any[]> {
     return this.getCollection<any>('Publicaciones');
-  }
-
+  } 
+  getAllPostulaciones(): Observable<any[]> {
+return this.getCollection<any>('Postulaciones'); 
+}
   // Método para obtener publicaciones por formato
   getPublicationsByFormat(format: string): Observable<any[]> {
     const publicationsRef = collection(this.firestore, 'Publicaciones');

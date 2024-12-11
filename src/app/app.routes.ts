@@ -17,7 +17,7 @@ import { SoporteComponent } from './components/admin/soporte/soporte.component';
 import { IntervencionPagosComponent } from './components/admin/intervencion-pagos/intervencion-pagos.component';
 import { ModificarPublicacionComponent } from './components/admin/modificar-publicacion/modificar-publicacion.component';
 import { HomeComponent } from './components/home/home.component';
-
+import { CostosIngresosComponent } from './components/admin/costos-ingresos/costos-ingresos.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent }, // Ruta inicial para HomeComponent
   { path: 'login', component: LoginComponent },
@@ -40,7 +40,8 @@ export const routes: Routes = [
       { path: 'pagos-pendientes', component: PagosPendientesComponent},
       { path: 'reportes-publicaciones-dia' , component: ReportesPublicacionesDiaComponent},
       { path: 'reportes', component: ReportesComponent },
-      { path: 'publicaciones', component: PublicacionesComponent },
+      { path: 'publicaciones', component: PublicacionesComponent }, 
+      { path: 'costos-ingresos', component: CostosIngresosComponent }, 
 
     ]
   },

@@ -5,15 +5,7 @@
       <h3 class="sidenav-header" *ngIf="opened">Menú Principal</h3>
       <mat-divider class="sidenav-divider"></mat-divider>
       
-      <!-- Reporte Diario -->
-      <a mat-list-item 
-         routerLink="/admin/reportes-dia" 
-         class="menu-item" 
-         [ngClass]="{'active': activeItem === 'reportes-dia'}"
-         (click)="setActiveItem('reportes-dia')">
-        <mat-icon>analytics</mat-icon>
-        <span *ngIf="opened">Reporte Diario</span>
-      </a>
+    
 
       <!-- Usuarios -->
       <a mat-list-item 
@@ -25,15 +17,7 @@
         <span *ngIf="opened">Usuarios</span>
       </a>
 
-      <!-- Pagos Pendientes -->
-      <a mat-list-item 
-         routerLink="/admin/pagos-pendientes" 
-         class="menu-item"
-         [ngClass]="{'active': activeItem === 'pagos-pendientes'}"
-         (click)="setActiveItem('pagos-pendientes')">
-        <mat-icon>attach_money</mat-icon>
-        <span *ngIf="opened">Pagos Pendientes</span>
-      </a> 
+      
 
       <!-- Publicaciones del Día -->
       <a mat-list-item 
@@ -55,14 +39,7 @@
         <span *ngIf="opened">Soporte</span>
       </a>  
 
-      <a mat-list-item 
-          routerLink="/admin/reportes" 
-          class="menu-item" 
-          [ngClass]="{'active': activeItem === 'reportes'}" 
-          (click)="setActiveItem('reportes')">
-        <mat-icon>insert_chart</mat-icon>
-        <span *ngIf="opened">Reportes</span>
-      </a>
+     
 
       <a mat-list-item 
          routerLink="/admin/publicaciones" 
@@ -71,8 +48,17 @@
          (click)="setActiveItem('publicaciones')">
         <mat-icon>library_books</mat-icon>
         <span *ngIf="opened">Publicaciones</span>
-      </a>
-    
+      </a> 
+
+      <a mat-list-item 
+      routerLink="/admin/costos-ingresos" 
+      class="menu-item"
+      [ngClass]="{'active': activeItem === 'reportes-publicaciones-dia'}"
+      (click)="setActiveItem('reportes-publicaciones-dia')">
+     <mat-icon>event_note</mat-icon>
+     <span *ngIf="opened">Ingresos</span>
+   </a>
+     
       <!-- Cerrar Sesión -->
       <a mat-list-item 
          class="menu-item logout"
