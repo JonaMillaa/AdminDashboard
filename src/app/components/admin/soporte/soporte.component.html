@@ -1,54 +1,37 @@
 <div class="container">
-  <h2>Administrar Reportes</h2>
-  <div class="row" style="padding-bottom: 20px;">
-    <div  class="col-4 d-flex justify-content-center">
-
-      <div class="card card-metricas" style="border-left: 4px solid  rgb(151, 4, 4);" >
+  <h2>Administrar Reportes</h2> 
+  <div class="row" style="padding-bottom: 20px;"> 
+    <div class="ver-todas-btn">
+      <button mat-button color="accent" (click)="verTodasPublicaciones()">Ver Todos los Reportes</button>
+    </div>
+    <!-- Tarjetas -->
+    <div class="col-4 d-flex justify-content-center">
+      <div class="card card-metricas" style="border-left: 4px solid rgb(151, 4, 4);" (click)="filtrarPorEstadoDirecto('por resolver')">
         <div class="card-body">
           <p class="title_card">Por resolver</p>
-          <p class="card-text pCard">{{reportesPorResolver}}</p>
+          <p class="card-text pCard">{{ reportesPorResolver }}</p>
         </div>
       </div>
     </div>
-
-
-
-
-    <div  class="col-4 d-flex justify-content-center">
-      <div class="card card-metricas" style="border-left: 4px solid  rgb(211, 176, 18);" >
+    <div class="col-4 d-flex justify-content-center">
+      <div class="card card-metricas" style="border-left: 4px solid rgb(211, 176, 18);" (click)="filtrarPorEstadoDirecto('en curso')">
         <div class="card-body">
           <p class="title_card">En curso</p>
-          <p class="card-text pCard">{{reportesSinResolver}}</p>
+          <p class="card-text pCard">{{ reportesSinResolver }}</p>
         </div>
       </div>
     </div>
-
     <div class="col-4 d-flex justify-content-center">
-      <div class="card card-metricas"   style="border-left: 4px solid  rgb(2, 114, 26);" >
-        <div class="card-body ">
-            <p class="title_card">Resueltas</p>
-
-          <p class="card-text pCard">{{reportesResueltos}}</p>
+      <div class="card card-metricas" style="border-left: 4px solid rgb(2, 114, 26);" (click)="filtrarPorEstadoDirecto('resuelto')">
+        <div class="card-body">
+          <p class="title_card">Resueltas</p>
+          <p class="card-text pCard">{{ reportesResueltos }}</p>
         </div>
       </div>
     </div>
-
   </div>
 
-
-
-
-
-  <mat-form-field appearance="outline" class="search-bar">
-    <mat-label>Filtrar por estado</mat-label>
-    <mat-select (selectionChange)="aplicarFiltro($event.value)">
-      <mat-option value="">Todos</mat-option>
-      <mat-option value="en curso">En curso</mat-option>
-      <mat-option value="resuelto">Resuelto</mat-option>
-      <mat-option value="no resuelto">No resuelto</mat-option>
-    </mat-select>
-  </mat-form-field>
-
+  <!-- Tabla -->
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="categoria">
       <th mat-header-cell *matHeaderCellDef>Categoría</th>

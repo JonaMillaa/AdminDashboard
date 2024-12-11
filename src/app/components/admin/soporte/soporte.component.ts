@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -35,13 +35,19 @@ import { CommonModule } from '@angular/common';
 export class SoporteComponent implements OnInit {
   displayedColumns: string[] = ['categoria', 'subCategoria', 'estado', 'acciones'];
   dataSource = new MatTableDataSource<Reportes>([]); 
+  reportesPorEstado: { [key: string]: Reportes[] } = {};
+  estadoSeleccionado: string = 'Todos'; // Estado seleccionado por defecto
+
   reportesSinResolver : number = 0;
   reportesResueltos : number = 0;
   reportesPorResolver : number = 0;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('estadoSelect', { static: true }) estadoSelect!: MatSelect;  // Cambié aquí
 
   constructor(private soporteService: SoporteService, private dialog: MatDialog) {}
+
+
 
 
   ngOnInit(): void {
@@ -49,16 +55,39 @@ export class SoporteComponent implements OnInit {
     this.obtenerMetricas(); 
     this.obtenerMetricasPorResolver();
     this.obtenerMetricasResueltas()
-  } 
+  }  
+  filtrarPorEstadoDirecto(estado: string): void {
+    this.estadoSeleccionado = estado; // Actualiza el estado seleccionado
+    this.dataSource.filter = estado.trim().toLowerCase(); // Aplica el filtro a la tabla
+    this.paginator.firstPage(); // Reinicia a la primera página
+  }
 
   obtenerReportes(): void {
     this.soporteService.getReportes().subscribe((reportes) => {
-      console.log('soy reportes' , reportes)
       this.dataSource.data = reportes;
       this.dataSource.paginator = this.paginator;
+  
+      // Agrupa los reportes por estado
+      this.reportesPorEstado = reportes.reduce<{ [key: string]: Reportes[] }>((acc, reporte) => {
+        if (!acc[reporte.estado]) {
+          acc[reporte.estado] = []; // Inicializa el array si no existe
+        }
+        acc[reporte.estado].push(reporte); // Agrega el reporte al estado correspondiente
+        return acc;
+      }, {});
+  
+      // Configura el filtro personalizado
+      this.dataSource.filterPredicate = (data: Reportes, filter: string) =>
+        data.estado.toLowerCase().includes(filter);
     });
   }
-
+   
+  verTodasPublicaciones(): void {
+    this.estadoSeleccionado = 'Todos'; // Actualiza el estado seleccionado
+    this.dataSource.filter = ''; // Limpia el filtro para mostrar todos los datos
+    this.paginator.firstPage(); // Reinicia la paginación
+  }
+  
   obtenerMetricas(): void {
 
     this.soporteService.getCollectionQuery<any>('Reportes', 'estado', 'en curso').subscribe( (res: any) => {
@@ -84,7 +113,9 @@ export class SoporteComponent implements OnInit {
 
 
   aplicarFiltro(filtro: string): void {
-    this.dataSource.filter = filtro.trim().toLowerCase();
+    this.estadoSeleccionado = filtro; // Actualiza el estado seleccionado
+    this.dataSource.filter = filtro.trim().toLowerCase(); // Aplica el filtro a la tabla
+    this.paginator.firstPage(); // Reinicia a la primera página
   }
 
   verDetalleReporte(reporte: Reportes): void {
@@ -96,7 +127,9 @@ export class SoporteComponent implements OnInit {
       });
     });
   }
-}
+} 
+
+
 
 export function getSpanishPaginatorIntl(): MatPaginatorIntl {
   const paginatorIntl = new MatPaginatorIntl();
