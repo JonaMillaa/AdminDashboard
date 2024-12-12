@@ -30,14 +30,14 @@
   text-align: center;
   font-size: 24px;
   padding: 1rem;
-  background-color: #596bd3; 
+  background-color: #596bd3;
   color: #fff;
   height: 5rem;
 }
 
 .fixed-size-chart {
-  width: 90% !important; 
-  height: 50% !important; 
+  width: 90% !important;
+  height: 50% !important;
   flex: 1; /* El gráfico ocupará el espacio disponible */
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -52,7 +52,7 @@
 }
 
 canvas{
-  max-height: 90%;
+  max-height: 80%;
 }
 
 
