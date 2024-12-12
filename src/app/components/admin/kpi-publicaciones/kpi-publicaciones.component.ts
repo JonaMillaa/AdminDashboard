@@ -32,7 +32,7 @@ export class KpiPublicacionesComponent implements OnInit {
         this.chart.destroy();
       }
       this.generarGrafico(publicaciones);
-      this.generarGraficoBarras(publicaciones); // Crear el termómetro
+      this.generarGraficoTaximetro(publicaciones); // Crear el termómetro
     });
   }
 
@@ -141,8 +141,8 @@ export class KpiPublicacionesComponent implements OnInit {
     }
   }
 
-// Función para generar el gráfico de barras
-generarGraficoBarras(publicaciones: any[]): void {
+  // Función para generar el gráfico de tipo taxímetro con cambio de color dinámico
+generarGraficoTaximetro(publicaciones: any[]): void {
   let finalizadas = 0;
 
   // Contamos las publicaciones finalizadas
@@ -161,37 +161,34 @@ generarGraficoBarras(publicaciones: any[]): void {
     return;
   }
 
-  // Determinar el color dinámico según el número de finalizadas
-  let colorBarra = '#ff0000'; // Rojo por defecto
-  if (finalizadas >= 60) {
-    colorBarra = '#00ff00'; // Verde si alcanzó 60 o más
-  } else if (finalizadas >= 30) {
-    colorBarra = '#ffff00'; // Amarillo si está entre 30 y 59
-  }
+  // Calcular porcentaje de finalización
+  const porcentaje = (finalizadas / totalMeta) * 100;
 
-  // Crear el gráfico de barras con Chart.js
+  // Determinar el color dinámico según el porcentaje
+  const colorProgreso = porcentaje >= 60 ? '#00ff00' : '#ff0000'; // Verde si >= 60%, Rojo si < 60%
+
+  // Crear el gráfico de tipo taxímetro con Chart.js
   const ctx = document.getElementById('termometro') as HTMLCanvasElement;
   if (ctx) {
     new Chart(ctx, {
-      type: 'bar',  // Tipo de gráfico
+      type: 'doughnut',  // Tipo de gráfico
       data: {
-        labels: [`Finalizadas (${finalizadas} de ${totalMeta})`], // Etiqueta de la barra
+        labels: ['Finalizadas', 'Faltantes'],
         datasets: [{
-          label: `Meta: ${totalMeta}`,
-          data: [finalizadas], // Número absoluto de ayudantías finalizadas
-          backgroundColor: colorBarra, // Color dinámico de la barra
-          borderColor: ['#000000'], // Borde de la barra
-          borderWidth: 1, // Grosor del borde
-          maxBarThickness: 50 // Grosor máximo de la barra
+          data: [porcentaje, 100 - porcentaje], // Porcentaje completado y faltante
+          backgroundColor: [colorProgreso, '#e0e0e0'], // Color dinámico y gris para faltantes
+          borderWidth: 0 // Sin borde
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        rotation: 270, // Rotación inicial (para que comience desde el sur)
+        circumference: 180, // Mostrar solo la mitad del gráfico (semicírculo)
         plugins: {
           title: {
             display: true,
-            text: `Ayudantías Finalizadas: ${finalizadas} de ${totalMeta}`, // Título que muestra el total
+            text: `Ayudantías Finalizadas: ${finalizadas} de ${totalMeta}`, // Título dinámico
             font: {
               size: 18
             }
@@ -200,50 +197,25 @@ generarGraficoBarras(publicaciones: any[]): void {
             callbacks: {
               label: (context) => {
                 const value = context.raw as number;
-                return `Total: ${value} ayudantías`; // Mostrar número absoluto en el tooltip
+                return `Porcentaje: ${value.toFixed(2)}%`; // Mostrar porcentaje en el tooltip
               }
             }
           },
           datalabels: {
-            color: '#000', // Número en negro para mayor visibilidad
+            color: '#000', // Color del texto
             font: {
               size: 16,
               weight: 'bold'
             },
-            formatter: (value) => `${value}` // Muestra el número dentro de la barra
+            formatter: (value) => `${value.toFixed(2)}%` // Mostrar porcentaje dentro del gráfico
           }
-        },
-        scales: {
-          y: {
-            beginAtZero: true, // El eje Y comienza desde 0
-            max: totalMeta, // Máximo del eje Y es igual a la meta total
-            ticks: {
-              stepSize: 10 // Incremento de las marcas en el eje Y
-            },
-            title: {
-              display: true,
-              text: 'Número de Ayudantías' // Etiqueta del eje Y
-            }
-          },
-          x: {
-            ticks: {
-              font: {
-                size: 14
-              }
-            },
-            title: {
-              display: true,
-              text: 'Estado de las Ayudantías' // Etiqueta del eje X
-            }
-          }
-        },
-        animation: {
-          duration: 2000, // Duración de la animación en milisegundos
-          easing: 'easeOutBounce' // Efecto de animación
         }
       }
     });
   }
 }
+
+
+
 
 }

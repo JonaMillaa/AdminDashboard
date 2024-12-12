@@ -1,27 +1,22 @@
 <div class="ContainerGraficoTabla">
   <h2 class="titleContainerGraficoTabla">
-    Actividad por Categoría y Resumen Mensual de Publicaciones
-  </h2> 
+    Analisis de publicaciones por categoría
+  </h2>
   <!-- Indicadores del dashboard -->
   <div class="content-GT">
     <!-- Publicaciones por Categoría -->
     <div class="chart-estados">
       <h3>Publicaciones por Categoría</h3>
       <div class="filtros">
-        <mat-form-field appearance="fill">
-          <mat-label>Seleccionar Mes</mat-label>
-          <mat-select [(value)]="selectedGrowthMonth" (selectionChange)="onGrowthMonthChange($event.value)">
-            <mat-option *ngFor="let month of growthMonths" [value]="month.value">{{ month.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
 
-        <!-- Contenedor de selección de año -->
+
         <mat-form-field appearance="fill">
           <mat-label>Seleccionar Año</mat-label>
           <mat-select [(value)]="selectedYearCategory" (selectionChange)="onYearChangeCategory($event.value)">
             <mat-option *ngFor="let year of growthYears" [value]="year">{{ year }}</mat-option>
           </mat-select>
         </mat-form-field>
+
       </div>
             <!-- Imagen de "No Data" cuando no hay publicaciones -->
       <div *ngIf="showNoDataImage" class="no-data-container">
@@ -32,14 +27,15 @@
       <!-- Gráfico de tasa de crecimiento -->
       <canvas #growthRateChart *ngIf="showChart" id="growthRateChart" class="fixed-size-chart"></canvas>
 
-      <!-- El gráfico permite al administrador visualizar de forma clara y rápida 
-      la distribución y cantidad de publicaciones por categorías o meses, 
-      ayudándolo a identificar áreas de mayor o menor actividad, 
-      y a tomar decisiones informadas para mejorar 
+      <!-- El gráfico permite al administrador visualizar de forma clara y rápida
+      la distribución y cantidad de publicaciones por categorías o meses,
+      ayudándolo a identificar áreas de mayor o menor actividad,
+      y a tomar decisiones informadas para mejorar
       la asignación de recursos o estrategias en cada categoría o periodo. -->
     </div>
 
-    <!-- Publicaciones por Mes -->
+
+    <!-- Publicaciones por Mes
     <div class="chart-estados">
       <h3>Resumen de Publicaciones por Mes en el Año</h3>
       <div class="filtros">
@@ -49,7 +45,7 @@
             <mat-option *ngFor="let month of months" [value]="month.value">{{ month.name }}</mat-option>
           </mat-select>
         </mat-form-field>
-        
+
         <mat-form-field appearance="fill" class="filter">
           <mat-label>Año</mat-label>
           <mat-select [(value)]="selectedYear" (selectionChange)="onYearChange($event)">
@@ -57,7 +53,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-            <!-- Mensaje de "No hay publicaciones" -->
+¿
       <div *ngIf="noPublications" class="no-publications-message">
         <mat-card>
           <mat-card-header>
@@ -69,13 +65,9 @@
         </mat-card>
       </div>
       <canvas *ngIf="!noPublications" id="barChart" class="fixed-size-chart"></canvas>
-      <!-- Propósito del gráfico:
-      El gráfico permite al administrador visualizar de manera rápida y clara la actividad mensual de
-       publicaciones en un año específico. Proporciona una perspectiva general de los meses más activos 
-      y menos activos, ayudándole a identificar patrones de uso y períodos de mayor o menor demanda. -->
+¿
     </div>
-  </div>
+  </div>-->
 
-  <!-- Tabla de Publicaciones -->
-  <!-- <app-publicaciones-table></app-publicaciones-table> -->
+
 </div>
