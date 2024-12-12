@@ -529,8 +529,8 @@ export class DashboardComponent implements OnInit, AfterViewInit{
       'Administración y Negocios',
       'Diseño y Arte',
       'Informática',
-      'Salud',
-      'Salud y Ciencias Sociales'
+      'Salud y Ciencias Sociales',
+      'Asignaturas esenciales'
     ];
 
     // Inicializar datos por categoría y mes
