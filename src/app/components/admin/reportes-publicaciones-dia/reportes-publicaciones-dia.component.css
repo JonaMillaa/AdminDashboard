@@ -216,4 +216,24 @@ button[color="primary"] {
 table.mat-table {
   width: 100%;
   border-collapse: collapse;
+} 
+
+.chart-container {
+  margin: 20px auto;
+  max-width: 800px;
+  height: 400px;
+  padding: 20px;
+  background-color: #f9f9f9; /* Fondo claro */
+  border: 1px solid #ddd; /* Borde del contenedor */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
 }
+
+canvas {
+  display: block;
+  margin: 0 auto; 
+  max-width: 800px;
+  height: 400px;
+}
+
+

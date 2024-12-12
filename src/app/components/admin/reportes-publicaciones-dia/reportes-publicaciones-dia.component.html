@@ -27,7 +27,12 @@
           <p>{{ publicacionesNoRealizadasCount }}</p>
         </div>
       </div>
+    </div> 
+    <!-- Gráfico de barras -->
+    <div class="chart-container">
+      <canvas #barChart></canvas>
     </div>
+    
 
     <!-- Tabla de Publicaciones -->
     <table mat-table [dataSource]="dataSource" class="publicaciones-tabla mat-elevation-z8">

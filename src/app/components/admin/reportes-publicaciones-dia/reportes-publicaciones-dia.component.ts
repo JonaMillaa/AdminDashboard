@@ -45,7 +45,7 @@ export class ReportesPublicacionesDiaComponent implements OnInit {
   dataSource = new MatTableDataSource<Publicacion>([]);
   publicacionesPorEstado: { [key: string]: Publicacion[] } = {};
   estadoSeleccionado: string = 'Todos'; // Estado seleccionado por defecto
-
+  barChart!: Chart<'bar'>;
   // Variables para métricas de publicaciones
   publicacionesAgendadasCount: number = 0;
   publicacionesEnCursoCount: number = 0;
@@ -55,6 +55,7 @@ export class ReportesPublicacionesDiaComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild('publicacionChart', { static: true }) publicacionChartCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('estadoSelect', { static: true }) estadoSelect!: MatSelect;  // Cambié aquí
+  @ViewChild('barChart', { static: true }) barChartCanvas!: ElementRef<HTMLCanvasElement>;
 
   publicacionChart!: Chart<'pie'>;
 
@@ -65,28 +66,38 @@ export class ReportesPublicacionesDiaComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarPublicaciones();
-    this.obtenerDatosDePublicaciones();
+    this.obtenerDatosDePublicaciones(); 
+    this.inicializarBarChart();
   }
 
   obtenerDatosDePublicaciones(): void {
     this.publicacionesService.getPublicacionesPorEstadoDelDia().subscribe(data => {
+      console.log('Datos recibidos del servicio:', data); // Verifica los datos recibidos
       this.publicacionesAgendadasCount = data.agendadas.length;
       this.publicacionesEnCursoCount = data.enCurso.length;
       this.publicacionesFinalizadasCount = data.finalizadas.length;
       this.publicacionesNoRealizadasCount = data.noRealizadas.length;
+      console.log('Contadores:', {
+        agendadas: this.publicacionesAgendadasCount,
+        enCurso: this.publicacionesEnCursoCount,
+        finalizadas: this.publicacionesFinalizadasCount,
+        noRealizadas: this.publicacionesNoRealizadasCount,
+      }); // Verifica los valores
       this.actualizarPublicacionChart();
     });
   }
+  
 
   actualizarPublicacionChart(): void {
-    this.publicacionChart.data.datasets[0].data = [
+    this.barChart.data.datasets[0].data = [
       this.publicacionesAgendadasCount,
       this.publicacionesEnCursoCount,
       this.publicacionesFinalizadasCount,
       this.publicacionesNoRealizadasCount,
     ];
-    this.publicacionChart.update();
+    this.barChart.update();
   }
+  
 
   cargarPublicaciones(): void {
     this.publicacionesService.getPublicacionesPorEstadoDelDia().subscribe((resultado) => {
@@ -131,5 +142,73 @@ export class ReportesPublicacionesDiaComponent implements OnInit {
 
   intervenir(idPublicacion: string): void {
     this.router.navigate(['/admin/intervencion-pagos', idPublicacion]);
+  } 
+
+  inicializarBarChart(): void {
+    this.barChart = new Chart(this.barChartCanvas.nativeElement, {
+      type: 'bar',
+      data: {
+        labels: ['Agendadas', 'En Curso', 'Finalizadas', 'No Realizadas'],
+        datasets: [
+          {
+            data: [0, 0, 0, 0], // Valores iniciales
+            backgroundColor: ['#42a5f5', '#ffa726', '#66bb6a', '#ef5350'],
+            barPercentage: 0.6, // Ajusta el grosor de las barras
+            categoryPercentage: 0.8, // Relación entre barras y categorías
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false, // Oculta la leyenda (label)
+          },
+          title: {
+            display: true,
+            text: 'Cantidad de Publicaciones por Estado', // Título del gráfico
+            font: {
+              size: 18, // Tamaño del título
+              weight: 'bold', // Negrita
+            },
+            padding: {
+              top: 10, // Espacio superior
+              bottom: 20, // Espacio inferior
+            },
+          },
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Estados',
+            },
+            grid: {
+              display: true, // Habilita las líneas cuadriculadas en el eje X
+            },
+          },
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1, // Asegura que los incrementos sean de 1
+              callback: function(value) {
+                return Number(value).toFixed(0); // Forzar números enteros
+              },
+            },
+            title: {
+              display: true,
+              text: 'Cantidad',
+            },
+            grid: {
+              display: true, // Habilita las líneas cuadriculadas en el eje Y
+            },
+          },
+        },
+      },
+    });
   }
-}
+  
+  
+  
+} 
+
