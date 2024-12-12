@@ -32,8 +32,8 @@
     <!-- Contenedor superior para el gráfico de KPI -->
     <app-kpi-publicaciones></app-kpi-publicaciones>
     
-    <!-- componente del grafico-promedio-publicaciones -->
-    <app-grafico-promedio-publicaciones></app-grafico-promedio-publicaciones>
+    <!-- componente del grafico-promedio-publicaciones 
+    <app-grafico-promedio-publicaciones></app-grafico-promedio-publicaciones>-->
 
     <!-- Contenedor superior para el gráfico de tendencia con filtro de formato -->
   <div class="ContainerGraficoTabla">
@@ -150,69 +150,7 @@
     </div>
   </div>
 
-  <div class="ContainerGraficoTabla">
-    <h2 class="titleContainerGraficoTabla">
-      Cantidad de Publicaciones por Categoría y Subcategoría
-    </h2>
-    <div class="content-GT">
-      <!-- Gráfico de publicaciones por categoria-->
-      <div class="chart-estados">
-        <div class="filter-container-estados">
-          <mat-form-field appearance="fill" class="filter">
-            <mat-label>Categoría</mat-label>
-            <mat-select [(value)]="selectedCategory" (selectionChange)="onCategoryChange($event)">
-              <mat-option *ngFor="let category of categories" [value]="category.nombre">{{ category.nombre }}</mat-option>
-            </mat-select>
-          </mat-form-field>
 
-          <mat-form-field appearance="fill" class="filter">
-            <mat-label>Subcategoría</mat-label>
-            <mat-select [(value)]="selectedSubcategory" (selectionChange)="onSubcategoryChange($event)">
-              <mat-option *ngFor="let subcategory of getSubcategories()" [value]="subcategory">{{ subcategory }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <canvas id="publicationChart"  class="fixed-size-chart"></canvas>
-
-        <div class="modal" *ngIf="showPublicationModal">
-          <div class="modal-content">
-            <p>{{ publicationModalMessage }}</p>
-            <button (click)="closePublicationModal()">Aceptar</button>
-          </div>
-        </div>
-      </div>
-      <!-- Contenedor de la tabla -->
-      <div class="tabla">
-              <!-- Tabla de publicaciones -->
-        <table mat-table [dataSource]="dataSourceCategories">
-          <ng-container matColumnDef="fecha_ayudantia">
-            <th mat-header-cell *matHeaderCellDef> Fecha de Ayudantía </th>
-            <td mat-cell *matCellDef="let element"> {{ element.fecha_ayudantia }} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="categoria">
-            <th mat-header-cell *matHeaderCellDef> Categoría </th>
-            <td mat-cell *matCellDef="let element"> {{ element.categoria }} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="subcategoria">
-            <th mat-header-cell *matHeaderCellDef> Subcategoría </th>
-            <td mat-cell *matCellDef="let element"> {{ element.subcategoria }} </td>
-          </ng-container>
-
-          <ng-container matColumnDef="cantidad">
-            <th mat-header-cell *matHeaderCellDef> Cantidad </th>
-            <td mat-cell *matCellDef="let element"> {{ element.categoria ? 1 : 0 }} </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumnsCategories"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumnsCategories;"></tr>
-        </table>
-      </div>
-
-    </div>
-  </div>
 
 </div>
 <app-dashboard></app-dashboard>
