@@ -1,0 +1,82 @@
+createTrendChart(chartData: any): void {
+    if (typeof window !== 'undefined') {
+      const ctx = document.getElementById('trendChart') as HTMLCanvasElement;
+      if (ctx) {
+        if (this.trendChart) {
+          this.trendChart.destroy();
+        }
+
+        this.trendChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: chartData.labels,
+            datasets: [{
+              label: 'Tendencia de Publicaciones',
+              data: chartData.data,
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 2,
+              fill: true,
+              pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+              pointHoverRadius: 5,
+              pointRadius: 3,
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Fechas',
+                  color: '#666',
+                  font: {
+                    size: 14,
+                    weight: 'bold'
+                  }
+                },
+                grid: {
+                  color: 'rgba(200, 200, 200, 0.2)'
+                }
+              },
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: 'Cantidad de Publicaciones',
+                  color: '#666',
+                  font: {
+                    size: 14,
+                    weight: 'bold'
+                  }
+                },
+                grid: {
+                  color: 'rgba(200, 200, 200, 0.2)'
+                },
+                ticks: {
+                  stepSize: 1, // Incremento de 1 para asegurar solo enteros
+                  callback: function(value) {
+                    return Number.isInteger(value) ? value : null; // Muestra solo enteros
+                  }
+                }
+              }
+            },
+            plugins: {
+              legend: { display: true, position: 'top' },
+              tooltip: {
+                enabled: true,
+                callbacks: {
+                  label: (tooltipItem) => {
+                    const index = tooltipItem.dataIndex;
+                    const titles = chartData.titles[index];
+                    return titles ? `Publicaciones: ${titles.join(', ')}` : 'Sin nombre';
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+  }

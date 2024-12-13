@@ -1,4 +1,4 @@
-import { Component, OnInit,Inject, PLATFORM_ID} from '@angular/core';
+import { Component, OnInit,Inject, PLATFORM_ID , ElementRef, ViewChild,} from '@angular/core';
 import { FirebaseService } from '../../../firebase/firebase.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,6 +17,8 @@ import {DashboardComponent} from '../dashboard/dashboard.component';
 import { GraficoPromedioPublicacionesComponent } from '../grafico-promedio-publicaciones/grafico-promedio-publicaciones.component'
 import { KpiPublicacionesComponent } from '../kpi-publicaciones/kpi-publicaciones.component'
 import { Chart} from 'chart.js';
+import moment from 'moment';
+
 // Definimos el tipo para los datos del gráfico (dataset)
 interface ChartDataset {
   label: string;
@@ -52,11 +54,6 @@ interface ChartDataset {
 })
 export class PublicacionesComponent implements OnInit{
 
-  
-  displayedColumns: string[] = ['fecha', 'cantidad', 'detalles'];  // Las columnas que deseas mostrar en la tabla
-  dataSource = new MatTableDataSource<any>();  // Inicializa MatTableDataSource con datos vacíos
-
-
   chart: any;
  
   trendChart: any;
@@ -80,8 +77,11 @@ export class PublicacionesComponent implements OnInit{
 
 
   ngOnInit(): void {
+
+    this.loadGrowthYears(); // Cargar años disponibles al iniciar el componente
+
     if (isPlatformBrowser(this.platformId)) {
-    this.loadTrendChartData(this.selectedFormat);
+    this.loadTrendChartData();
     this.loadStateChartData(this.selectedState, 'month');
     this.loadChartData(this.selectedCategory, this.selectedSubcategory);
     this.loadCategoriesData();
@@ -636,7 +636,6 @@ export class PublicacionesComponent implements OnInit{
   }
 
 
-
   loadChartData(category: string, subcategory: string): void {
     this.firebaseService.getPublicationsByCategoryAndSubcategory(category, subcategory).subscribe(publications => {
       if (publications.length === 0) {
@@ -669,123 +668,176 @@ export class PublicacionesComponent implements OnInit{
     this.loadChartData(this.selectedCategory, this.selectedSubcategory);
   }
 
-  loadTrendChartData(format: string): void {
-    this.firebaseService.getPublicationsByFormat(format).subscribe(publications => {
-      const chartData = this.prepareChartDataByDate(publications);
-      this.createTrendChart(chartData);
-      this.createInfoTable(chartData); // Crear la tabla al cargar el gráfico
-    });
-  }
+
   // Método para cerrar el modal de publicación
   closePublicationModal(): void {
     this.showPublicationModal = false;  // Cerramos el modal de publicación
   }
 
+  displayedColumns: string[] = ['fecha', 'cantidad', 'detalles'];  // Las columnas que deseas mostrar en la tabla
+  dataSource = new MatTableDataSource<any>();  // Inicializa MatTableDataSource con datos vacíos
+
   // Método para generar la tabla de información
-  createInfoTable(chartData: any): void {
-    const tableContainer = document.getElementById('infoTableContainer');
-    if (!tableContainer) return;
+  createInfoTable(chartData: { labels: string[], data: any[] }): void {
+    const tableData = chartData.labels.map((label: string, index: number) => {
+      const remoto = chartData.data[0]?.data[index] || 0; // Datos de formato REMOTO
+      const presencial = chartData.data[1]?.data[index] || 0; // Datos de formato PRESENCIAL
 
-    // Limpiar la tabla anterior
-    this.dataSource.data = []; // Limpiar datos previos
+      return {
+        fecha: label, // Nombre del mes
+        cantidad: remoto + presencial, // Total de publicaciones
+        detalles: `REMOTO: ${remoto}, PRESENCIAL: ${presencial}` // Detalles desglosados
+      };
+    });
 
-    // Llenar los datos de la tabla
-    const tableData = chartData.labels.map((label: string, index: number) => ({
-      fecha: label,
-      cantidad: chartData.data[index],
-      detalles: chartData.titles ? chartData.titles[index].join(', ') : 'N/A'
-    }));
-
-    this.dataSource.data = tableData; // Asignar los datos a la tabla
+    this.dataSource.data = tableData; // Actualizar los datos de la tabla
   }
 
-  createTrendChart(chartData: any): void {
-    if (typeof window !== 'undefined') {
-      const ctx = document.getElementById('trendChart') as HTMLCanvasElement;
-      if (ctx) {
-        if (this.trendChart) {
-          this.trendChart.destroy();
-        }
+  @ViewChild('trendChart') canvasRef: ElementRef | undefined;
 
-        this.trendChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: chartData.labels,
-            datasets: [{
-              label: 'Tendencia de Publicaciones',
-              data: chartData.data,
-              backgroundColor: 'rgba(75, 192, 192, 0.2)',
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 2,
-              fill: true,
-              pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-              pointHoverRadius: 5,
-              pointRadius: 3,
-            }]
+  growthYears: string[] = []; // Años disponibles desde Firebase
+  selectedYearFormat: string = ''; // Ejemplo, cambiar según la selección
+  formatChart: any | undefined; // Declaración de la propiedad para el gráfico
+  
+  prepareFormatData(publications: any[], selectedYear: string): { labels: string[], data: any[] } {
+      const months = [
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+      ];
+
+      const formats = ['REMOTO', 'PRESENCIAL'];
+
+      const formatData: { [format: string]: number[] } = {};
+      formats.forEach(format => (formatData[format] = Array(12).fill(0)));
+
+      publications.forEach(pub => {
+        const pubDate = pub.fecha_ayudantia; // Fecha en formato 'DD-MM-YYYY'
+        const format = pub.formato;
+
+        if (pubDate && format && formats.includes(format)) {
+          const [day, month, year] = pubDate.split('-').map(Number);
+          if (year.toString() === selectedYear) {
+            formatData[format][month - 1]++;
+          }
+        }
+      });
+
+      return {
+        labels: months,
+        data: formats.map(format => ({
+          label: format,
+          data: formatData[format],
+          borderColor: format === 'REMOTO' ? 'rgba(54, 162, 235, 1)' : 'rgba(255, 99, 132, 1)',
+          backgroundColor: 'rgba(0, 0, 0, 0)',
+          borderWidth: 2,
+          tension: 0.4,
+          pointRadius: 5,
+          pointHoverRadius: 8,
+          pointHitRadius: 10,
+          pointBackgroundColor: format === 'REMOTO' ? 'rgba(54, 162, 235, 1)' : 'rgba(255, 99, 132, 1)',
+          pointBorderColor: 'rgba(0, 0, 0, 0.8)',
+          pointBorderWidth: 1,
+          pointStyle: 'circle'
+        }))
+      };
+    }
+  
+  createFormatLineChart(chartData: { labels: string[], data: any[] }, selectedYear: string): void {
+    const ctx = this.canvasRef?.nativeElement as HTMLCanvasElement;
+
+    if (!ctx) {
+      console.error('El canvas para el gráfico no está disponible.');
+      return;
+    }
+
+    // Destruir gráfico anterior si existe
+    if (this.formatChart) {
+      this.formatChart.destroy();
+    }
+
+    // Crear el gráfico de líneas
+    this.formatChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: chartData.labels,
+        datasets: chartData.data
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: `Publicaciones por Formato en ${selectedYear}`,
+            font: { size: 20 }
           },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              x: {
-                title: {
-                  display: true,
-                  text: 'Fechas',
-                  color: '#666',
-                  font: {
-                    size: 14,
-                    weight: 'bold'
-                  }
-                },
-                grid: {
-                  color: 'rgba(200, 200, 200, 0.2)'
-                }
-              },
-              y: {
-                beginAtZero: true,
-                title: {
-                  display: true,
-                  text: 'Cantidad de Publicaciones',
-                  color: '#666',
-                  font: {
-                    size: 14,
-                    weight: 'bold'
-                  }
-                },
-                grid: {
-                  color: 'rgba(200, 200, 200, 0.2)'
-                },
-                ticks: {
-                  stepSize: 1, // Incremento de 1 para asegurar solo enteros
-                  callback: function(value) {
-                    return Number.isInteger(value) ? value : null; // Muestra solo enteros
-                  }
-                }
-              }
-            },
-            plugins: {
-              legend: { display: true, position: 'top' },
-              tooltip: {
-                enabled: true,
-                callbacks: {
-                  label: (tooltipItem) => {
-                    const index = tooltipItem.dataIndex;
-                    const titles = chartData.titles[index];
-                    return titles ? `Publicaciones: ${titles.join(', ')}` : 'Sin nombre';
-                  }
-                }
+          tooltip: {
+            callbacks: {
+              label: (tooltipItem) => {
+                const value = tooltipItem.raw as number;
+                return `Cantidad: ${value}`;
               }
             }
+          },
+          legend: {
+            position: 'top',
+            labels: { font: { size: 14 } }
           }
-        });
+        },
+        scales: {
+          x: {
+            title: { display: true, text: 'Meses' }
+          },
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: 'Número de Publicaciones' },
+            ticks: {
+              stepSize: 1,
+              callback: (value) => Number.isInteger(value) ? value : null
+            }
+          }
+        },
+        interaction: {
+          mode: 'nearest',
+          intersect: false
+        },
+        animation: {
+          duration: 2000,
+          easing: 'easeOutQuad'
+        }
       }
-    }
+    });
+  }
+
+  loadGrowthYears(): void {
+    this.firebaseService.getPublications().subscribe(publications => {
+      const yearsSet = new Set<string>();
+      publications.forEach(pub => {
+        const pubDate = pub.fecha_ayudantia;
+        if (pubDate) {
+          const [, , year] = pubDate.split('-');
+          yearsSet.add(year); // Añadir años únicos al conjunto
+        }
+      });
+
+      // Convertir a array, ordenar y establecer el año seleccionado por defecto
+      this.growthYears = Array.from(yearsSet).sort();
+      this.selectedYearFormat = this.growthYears[this.growthYears.length - 1]; // Último año como predeterminado
+      this.loadTrendChartData(); // Cargar datos del gráfico para el año predeterminado
+    });
   }
 
 
-  onFormatChange(event: MatSelectChange): void {
-    this.selectedFormat = event.value;
-    this.loadTrendChartData(this.selectedFormat);
+  loadTrendChartData(): void {
+    this.firebaseService.getPublications().subscribe(publications => {
+      const chartData = this.prepareFormatData(publications, this.selectedYearFormat);
+      this.createFormatLineChart(chartData, this.selectedYearFormat);
+    });
+  }
+
+  onYearChangeFormat(selectedYearFormat: string): void {
+    this.selectedYearFormat = selectedYearFormat; // Actualizar el año seleccionado
+    this.loadTrendChartData(); // Recargar los datos y actualizar el gráfico
   }
 
 }

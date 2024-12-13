@@ -570,11 +570,6 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     };
   }
 
-
-
-
-
-
   createCategoryBarChart(chartData: { labels: string[], data: any[] }): void {
     const ctx = this.canvasRef?.nativeElement as HTMLCanvasElement;
 
