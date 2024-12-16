@@ -33,7 +33,7 @@
     <app-kpi-publicaciones></app-kpi-publicaciones>
     
     <!-- componente del grafico-promedio-publicaciones -->
-    <app-grafico-promedio-publicaciones></app-grafico-promedio-publicaciones>
+    <!-- <app-grafico-promedio-publicaciones></app-grafico-promedio-publicaciones> -->
 
     <!-- Contenedor superior para el gráfico de tendencia con filtro de formato -->
   <div class="ContainerGraficoTabla">
@@ -52,7 +52,7 @@
         </div>
           <canvas #trendChart id="trendChart" class="fixed-size-chart"></canvas>
       </div>
-      <div id="infoTableContainer" class="tabla">
+      <!-- <div id="infoTableContainer" class="tabla">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
           <ng-container matColumnDef="fecha">
             <th mat-header-cell *matHeaderCellDef> Fecha </th>
@@ -73,18 +73,19 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       
-    </div>
+      </div> -->
 
   </div>
 
+  <app-dashboard></app-dashboard>
+
   <!-- Contenedor inferior para gráficos de estados y publicaciones -->
   <div class="ContainerGraficoTabla">
-    <h2 class="titleContainerGraficoTabla">
+    <!-- <h2 class="titleContainerGraficoTabla">
       Gráfico y Tabla de Resumen de Estados de Publicaciones por Fecha
-    </h2>
+    </h2> -->
     <div class="content-GT">
-      <!-- Gráfico de estados -->
-      <div class="chart-estados">
+      <!-- <div class="chart-estados">
         <div class="filter-container-estados">
           <mat-form-field appearance="fill" class="filter">
             <mat-label>Estado</mat-label>
@@ -104,7 +105,7 @@
 
         <canvas id="stateChart" class="fixed-size-chart"></canvas>
       
-                <!-- Modal para mostrar mensaje de error -->
+               
         <div class="modal" *ngIf="showStateModal">
           <div class="modal-content">
             <p>{{ stateModalMessage }}</p>
@@ -112,10 +113,10 @@
           </div>
         </div>
 
-      </div>
-      <!-- Contenedor de la tabla -->
-      <div class="tabla">
-              <!-- Tabla de datos -->
+      </div> -->
+      
+      <!-- <div class="tabla">
+            
       <table mat-table [dataSource]="dataSourceStates">
         <ng-container matColumnDef="fecha">
           <th mat-header-cell *matHeaderCellDef> Fecha </th>
@@ -137,22 +138,22 @@
           <td mat-cell *matCellDef="let element"> {{ element.categoria }} </td>
         </ng-container>
 
-        <!-- Encabezados de la tabla -->
+        
         <tr mat-header-row *matHeaderRowDef="displayedColumnsStates"></tr>
-        <!-- Filas de la tabla -->
+       
         <tr mat-row *matRowDef="let row; columns: displayedColumnsStates;"></tr>
       </table>
 
-      </div>
+      </div> -->
     </div>
   </div>
 
-  <div class="ContainerGraficoTabla">
+  <!-- <div class="ContainerGraficoTabla">
     <h2 class="titleContainerGraficoTabla">
       Cantidad de Publicaciones por Categoría y Subcategoría
     </h2>
     <div class="content-GT">
-      <!-- Gráfico de publicaciones por categoria-->
+      
       <div class="chart-estados">
         <div class="filter-container-estados">
           <mat-form-field appearance="fill" class="filter">
@@ -179,9 +180,9 @@
           </div>
         </div>
       </div>
-      <!-- Contenedor de la tabla -->
+     
       <div class="tabla">
-              <!-- Tabla de publicaciones -->
+              
         <table mat-table [dataSource]="dataSourceCategories">
           <ng-container matColumnDef="fecha_ayudantia">
             <th mat-header-cell *matHeaderCellDef> Fecha de Ayudantía </th>
@@ -209,7 +210,7 @@
       </div>
 
     </div>
-  </div>
+  </div> -->
 
 </div>
-<app-dashboard></app-dashboard>
+

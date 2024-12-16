@@ -145,15 +145,46 @@ button[color="primary"] {
   min-width: 250px;
   max-width: 260px;
   padding: 15px;
-  background-color: #ffffff;
+  background: #f1f1f1; /* Color neutro para el fondo */
   border: 1px solid #ddd;
   border-radius: 6px;
   text-align: center;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
   height: 90px;
+  color: #666; /* Color del texto secundario */
+  font-family: Arial, sans-serif; /* Tipografía legible */
+  font-size: 16px;
+  transition: all 0.3s ease-in-out; /* Transiciones suaves */
+  cursor: pointer; /* Indicar que es interactiva */
 }
 
-.contador-item h3 {
+/* Hover Effect */
+.contador-item:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Más sombra */
+  transform: scale(1.05); /* Efecto de zoom */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .contador-item {
+    min-width: 200px;
+    max-width: 220px;
+    height: auto; /* Adaptar altura */
+    padding: 10px; /* Espaciado reducido */
+    font-size: 14px; /* Fuente más pequeña */
+  }
+}
+
+/* Texto para mejorar visualmente */
+.contador-item span {
+  display: block;
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 18px; /* Resaltar datos clave */
+}
+
+
+/* .contador-item h3 {
   margin-top: 0;
   color: #555;
   font-size: 1em;
@@ -165,7 +196,7 @@ button[color="primary"] {
   color: #333;
   font-weight: bold;
   margin: 0;
-}
+} */
 
 .contador-agendadas {
   border-left: 4px solid #42a5f5;

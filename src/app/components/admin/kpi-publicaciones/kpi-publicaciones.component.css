@@ -4,7 +4,7 @@
     gap: 20px;
     /* border-radius: 8px; */
     background-color: #e0dfdf;
-    height: 50rem;
+    height: 40rem;
   }
 
 .titleContainerGraficoTabla {
@@ -43,8 +43,8 @@
   }
   
 .fixed-size-chart {
-    width: 30rem !important; 
-    height: 30rem !important; 
+    width: 32rem !important; 
+    height: 32rem !important; 
     /* flex: 1; */
     border: 1px solid #ddd;
     border-radius: 8px;

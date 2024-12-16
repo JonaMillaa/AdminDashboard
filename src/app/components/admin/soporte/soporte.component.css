@@ -103,18 +103,49 @@ table.mat-elevation-z8 th{
 
 /* Card estilo */
 .card {
-  background: #f1f1f1;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: #f1f1f1; /* Color neutro para el fondo */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  padding: 20px; /* Espaciado interno */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transiciones suaves */
+  font-family: 'Arial', sans-serif; /* Tipografía legible */
+  max-width: 300px; /* Ancho máximo para mantener la tarjeta compacta */
+  margin: 10px auto; /* Centrado y espaciado */
 }
 
-.card-header {
-  background-color: #34495e;
-  color: white;
-  padding: 15px;
-  border-radius: 10px 10px 0 0;
-  font-size: 22px;
-  font-weight: 700;
+.card:hover {
+  transform: translateY(-5px); /* Efecto de elevación */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+.card h3 {
+  margin: 0 0 10px; /* Espaciado inferior */
+  font-size: 1.5em; /* Tamaño de fuente del título */
+  color: #333; /* Color del texto */
+}
+
+.card p {
+  margin: 0; /* Sin margen adicional */
+  color: #666; /* Color del texto secundario */
+  font-size: 1.3em; /* Tamaño estándar */
+  line-height: 1.5; /* Mejora la legibilidad */
+}
+
+.card button {
+  display: inline-block;
+  margin-top: 15px; /* Separación del contenido */
+  padding: 10px 20px; /* Espaciado interno */
+  font-size: 1em; /* Tamaño del texto */
+  color: #fff; /* Color del texto */
+  background: #007bff; /* Color del botón */
+  border: none; /* Sin bordes */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambio del cursor */
+  transition: background 0.3s ease; /* Transición suave */
+}
+
+.card button:hover {
+  background: #0056b3; /* Color más oscuro al pasar el cursor */
 }
 
 .card-content {
