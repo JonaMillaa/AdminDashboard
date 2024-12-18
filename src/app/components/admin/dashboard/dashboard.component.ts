@@ -19,6 +19,7 @@ import { ModalDetallesDiaComponent } from '../modals/modal-detalles-dia/modal-de
 import { ModalNoDataComponent } from '../modals/modal-no-data/modal-no-data.component';
 import { Chart} from 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { PublicacionesMesDashboardComponent } from '../publicaciones-mes-dashboard/publicaciones-mes-dashboard/publicaciones-mes-dashboard.component';
 // import { PublicacionesTableComponent } from '../../../components/manager/publicaciones-table/publicaciones-table.component';
 
 @Component({
@@ -37,6 +38,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
     MatFormFieldModule,
     MatSelectModule,
     MatDialogModule,
+    PublicacionesMesDashboardComponent
     // PublicacionesTableComponent
   ],
   templateUrl: './dashboard.component.html',

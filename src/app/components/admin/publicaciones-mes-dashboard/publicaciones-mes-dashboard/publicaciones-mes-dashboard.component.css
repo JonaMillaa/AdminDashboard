@@ -1,0 +1,49 @@
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+
+.filters {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+}
+
+.filter {
+  flex: 1;
+}
+
+.no-publications {
+  text-align: center;
+  font-size: 16px;
+  color: #888;
+}
+
+.titleContainerGraficoTabla {
+  text-align: center;
+  font-size: 24px;
+  padding: 1rem;
+  background-color: #596bd3;
+  color: #fff;
+  height: 5rem;
+}
+
+.ContainerGraficoTabla{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 8px;
+  background-color: #e0dfdf;
+}
+
+.content-GT {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px; /* Espacio entre el gráfico y la tabla */
+  margin: 1rem;
+}
+
+

@@ -27,47 +27,25 @@
       <!-- Gráfico de tasa de crecimiento -->
       <canvas #growthRateChart *ngIf="showChart" id="growthRateChart" class="fixed-size-chart"></canvas>
 
-      <!-- El gráfico permite al administrador visualizar de forma clara y rápida
-      la distribución y cantidad de publicaciones por categorías o meses,
-      ayudándolo a identificar áreas de mayor o menor actividad,
-      y a tomar decisiones informadas para mejorar
-      la asignación de recursos o estrategias en cada categoría o periodo. -->
+
     </div>
 
 
-    
+
+
+
+
+</div>
+<!-- Contenedor del gráfico de Publicaciones por Mes -->
+<div class="ContainerGraficoTabla">
+  <h2 class="titleContainerGraficoTabla">
+    Resumen de Publicaciones por Mes en el Año
+  </h2>
+  <div class="content-GT">
     <div class="chart-estados">
-      <h3>Resumen de Publicaciones por Mes en el Año</h3>
-      <div class="filtros">
-        <mat-form-field appearance="fill" class="filter">
-          <mat-label>Mes</mat-label>
-          <mat-select [(value)]="selectedMonth" (selectionChange)="onMonthChange($event)">
-            <mat-option *ngFor="let month of months" [value]="month.value">{{ month.name }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="filter">
-          <mat-label>Año</mat-label>
-          <mat-select [(value)]="selectedYear" (selectionChange)="onYearChange($event)">
-            <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div *ngIf="noPublications" class="no-publications-message">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>No hay publicaciones para este mes</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
-            <p>No se han encontrado publicaciones para el mes de {{ getMonthName(selectedMonth) }} de {{ selectedYear }}.</p>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <canvas *ngIf="!noPublications" id="barChart" class="fixed-size-chart"></canvas>
-
+      <h3>Publicaciones por Mes</h3>
+      <!-- Componente de Publicaciones por Mes Dashboard -->
+      <app-publicaciones-mes-dashboard></app-publicaciones-mes-dashboard>
     </div>
   </div>
-
-
 </div>

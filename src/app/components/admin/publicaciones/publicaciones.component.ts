@@ -18,6 +18,7 @@ import { GraficoPromedioPublicacionesComponent } from '../grafico-promedio-publi
 import { KpiPublicacionesComponent } from '../kpi-publicaciones/kpi-publicaciones.component'
 import { Chart} from 'chart.js';
 import moment from 'moment';
+import { PublicacionesMesDashboardComponent } from "../publicaciones-mes-dashboard/publicaciones-mes-dashboard/publicaciones-mes-dashboard.component";
 
 // Definimos el tipo para los datos del gráfico (dataset)
 interface ChartDataset {
@@ -32,8 +33,7 @@ interface ChartDataset {
 @Component({
   selector: 'app-publicaciones',
   standalone: true,
-  imports:
-  [
+  imports: [
     FormsModule,
     CommonModule,
     MatSelectModule,
@@ -47,15 +47,16 @@ interface ChartDataset {
     MatToolbarModule,
     DashboardComponent,
     GraficoPromedioPublicacionesComponent,
-    KpiPublicacionesComponent
-  ],
+    KpiPublicacionesComponent,
+    PublicacionesMesDashboardComponent
+],
   templateUrl: './publicaciones.component.html',
   styleUrl: './publicaciones.component.css'
 })
 export class PublicacionesComponent implements OnInit{
 
   chart: any;
- 
+
   trendChart: any;
 
   selectedFormat = 'PRESENCIAL'
@@ -138,7 +139,7 @@ export class PublicacionesComponent implements OnInit{
   dataSourceCategories = new MatTableDataSource<any>();
   publicationChart: Chart | null = null;
   // publicationChart: any;
-  
+
 
   // Cargar todas las categorías y subcategorías de la colección Publicaciones
   loadCategoriesData(): void {
@@ -209,7 +210,7 @@ export class PublicacionesComponent implements OnInit{
       });
     }
   }
-  
+
 
   prepareChartDataByDate(publications: any[]): any {
     const groupedData: { [date: string]: { count: number; titles: string[] } } = {};
@@ -279,7 +280,7 @@ export class PublicacionesComponent implements OnInit{
     'NO ADJUDICACION',
     'ADJUDICACION'
   ];
-   
+
   // Inicializamos selectedState con un valor por defecto
   selectedState: StateType = 'FINALIZADA';  // Valor inicial de ejemplo
   stateChart: any;
@@ -287,7 +288,7 @@ export class PublicacionesComponent implements OnInit{
   dataSourceStates: any[] = [];  // Fuente de datos para la tabla
   showStateModal: boolean = false;  // Controla la visibilidad del modal
   stateModalMessage: string = '';  // Mensaje que se muestra en el modal
-  
+
  // Método para manejar cambios en el estado
   onStateChange(event: MatSelectChange): void {
     this.selectedState = event.value as StateType;
@@ -316,20 +317,20 @@ export class PublicacionesComponent implements OnInit{
       }
     });
   }
-  
+
   closeStateModal(): void {
     this.showStateModal = false;
   }
-  
+
   createStateChart(chartData: any): void {
     const ctx = document.getElementById('stateChart') as HTMLCanvasElement;
-  
+
     // Verificamos si el contexto y los datos son válidos
     if (ctx && chartData && chartData.datasets && chartData.datasets.length > 0) {
       if (this.stateChart) {
         this.stateChart.destroy(); // Destruimos el gráfico anterior si existe
       }
-  
+
       this.stateChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -385,7 +386,7 @@ export class PublicacionesComponent implements OnInit{
           },
           plugins: {
             legend: { display: true, position: 'top' },
-            tooltip: { 
+            tooltip: {
               enabled: true,
               mode: 'nearest', // Cambiado a 'nearest' para que siempre se asocie al valor más cercano
               intersect: false, // Asegura que el tooltip no se muestre si no se pasa por encima del gráfico
@@ -393,12 +394,12 @@ export class PublicacionesComponent implements OnInit{
                 label: (tooltipItem) => {
                   const label = tooltipItem.dataset.label || '';
                   const value = tooltipItem.raw as number;
-  
+
                   // Si no hay datos (value <= 0), no mostrar el tooltip
                   if (value <= 0) {
                     return '';  // Retornar vacío para no mostrar el tooltip
                   }
-  
+
                   return `${label}: ${value} publicaciones`; // Retornar el valor del tooltip si es mayor a 0
                 },
                 title: (tooltipItem) => {
@@ -430,22 +431,22 @@ export class PublicacionesComponent implements OnInit{
                 const datasetIndex = activePoint.datasetIndex;
                 const index = activePoint.index;
                 const originalColor = activePoint.element.options['backgroundColor'];
-      
+
                 // Cambiar el color de la barra
                 this.stateChart.data.datasets[datasetIndex].backgroundColor[index] = 'rgba(250, 99, 132, 0.8)'; // Nuevo color al hacer hover
-      
+
                 // Actualizar el gráfico después de cambiar el color
                 this.stateChart.update();  // Actualiza el gráfico con el nuevo color
               }
             }
-          }         
+          }
         }
       });
     } else {
       console.error('Datos del gráfico inválidos o vacíos.');
     }
   }
-  
+
   // Función para asignar el color según el valor
   getColorForValue(value: number): string {
     // Lógica simple para asignar colores dependiendo del valor
@@ -457,8 +458,8 @@ export class PublicacionesComponent implements OnInit{
       return 'rgba(255, 99, 132, 0.5)'; // Rojo
     }
   }
-  
-  
+
+
   // Función para asignar el color según el estado
   getColorForState(state: 'PUBLICADO' | 'AGENDADA' | 'FINALIZADA' | 'ADJUDICADO' | 'EN_CURSO' | 'NO ADJUDICACION' | 'ADJUDICACION'): string {
     const colors: { [key: string]: string } = {
@@ -470,11 +471,11 @@ export class PublicacionesComponent implements OnInit{
       'NO ADJUDICACION': 'rgba(75, 192, 192, 0.5)',
       'ADJUDICACION': 'rgba(153, 102, 255, 0.5)',
     };
-  
+
     return colors[state] || 'rgba(0, 0, 0, 0.5)'; // Valor por defecto si no coincide
   }
-  
-  
+
+
     // Método para preparar los datos para la tabla
   prepareTableData(publications: any[]): any[] {
     const tableRows: any[] = [];
@@ -519,9 +520,9 @@ export class PublicacionesComponent implements OnInit{
       'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
     ];
-  
+
     const groupedData: { [key: string]: number } = {};
-  
+
     // Dependiendo del rango de tiempo, inicializamos groupedData con etiquetas adecuadas
     if (timeRange === 'month') {
       allMonths.forEach(month => {
@@ -539,12 +540,12 @@ export class PublicacionesComponent implements OnInit{
         groupedData[`Semana ${week}`] = 0;
       }
     }
-  
+
     publications.forEach(pub => {
       const dateStr = pub.fecha_ayudantia;
       const [day, month, year] = dateStr.split('-').map((part: string) => parseInt(part, 10));
       const date = new Date(year, month - 1, day);
-  
+
       let key: string;
       switch (timeRange) {
         case 'year':
@@ -562,12 +563,12 @@ export class PublicacionesComponent implements OnInit{
           key = `${day.toString().padStart(2, '0')}-${(month).toString().padStart(2, '0')}-${year}`;
           break;
       }
-  
+
       if (groupedData[key] !== undefined) {
         groupedData[key]++;
       }
     });
-  
+
     // Obtener las etiquetas (keys) en el orden adecuado para cada rango de tiempo
     let labels = Object.keys(groupedData);
     if (timeRange === 'month') {
@@ -575,9 +576,9 @@ export class PublicacionesComponent implements OnInit{
     } else if (timeRange === 'year') {
       labels.sort((a, b) => parseInt(a) - parseInt(b));
     }
-  
+
     const data = labels.map(label => groupedData[label]);
-  
+
     // Validamos que siempre regrese la estructura adecuada
     return {
       labels: labels,
@@ -592,7 +593,7 @@ export class PublicacionesComponent implements OnInit{
       ]
     };
   }
-  
+
   // Método para preparar los datos para la tabla
   prepareStackedBarChartData(publications: any[]): any {
     const groupedData: { [key: string]: { [state: string]: number } } = {};
@@ -698,7 +699,7 @@ export class PublicacionesComponent implements OnInit{
   growthYears: string[] = []; // Años disponibles desde Firebase
   selectedYearFormat: string = ''; // Ejemplo, cambiar según la selección
   formatChart: any | undefined; // Declaración de la propiedad para el gráfico
-  
+
   prepareFormatData(publications: any[], selectedYear: string): { labels: string[], data: any[] } {
       const months = [
         'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
@@ -741,7 +742,7 @@ export class PublicacionesComponent implements OnInit{
         }))
       };
     }
-  
+
   createFormatLineChart(chartData: { labels: string[], data: any[] }, selectedYear: string): void {
     const ctx = this.canvasRef?.nativeElement as HTMLCanvasElement;
 

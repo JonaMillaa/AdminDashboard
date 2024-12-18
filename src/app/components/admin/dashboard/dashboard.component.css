@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-  gap: 30px; /* Espacio entre el gráfico y la tabla */
+  gap: 30px;
   margin: 1rem;
 }
 
@@ -38,7 +38,7 @@
 .fixed-size-chart {
   width: 90% !important;
   height: 50% !important;
-  flex: 1; /* El gráfico ocupará el espacio disponible */
+  flex: 1;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 20px;
@@ -76,7 +76,6 @@ canvas{
   margin-top: 20px;
 }
 
-/* Estilo para el mensaje cuando no hay publicaciones */
 .no-publications-message {
   text-align: center;
   margin-top: 20px;

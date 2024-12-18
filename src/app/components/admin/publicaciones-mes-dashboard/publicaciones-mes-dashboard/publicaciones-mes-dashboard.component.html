@@ -1,0 +1,17 @@
+<div class="ContainerGraficoTabla">
+
+  <div class="content-GT">
+
+    <div class="filters">
+      <mat-form-field appearance="fill" class="filter">
+        <mat-label>Año</mat-label>
+        <mat-select [(value)]="selectedYear" (selectionChange)="onYearChange($event)">
+          <mat-option *ngFor="let year of years" [value]="year">{{ year }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+
+    <canvas *ngIf="!noPublications" id="barChart"></canvas>
+  </div>
+</div>
